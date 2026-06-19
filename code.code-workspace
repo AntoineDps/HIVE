@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"pythonCellHighlighter.backgroundColor": "rgba(100, 150, 255, 0.1)"
+	}
+}

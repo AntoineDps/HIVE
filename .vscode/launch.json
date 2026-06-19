@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "name": "Debug any script",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  ]
+}

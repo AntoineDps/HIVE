@@ -1,0 +1,19 @@
+{
+  "wave_type": "irr",
+  "cut_time": [60, 0],
+  "duration": null,
+  "r": 5,
+  "hyd_json": "xModel",
+  "dt": 0.05,
+  "cases": [
+    {"T": 5.0, "H": 2.0, "damping": 120000, "stiffness": -280000, "plot": true},
+    {"T": 6.5, "H": 3.0, "damping": 140000, "stiffness": -400000, "plot": false}
+  ],
+  "plot_options": {
+    "sea_state": false,
+    "power": false,
+    "dynamics": false,
+    "hydro": true,
+    "3d": false
+  }
+}

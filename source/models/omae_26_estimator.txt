@@ -1,0 +1,23 @@
+INTERPOLATE
+best estimator for force estimation
+parents: 90b0f279456c48adbf32e8965eb92cee
+child: 77eaef4f21044aaf8eabfa64b3dd04cb
+best estimator for state inference
+parents: 0bb665c0bc934f7fac09e1ae7a2b6fa6
+child: cd2479a12d3b41008c008588ad532945
+
+EXTRAPOLATE
+best estimator for force estimation
+parents: b9892725fd294198933444e982bc16e5 
+child: 9f78eadbb456404d9505fc369a2f1b5c
+best estimator for state inference
+parents: e3582a71aa314eb69f18a8bdbe36a385
+child: b0721ede88ad4709bafeeb4e9e925e5d
+
+KNOW IT ALL
+best estimator for force estimation
+parents: d69a40ac3f454a4791a5114cf0cfa646
+child: 4c52d64103594defbc30801a10cb3168
+best estimator for state inference
+parents: a512de1a535a4d148cb6462e78205e4e
+child: 3a4fb4bb39534261837fdb8ee0539712
