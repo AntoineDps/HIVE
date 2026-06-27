@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from source.function.fe_conv import fe_conv
 
-from source.function.metricError import metricError
+from source.function.error_utils import metricError
 
 # TODO : post processing avoid list to np array
 # TODO : smoothing function at the beginning of simulation

@@ -1,7 +1,7 @@
 # %%  PACKAGE
 
 from source.classes.HydroSphere import HydroSphere
-from source.config import DATA_DIR, SOURCE_DIR
+from source.config import DATA_DIR, MODEL_DIR
 
 
 """
@@ -30,10 +30,10 @@ from source.config import DATA_DIR, SOURCE_DIR
 
 # buoy
 r = 5
-full_hyd_file = DATA_DIR / "handled_data" / "xModel.json"
+full_hyd_file = DATA_DIR / "bem" / "wamit" / "sphere" / "xModel.json"
 
 # output saving
-out_path = SOURCE_DIR / "models"
+out_path = MODEL_DIR / "physics"
 
 # %% INITIALIZE HYDROSPHERE
 

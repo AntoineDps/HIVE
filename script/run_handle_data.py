@@ -8,7 +8,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 
-from source.config import DATA_DIR, INPUT_DIR
+from source.config import DATA_DIR, INPUT_DIR, MODEL_DIR
 from source.classes.DataHandle import DataHandle
 from source.classes.Plotter import Plotter
 
@@ -33,10 +33,11 @@ from source.classes.Plotter import Plotter
 # - [plot.png or plot.pkl]: plot image and pickle for active reload.
 #
 # Dependencies:
-# - [cases.json]: input json
 # - [DataHandle.py]: Class
 # - [Plotter.py]: Class
-#
+# - [HydroSphere.pkl]: object mentionned in the config file
+# - [Hydrosphere.py]: Class
+# -------------------------------------------------------------------------
 """
 
 # %% PRELIMINARIES
@@ -64,7 +65,7 @@ class CaseConfig:
     cut_time: tuple
     duration: Optional[float]
     r: int
-    hyd_json: str
+    hydro_sphere_pkl: str
     dt: Optional[float]
     cases: list
     plot_options: dict
@@ -80,7 +81,7 @@ def load_config(config_path: Path) -> CaseConfig:
         cut_time=tuple(raw["cut_time"]),
         duration=raw.get("duration"),
         r=raw["r"],
-        hyd_json=raw["hyd_json"],
+        hydro_sphere_pkl=raw["hydro_sphere_pkl"],
         dt=raw.get("dt"),
         cases=raw["cases"],
         plot_options=raw.get("plot_options", {}),
@@ -101,7 +102,7 @@ def parse_args():
 def process_case(
     case: dict,
     config: CaseConfig,
-    full_hyd_json_path: Path,
+    hydro_sphere,
     in_path: Path,
     out_path: Path,
 ) -> DataHandle:
@@ -125,7 +126,7 @@ def process_case(
         cut_time=config.cut_time,
         duration=config.duration,
     )
-    data.processData(r=config.r, full_hyd_json_path=full_hyd_json_path)
+    data.processData(r=config.r, hydro_sphere=hydro_sphere)
 
     if config.dt is not None:
         data.resample(new_dt=config.dt)
@@ -230,14 +231,17 @@ def main():
     if do_process:
         data_dir.mkdir(parents=True, exist_ok=True)
 
-        full_hyd_json_path = DATA_DIR / "handled" / f"{config.hyd_json}.json"
+        import pickle
+        pkl_path = MODEL_DIR / "physics" / f"{config.hydro_sphere_pkl}.pkl"
+        with open(pkl_path, "rb") as f:
+            hydro_sphere = pickle.load(f)
         in_path = DATA_DIR / "cfd"
 
         data = []
         results = []
         for case in config.cases:
             try:
-                obj = process_case(case, config, full_hyd_json_path, in_path, data_dir)
+                obj = process_case(case, config, hydro_sphere, in_path, data_dir)
                 data.append(obj)
                 results.append((case, "ok"))
             except Exception as e:

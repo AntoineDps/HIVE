@@ -8,6 +8,19 @@ from pathlib import Path
 from source.function.get_ccPIgains import get_ccPIgains
 from source.function.load_hydro_json import load_hydro_json
 
+"""
+# -------------------------------------------------------------------------
+# Name:            HydroSphere.py
+# Description:     Class for hydrodynamic body, including methods to load hydrodynamic data,
+#                    compute PI controller gains, and plot hydrodynamic coefficients and impulse response function.
+#
+# Author:          Antoine
+# Collaborator:    Bona
+# Date created:    06/2026
+# Project:         surrogate_hydro
+# -------------------------------------------------------------------------
+"""
+
 
 class HydroSphere:
     """

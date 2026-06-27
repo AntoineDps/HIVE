@@ -5,6 +5,18 @@ import numpy as np
 
 from source.function.save_pathing import save_pathing
 
+"""
+# -------------------------------------------------------------------------
+# Name:            Plotter.py
+# Description:     systematic plotting tools for timeseries and scatter data, with save/load
+#
+# Author:          Antoine
+# Collaborator:    Bona
+# Date created:    06/2026
+# Project:         surrogate_hydro
+# -------------------------------------------------------------------------
+"""
+
 # TODO : implement parralllele corrdinate plot
 # TODO : implement phase comparison plot
 

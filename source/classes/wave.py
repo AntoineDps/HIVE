@@ -8,6 +8,20 @@ from source.function.sea_state_utils import param2S, eta2S, S2eta, S2param
 # from source.function.S2eta import S2eta
 # from source.function.S2param import S2param
 
+"""
+# -------------------------------------------------------------------------
+# Name:            Wave.py
+# Description:     Class for wave generation and analysis, including methods 
+#                   to compute wave spectra, wave elevation, and energy flux 
+#                   for both regular and irregular waves.
+#
+# Author:          Antoine
+# Collaborator:    Bona
+# Date created:    06/2026
+# Project:         surrogate_hydro
+# -------------------------------------------------------------------------
+"""
+
 
 class Wave:
     def __init__(

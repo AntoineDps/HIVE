@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 from source.classes.DNN import DNN
-from source.function.metricError import metricError
+from source.function.error_utils import metricError
 from source.function.generate_dnn_structure import generate_dnn_structure
 
 # TODO : pbl with num_worker > 0

@@ -1,4 +1,4 @@
-environment = omae_26
+environment = surrogate
 
 # test script run.py
 python -m script.run

@@ -16,9 +16,6 @@ from source.classes.Plotter import Plotter
 #! check fe
 # TODO : pbl spectra do not match
 
-# TODO : plot 2D/3D data
-# TODO : save plot in a way to be reopened in matplotlib
-
 # %% CONSTRUCTOR
 
 
@@ -157,6 +154,7 @@ class DataHandle:
     def processData(
         self,
         r=None,
+        hydro_sphere=None,
         full_hyd_json_path=None,
         freq="f",
         S_type="JONSWAP",
@@ -260,19 +258,25 @@ class DataHandle:
             )
             self.dataset["fhs_lin"] = self.dataset["fb_lin"] - self.dataset["fg"]
 
-        if full_hyd_json_path is not None:
-            data = load_hydro_json(full_hyd_json_path)
+        if hydro_sphere is not None or full_hyd_json_path is not None:
+            if hydro_sphere is not None:
+                fe_irf  = hydro_sphere.fe_irf
+                t_irf   = hydro_sphere.t_irf
+                rad_ss  = hydro_sphere.rad_ss
+                ma_inf  = hydro_sphere.ma_inf
+            else:
+                data    = load_hydro_json(full_hyd_json_path)
+                fe_irf  = data["fe_irf"]
+                t_irf   = data["t_irf"]
+                rad_ss  = data["rad_ss"]
+                ma_inf  = data["ma_inf"]
 
             # fe
-            fe_irf = data["fe_irf"]
-            t_irf = data["t_irf"]
             self.dataset["fe_lin"] = fe_conv(
                 self.dataset["eta"], fe_irf, self.dataset["t"], t_irf, resample="irf"
             )
 
             # fr
-            rad_ss = data["rad_ss"]
-            ma_inf = data["ma_inf"]
 
             Ar = rad_ss["Ar"]
             Br = rad_ss["Br"]
@@ -309,7 +313,7 @@ class DataHandle:
                 self.dataset["fhyd_cfd"] - self.dataset["fb_nl_eta"]
             )
 
-            if full_hyd_json_path is not None:
+            if hydro_sphere is not None or full_hyd_json_path is not None:
                 self.dataset["fhd_lin_r"] = (
                     self.dataset["fhyd_cfd"]
                     - self.dataset["fb_lin"]

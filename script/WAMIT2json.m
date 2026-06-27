@@ -23,7 +23,7 @@ clc
 
 %% INPUT
 
-filePath = pwd + "\data\hydro\";
+filePath = pwd + "\data\bem\wamit\sphere\";
 fileName = "xModel";
 
 rho = 1025;
