@@ -202,7 +202,7 @@ class Model:
         """
         interpolation = interpolation or {}
         body = model_def["body"]
-        r = body["r"]
+        r = hydro_sphere.r
         rho = body.get("rho", 1025)
         g = body.get("g", 9.81)
 

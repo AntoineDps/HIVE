@@ -64,7 +64,6 @@ class CaseConfig:
     wave_type: str
     cut_time: tuple
     duration: Optional[float]
-    r: int
     hydro_sphere_pkl: str
     dt: Optional[float]
     cases: list
@@ -80,8 +79,7 @@ def load_config(config_path: Path) -> CaseConfig:
         wave_type=raw["wave_type"],
         cut_time=tuple(raw["cut_time"]),
         duration=raw.get("duration"),
-        r=raw["r"],
-        hydro_sphere_pkl=raw["hydro_sphere_pkl"],
+        hydro_sphere_pkl=raw.get("hydro_sphere_pkl", raw.get("hyd_json")),
         dt=raw.get("dt"),
         cases=raw["cases"],
         plot_options=raw.get("plot_options", {}),
@@ -126,7 +124,7 @@ def process_case(
         cut_time=config.cut_time,
         duration=config.duration,
     )
-    data.processData(r=config.r, hydro_sphere=hydro_sphere)
+    data.processData(r=hydro_sphere.r, hydro_sphere=hydro_sphere)
 
     if config.dt is not None:
         data.resample(new_dt=config.dt)
@@ -202,8 +200,19 @@ def main():
         ).strip()
 
         if answer == "1":
-            shutil.rmtree(run_dir)
-            log.info("Erased existing folder: %s", run_dir)
+            for attempt in range(5):
+                try:
+                    shutil.rmtree(run_dir)
+                    log.info("Erased existing folder: %s", run_dir)
+                    break
+                except PermissionError as e:
+                    if attempt < 4:
+                        log.warning("Folder locked (OneDrive sync?), retrying in 2s... (%d/5)", attempt + 1)
+                        import time; time.sleep(2)
+                    else:
+                        log.error("Could not erase folder after 5 attempts: %s", e)
+                        log.error("Try pausing OneDrive sync and re-running.")
+                        return
         elif answer == "3":
             reopen_saved_figures(plots_dir)
             return
@@ -231,10 +240,17 @@ def main():
     if do_process:
         data_dir.mkdir(parents=True, exist_ok=True)
 
+        if config.hydro_sphere_pkl is None:
+            log.error("Config must have 'hydro_sphere_pkl' field pointing to a HydroSphere .pkl file.")
+            return
         import pickle
         pkl_path = MODEL_DIR / "physics" / f"{config.hydro_sphere_pkl}.pkl"
+        if not pkl_path.exists():
+            log.error("HydroSphere pkl not found: %s", pkl_path)
+            return
         with open(pkl_path, "rb") as f:
             hydro_sphere = pickle.load(f)
+        log.info("Loaded HydroSphere from %s (r=%.1f)", pkl_path.name, hydro_sphere.r)
         in_path = DATA_DIR / "cfd"
 
         data = []

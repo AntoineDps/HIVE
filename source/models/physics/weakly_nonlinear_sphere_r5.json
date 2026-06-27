@@ -1,8 +1,7 @@
 {
   "type": "physics",
   "body": {
-    "r": 5.0,
-    "hydro_sphere_pkl": "r5.0",
+    "hydro_sphere_pkl": "r5",
     "rho": 1025,
     "g": 9.81
   },
