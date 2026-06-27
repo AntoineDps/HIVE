@@ -37,7 +37,7 @@ class HydroSphere:
         self.load_hydro_data()
 
         self.rho = 1025
-        self.mesh = mesh
+        self.panels = None  # populated by make_mesh()
 
         self.mass = 0.5 * 4 / 3 * np.pi * self.r**3 * self.rho
         self.stiffness = np.pi * self.r**2 * self.rho * 9.81
@@ -275,6 +275,83 @@ class HydroSphere:
 
         plt.tight_layout()
         plt.show()
+
+    # %% MESH
+
+    def make_mesh(self, n_theta=20, n_phi=20):
+        """
+        Generate a sphere panel mesh using capytaine and store it as
+        self.panels. Re-call with different resolution to regenerate.
+
+        Parameters
+        ----------
+        n_theta : int  -- number of elevation divisions
+        n_phi   : int  -- number of azimuth divisions
+
+        Stores
+        ------
+        self.panels : dict with keys
+            centroids  (N, 3)  -- panel centroid in body frame [m]
+            normals    (N, 3)  -- outward unit normal at centroid
+            areas      (N,)    -- panel area [m^2]
+            n_panels, n_theta, n_phi
+            _mesh              -- the raw capytaine Mesh object
+        """
+        import capytaine as cpt
+
+        mesh = cpt.mesh_sphere(
+            radius=self.r,
+            center=(0.0, 0.0, 0.0),
+            resolution=(n_theta, n_phi),
+        )
+
+        self.panels = {
+            "centroids": mesh.faces_centers,
+            "normals": mesh.faces_normals,
+            "areas": mesh.faces_areas,
+            "n_theta": n_theta,
+            "n_phi": n_phi,
+            "n_panels": mesh.nb_faces,
+            "_mesh": mesh,  # kept for plot and export
+        }
+        print(
+            f"Mesh generated: {mesh.nb_faces} panels (n_theta={n_theta}, n_phi={n_phi})"
+        )
+        return self.panels
+
+    def plot_mesh(self):
+        """Visualise the mesh in 3D using VTK (or Matplotlib as fallback)."""
+        if self.panels is None:
+            raise RuntimeError("No mesh -- call make_mesh() first.")
+        self.panels["_mesh"].show()
+
+    def export_mesh(self, path, fmt="gdf"):
+        """
+        Export the panel mesh to a file using capytaine writers.
+
+        Parameters
+        ----------
+        path : str or Path  -- output path (extension added automatically)
+        fmt  : 'gdf' (WAMIT) or 'stl'
+        """
+        if self.panels is None:
+            raise RuntimeError("No mesh -- call make_mesh() first.")
+
+        from capytaine.io.mesh_writers import write_GDF, write_STL
+
+        path = Path(path)
+        mesh = self.panels["_mesh"]
+
+        if fmt == "gdf":
+            out = path.with_suffix(".gdf")
+            write_GDF(str(out), mesh.vertices, mesh.faces)
+            print(f"GDF mesh exported: {out}")
+        elif fmt == "stl":
+            out = path.with_suffix(".stl")
+            write_STL(str(out), mesh.vertices, mesh.faces)
+            print(f"STL mesh exported: {out}")
+        else:
+            raise ValueError(f"Unknown format '{fmt}'. Use 'gdf' or 'stl'.")
 
     def save(self, path, suffix=None):
         path = Path(path)
