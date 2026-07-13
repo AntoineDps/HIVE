@@ -39,7 +39,7 @@ n_phi = 20
 n_eta = 20
 
 # output saving
-out_path = MODEL_DIR / "physics"
+out_path = MODEL_DIR
 
 # %% INITIALIZE HYDROSPHERE
 

@@ -12,7 +12,8 @@ from source.function.load_hydro_json import load_hydro_json
 # -------------------------------------------------------------------------
 # Name:            HydroSphere.py
 # Description:     Class for hydrodynamic body, including methods to load hydrodynamic data,
-#                    compute PI controller gains, and plot hydrodynamic coefficients and impulse response function.
+#                   compute PI controller gains, and plot hydrodynamic coefficients and
+#                   impulse response function. Also includes methods to generate and visualize a sphere panel mesh.
 #
 # Author:          Antoine
 # Collaborator:    Bona

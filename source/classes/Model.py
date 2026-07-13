@@ -55,6 +55,20 @@ class LinearDamping(ForceTerm):
         return -self.b * X[1]
 
 
+class ViscousDragForce(ForceTerm):
+    """
+    Morison-type viscous drag: F = -c_v * |xdot| * xdot.
+    Identified from the residual between CFD and BEM forces via least squares.
+    """
+
+    def __init__(self, c_v, name="f_visc"):
+        self.c_v = c_v
+        self.name = name
+
+    def compute(self, t, X, interpolate=None):
+        return -self.c_v * abs(X[1]) * X[1]
+
+
 class RestoringNonlinear(ForceTerm):
     """
     Nonlinear buoyancy net of gravity: Vs(h)*rho*g - m*g.
@@ -105,6 +119,150 @@ class RadiationStateSpace(ForceTerm):
 
 
 class ExcitationLinearConv(ForceTerm):
+    """
+    Linear excitation force fe = IRF * eta (convolution), precomputed over
+    the full wave signal, wrapped in an interpolator.
+
+    NOTE: the convolution is causal -- fe[0:n_irf] is inaccurate because
+    the simulation has no wave history before t=0. Apply a t_warmup cutoff
+    when computing metrics to exclude this startup transient.
+    """
+
+    def __init__(self, fe_series, t_series, interpolate=True, name="fe_lin"):
+        self._interp = interp1d(
+            t_series,
+            fe_series,
+            kind="linear",
+            bounds_error=False,
+            fill_value=(fe_series[0], fe_series[-1]),
+        )
+        self.interpolate = interpolate
+        self.name = name
+        self._frozen = 0.0
+
+    def begin_step(self, t0):
+        if not self.interpolate:
+            self._frozen = float(self._interp(t0))
+
+    def compute(self, t, X, interpolate=None):
+        use_interp = self.interpolate if interpolate is None else interpolate
+        return float(self._interp(t)) if use_interp else self._frozen
+
+
+class FKNonlinear(ForceTerm):
+    """
+    Nonlinear Froude-Krylov force: integrate undisturbed incident wave
+    dynamic pressure over the instantaneous wetted sphere surface.
+
+        p(z_lab, t) = rho * g * sum_i[ A_i * exp(k_i * z_lab) * cos(w_i*t + phi_i) ]
+
+    z_lab = panel centroid depth in lab frame = centroid_z_body - x (body displacement)
+    Panel is wetted when z_lab < eta(t).
+
+    This covers the dynamic pressure part only -- hydrostatic restoring is
+    handled separately by RestoringLinear or RestoringNonlinear.
+
+    NOTE: at each solver sub-stage t the wave phase is evaluated at the
+    exact sub-stage time, so higher-order solvers (RK4) genuinely benefit
+    from their order for this term. Body position X[0] is also updated at
+    each sub-stage (state-dependent wetted surface).
+    """
+
+    def __init__(
+        self,
+        panels,
+        wave_components,
+        eta_t,
+        eta_values,
+        rho=1025.0,
+        interpolate=True,
+        name="f_fk",
+    ):
+        """
+        Parameters
+        ----------
+        panels          : dict from HydroSphere.panels
+                          ('centroids', 'normals', 'areas')
+        wave_components : list of (A, w, k, phi) -- from decompose_wave()
+        eta_t           : time vector of recorded wave elevation
+        eta_values      : wave elevation array
+        rho             : water density [kg/m^3]
+        interpolate     : if False, eta(t0) is frozen per outer step
+        """
+        self.centroids_z = panels["centroids"][:, 2]  # body-frame z only
+        self.normals_z = panels["normals"][:, 2]
+        self.areas = panels["areas"]
+        self.wave_components = wave_components
+        self._eta_interp = interp1d(
+            eta_t,
+            eta_values,
+            kind="linear",
+            bounds_error=False,
+            fill_value=(float(eta_values[0]), float(eta_values[-1])),
+        )
+        self.rho = rho
+        self.interpolate = interpolate
+        self.name = name
+        self._frozen_eta = 0.0
+
+    def begin_step(self, t0):
+        if not self.interpolate:
+            self._frozen_eta = float(self._eta_interp(t0))
+
+    def _eta_at(self, t):
+        return float(self._eta_interp(t)) if self.interpolate else self._frozen_eta
+
+    def compute(self, t, X, interpolate=None):
+        use_interp = self.interpolate if interpolate is None else interpolate
+
+        x_body = X[0]  # vertical body displacement [m]
+        z_lab = self.centroids_z - x_body  # panel depth in lab frame
+
+        eta = float(self._eta_interp(t)) if use_interp else self._frozen_eta
+        wetted = z_lab < eta
+
+        if not np.any(wetted):
+            return 0.0
+
+        # dynamic pressure at wetted panel centroids
+        p = np.zeros(np.sum(wetted))
+        for A, w, k, phi in self.wave_components:
+            p += self.rho * 9.81 * A * np.exp(k * z_lab[wetted]) * np.cos(w * t + phi)
+
+        # F_FK = -∫ p n_z dS  (pressure acts inward against outward normal)
+        return float(-np.sum(p * self.normals_z[wetted] * self.areas[wetted]))
+
+
+def decompose_wave(eta, t, n_max=50):
+    """
+    Decompose a recorded wave elevation into per-component (A, w, k, phi)
+    tuples using FFT. Keeps the top n_max components by amplitude to keep
+    FK pressure evaluation tractable during simulation.
+
+    Returns list of (A, w, k, phi) sorted by descending amplitude.
+    """
+    n = len(eta)
+    dt = t[1] - t[0]
+
+    spectrum = np.fft.rfft(eta) / n
+    freqs = np.fft.rfftfreq(n, d=dt)
+
+    components = []
+    for i, f in enumerate(freqs):
+        if f <= 0:
+            continue
+        A = 2.0 * abs(spectrum[i])
+        if A < 1e-6:
+            continue
+        w = 2.0 * np.pi * f
+        k = w**2 / 9.81
+        phi = float(np.angle(spectrum[i]))
+        components.append((A, w, k, phi))
+
+    # keep only the most energetic components
+    components.sort(key=lambda c: -c[0])
+    return components[:n_max]
+
     """
     Linear excitation force fe = IRF * eta (convolution), precomputed over
     the full wave signal, wrapped in an interpolator.
@@ -192,7 +350,14 @@ class Model:
 
     @classmethod
     def from_config(
-        cls, model_def, hydro_sphere, eta_t, eta_values, pto=None, interpolation=None
+        cls,
+        model_def,
+        hydro_sphere,
+        eta_t,
+        eta_values,
+        wave_components=None,
+        pto=None,
+        interpolation=None,
     ):
         """
         Build a Model from a model definition dict and a pre-instantiated
@@ -273,10 +438,43 @@ class Model:
                 )
             )
 
+        elif ft.get("excitation") == "fk_nonlinear":
+            if hydro_sphere.panels is None:
+                raise RuntimeError(
+                    "Model requires a mesh for nonlinear FK -- "
+                    "call hydro_sphere.make_mesh() before building the model."
+                )
+            if wave_components is None:
+                raise ValueError(
+                    "fk_nonlinear excitation requires wave_components -- "
+                    "pass decompose_wave(eta, t) result to Model.from_config()."
+                )
+            forces.append(
+                FKNonlinear(
+                    panels=hydro_sphere.panels,
+                    wave_components=wave_components,
+                    eta_t=eta_t,
+                    eta_values=eta_values,
+                    rho=rho,
+                    interpolate=interpolation.get("fk", True),
+                    name="f_fk",
+                )
+            )
+
         # PTO
         if pto is not None:
             forces.append(RestoringLinear(pto["stiffness"], name="fs_pto"))
             forces.append(LinearDamping(pto["damping"], name="fd_pto"))
+
+        # viscous drag -- c_v identified by run_optimize, stored in model_def["identified"]
+        if ft.get("drag") == "viscous":
+            c_v = model_def.get("identified", {}).get("c_v")
+            if c_v is None:
+                raise ValueError(
+                    "Viscous drag model requires an identified c_v -- "
+                    "run run_optimize.py with scheme 'viscous_drag' first."
+                )
+            forces.append(ViscousDragForce(float(c_v), name="f_visc"))
 
         return cls(
             m=m,

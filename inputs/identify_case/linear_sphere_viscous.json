@@ -4,10 +4,10 @@
   "base_model": "linear_sphere_r5",
   "scheme_params": {
     "base_force": "fhyd_lin",
-    "type":   ["force", "response"],
+    "type":   ["response"],
     "search": ["opt", "grid"],
     "c_v_min": 0,
-    "c_v_max": 5000,
+    "c_v_max": 150000,
     "n_points": 50,
     "objective_vars": ["x"]
   },

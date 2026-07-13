@@ -1,7 +1,7 @@
 import pickle
 from pathlib import Path
 
-from source.classes.Optimizer import Optimizer
+from source.classes.Optimizeronly_NN import Optimizer
 
 # TODO : batch run with several train_wave, eval_wave combination
 # TODO : when problem happen in one simulation, NaN value arise and this is canceling the metric return... need to handle this case properly

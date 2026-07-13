@@ -1,0 +1,28 @@
+{
+  "runs": [
+    {
+      "folder": "run",
+      "filter": "*linear_sphere_r5*dt_0_01*",
+      "label": "Linear BEM"
+    },
+    {
+      "folder": "run",
+      "filter": "*weakly_nonlinear*dt_0_01*",
+      "label": "Weakly nonlinear"
+    },
+    {
+      "folder": "run",
+      "filter": "*fk_nonlinear*dt_0_01*",
+      "label": "FK nonlinear"
+    },
+    {
+      "folder": "run",
+      "filter": "*linear_viscous*dt_0_01*",
+      "label": "Linear + viscous drag"
+    }
+  ],
+  "output_name": "model_comparison",
+  "plot_options": {
+    "states": true
+  }
+}

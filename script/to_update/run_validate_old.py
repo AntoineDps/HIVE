@@ -12,6 +12,7 @@ from tqdm import tqdm
 
 from source.config import DATA_DIR, INPUT_DIR, MODEL_DIR, OUT_DIR
 from source.classes.DataHandle import DataHandle
+from source.classes.HydroSphere import HydroSphere
 from source.classes.Model import Model, decompose_wave
 from source.classes.Plotter import Plotter
 from source.classes.SimRun import SimRun, get_solver
@@ -24,9 +25,9 @@ from source.classes.Wave import Wave
 #                  or compare models under a synthetic wave.
 #
 # Author:          Antoine
-# Collaborator:    Bona, Bruno, Edoardo
+# Collaborator:    Bona
 # Date created:    06/2026
-# Project:         wec_modeling_benchmark
+# Project:         surrogate_hydro
 #
 # Inputs:
 # - [run.json]: runs config solver, model, cases and plotting parameters
@@ -38,6 +39,7 @@ from source.classes.Wave import Wave
 # - [plot.png or plot.pkl]: plot image and pickle for active reload.
 #
 # Dependencies:
+# - [Hydrosphere.py]: Class
 # - [HydroSphere.pkl]: object mentionned in the config file
 # - [Model.py]: Class
 # - [DataHandle.py]: Class
@@ -119,28 +121,24 @@ def check_v1_support(config: ValidateConfig) -> bool:
     return True
 
 
-def load_model_entry(name: str):
-    """
-    Load model definition and HydroSphere from models/<name>/model.json.
-    HydroSphere pkl is looked up at models/<hydro_sphere_pkl>.pkl (shared,
-    not duplicated into each model folder).
-    """
-    model_path = MODEL_DIR / name / "model.json"
-    if not model_path.is_file():
-        raise FileNotFoundError(f"Model definition not found: {model_path}")
-    with open(model_path) as f:
+def load_model_entry(kind: str, name: str):
+    """Load model definition JSON and, for physics models, instantiate
+    HydroSphere from it. Returns (model_def, hydro_sphere_or_None)."""
+    path = MODEL_DIR / kind / f"{name}.json"
+    if not path.is_file():
+        raise FileNotFoundError(f"Model definition not found: {path}")
+    with open(path) as f:
         model_def = json.load(f)
 
-    hs = None
-    pkl_name = model_def.get("body", {}).get("hydro_sphere_pkl")
-    if pkl_name:
+    if kind == "physics":
         import pickle
 
-        pkl_path = MODEL_DIR / f"{pkl_name}.pkl"
-        if not pkl_path.exists():
-            raise FileNotFoundError(f"HydroSphere pkl not found: {pkl_path}")
+        body = model_def["body"]
+        pkl_path = MODEL_DIR / "physics" / f"{body['hydro_sphere_pkl']}.pkl"
         with open(pkl_path, "rb") as f:
             hs = pickle.load(f)
+    else:
+        hs = None
 
     return model_def, hs
 
@@ -171,9 +169,7 @@ def resolve_wave_sources(wave_sources: list) -> list:
                         "group": f"{case_name} - {ref.label}",
                         "eta_t": eta_t,
                         "eta_values": eta_values,
-                        "wave_components": decompose_wave(
-                            eta_values, eta_t, n_max=ws.get("n_wave_components", 50)
-                        ),
+                        "wave_components": decompose_wave(eta_values, eta_t),
                         "pto": {"damping": ref.damping, "stiffness": ref.stiffness},
                         "reference": ref,
                     }
@@ -384,13 +380,13 @@ def main():
     if not check_dt_mismatch(runs, config.solvers):
         return
 
-    model_entries = {}  # name -> (model_def, hs)
+    model_entries = {}  # (kind, name) -> (model_def, hydro_sphere)
     for m in config.models:
-        name = m["name"]
+        key = (m["kind"], m["name"])
         try:
-            model_entries[name] = load_model_entry(name)
+            model_entries[key] = load_model_entry(*key)
         except (FileNotFoundError, Exception) as e:
-            log.error("Could not load model '%s': %s", name, e)
+            log.error("Could not load model '%s/%s': %s", *key, e)
 
     if not model_entries:
         log.error("No usable model definitions.")
@@ -400,7 +396,7 @@ def main():
     combos = [
         (m, run, s)
         for m in config.models
-        if m["name"] in model_entries
+        if (m["kind"], m["name"]) in model_entries
         for run in runs
         for s in config.solvers
     ]
@@ -415,7 +411,7 @@ def main():
             f"{model_entry['name'][:20]} | {solver_entry['method']} dt={solver_entry['dt']}"
         )
 
-        model_def, hs = model_entries[model_entry["name"]]
+        model_def, hs = model_entries[(model_entry["kind"], model_entry["name"])]
         try:
             model = Model.from_config(
                 model_def,

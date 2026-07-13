@@ -260,16 +260,16 @@ class DataHandle:
 
         if hydro_sphere is not None or full_hyd_json_path is not None:
             if hydro_sphere is not None:
-                fe_irf  = hydro_sphere.fe_irf
-                t_irf   = hydro_sphere.t_irf
-                rad_ss  = hydro_sphere.rad_ss
-                ma_inf  = hydro_sphere.ma_inf
+                fe_irf = hydro_sphere.fe_irf
+                t_irf = hydro_sphere.t_irf
+                rad_ss = hydro_sphere.rad_ss
+                ma_inf = hydro_sphere.ma_inf
             else:
-                data    = load_hydro_json(full_hyd_json_path)
-                fe_irf  = data["fe_irf"]
-                t_irf   = data["t_irf"]
-                rad_ss  = data["rad_ss"]
-                ma_inf  = data["ma_inf"]
+                data = load_hydro_json(full_hyd_json_path)
+                fe_irf = data["fe_irf"]
+                t_irf = data["t_irf"]
+                rad_ss = data["rad_ss"]
+                ma_inf = data["ma_inf"]
 
             # fe
             self.dataset["fe_lin"] = fe_conv(
@@ -313,7 +313,7 @@ class DataHandle:
                 self.dataset["fhyd_cfd"] - self.dataset["fb_nl_eta"]
             )
 
-            if hydro_sphere is not None or full_hyd_json_path is not None:
+            if hydro_sphere is not None or full_hyd_json_path is not None:  #!
                 self.dataset["fhd_lin_r"] = (
                     self.dataset["fhyd_cfd"]
                     - self.dataset["fb_lin"]
