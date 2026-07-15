@@ -12,8 +12,10 @@
     "drag": "viscous"
   },
   "identified": {
-    "c_v": 58163.265306122456,
+    "c_v": 75000.0,
     "method": "response_grid",
+    "metric": "rmse_x",
+    "metric_value": 0.5924997555039678,
     "identified_from": "C:\\Users\\antdu953\\OneDrive - Uppsala universitet (1)\\wec_modeling_benchmark\\code\\source\\models\\linear_sphere_viscous"
   }
 }

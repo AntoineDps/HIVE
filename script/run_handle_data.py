@@ -207,8 +207,13 @@ def main():
                     break
                 except PermissionError as e:
                     if attempt < 4:
-                        log.warning("Folder locked (OneDrive sync?), retrying in 2s... (%d/5)", attempt + 1)
-                        import time; time.sleep(2)
+                        log.warning(
+                            "Folder locked (OneDrive sync?), retrying in 2s... (%d/5)",
+                            attempt + 1,
+                        )
+                        import time
+
+                        time.sleep(2)
                     else:
                         log.error("Could not erase folder after 5 attempts: %s", e)
                         log.error("Try pausing OneDrive sync and re-running.")
@@ -241,10 +246,13 @@ def main():
         data_dir.mkdir(parents=True, exist_ok=True)
 
         if config.hydro_sphere_pkl is None:
-            log.error("Config must have 'hydro_sphere_pkl' field pointing to a HydroSphere .pkl file.")
+            log.error(
+                "Config must have 'hydro_sphere_pkl' field pointing to a HydroSphere .pkl file."
+            )
             return
         import pickle
-        pkl_path = MODEL_DIR / "physics" / f"{config.hydro_sphere_pkl}.pkl"
+
+        pkl_path = MODEL_DIR / f"{config.hydro_sphere_pkl}.pkl"
         if not pkl_path.exists():
             log.error("HydroSphere pkl not found: %s", pkl_path)
             return

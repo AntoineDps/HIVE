@@ -9,9 +9,17 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 from source.config import INPUT_DIR, MODEL_DIR
+from source.classes.Objective import Objective
 from source.classes.DDFeed import DDFeed
 from source.classes.Optimizer import Optimizer
 from source.classes.Plotter import Plotter
+import source.classes.Viscous_drag as _viscous_drag
+import source.classes.Pi_gain as _pi_gain
+
+SCHEME_MODULES = {
+    "viscous_drag": _viscous_drag,
+    "pi_gain": _pi_gain,
+}
 
 """
 # -------------------------------------------------------------------------
@@ -36,8 +44,6 @@ from source.classes.Plotter import Plotter
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
-
-SCHEMES = ["viscous_drag"]
 
 
 # %% CONFIG
@@ -97,10 +103,13 @@ def main():
         output_name,
     )
 
-    if config.scheme not in SCHEMES:
-        log.error("Unknown scheme '%s'. Available: %s", config.scheme, SCHEMES)
+    if config.scheme not in SCHEME_MODULES:
+        log.error(
+            "Unknown scheme '%s'. Available: %s", config.scheme, list(SCHEME_MODULES)
+        )
         return
 
+    scheme_module = SCHEME_MODULES[config.scheme]
     model_dir = MODEL_DIR / output_name
     plots_dir = model_dir / "plots"
 
@@ -115,7 +124,17 @@ def main():
             "> "
         ).strip()
         if answer == "1":
-            shutil.rmtree(model_dir)
+            import time as _time
+
+            for attempt in range(5):
+                try:
+                    shutil.rmtree(model_dir)
+                    break
+                except PermissionError:
+                    if attempt == 4:
+                        raise
+                    log.warning("Folder locked (OneDrive?), retrying in 2s...")
+                    _time.sleep(2)
         elif answer == "2":
             log.info("Stopped.")
             return
@@ -140,15 +159,20 @@ def main():
     fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
     logging.getLogger().addHandler(fh)
 
-    feed = DDFeed(config.scheme, config.waves_train, config.scheme_params)
-    opt = Optimizer(config.scheme, config.base_model, config.solver)
+    feed = DDFeed(
+        scheme_module,
+        config.waves_train,
+        config.scheme_params,
+        solver_cfg=config.solver,
+    )
+    opt = Optimizer(scheme_module, config.base_model, config.solver)
 
-    result, grids, simruns = opt.run(feed, config)
+    result, grids_by_method, simruns_by_method = opt.run(feed, config)
 
     opt.save(result, output_name)
     opt.save_result(result, model_dir)
-    opt.save_data(result, simruns, feed, model_dir)
-    opt.run_plots(config, feed, simruns, result, grids, plots_dir)
+    opt.save_data(result, simruns_by_method, grids_by_method, feed, model_dir)
+    opt.run_plots(config, feed, simruns_by_method, result, grids_by_method, plots_dir)
 
     log.info("Done.")
     plt.show()

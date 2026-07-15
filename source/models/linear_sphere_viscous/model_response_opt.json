@@ -14,6 +14,8 @@
   "identified": {
     "c_v": 57000.0137295758,
     "method": "response_opt",
+    "metric": "rmse_x",
+    "metric_value": 0.5901917843496974,
     "identified_from": "C:\\Users\\antdu953\\OneDrive - Uppsala universitet (1)\\wec_modeling_benchmark\\code\\source\\models\\linear_sphere_viscous"
   }
 }

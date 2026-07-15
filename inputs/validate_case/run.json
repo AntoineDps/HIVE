@@ -1,25 +1,26 @@
 {
-  "scheme": "viscous_drag",
-  "waves_train": ["cases"],
-  "base_model": "linear_sphere_r5",
-  "scheme_params": {
-    "base_force": "fhyd_lin",
-    "type":   ["force", "response"],
-    "search": ["opt", "grid"],
-    "c_v_min": 0,
-    "c_v_max": 5000,
-    "n_points": 50,
-    "objective_vars": ["x"]
-  },
-  "solver": {
-    "method": "RK4",
-    "dt": 0.05,
-    "interpolation": {"fe": true, "eta_hs": true}
-  },
+  "models": [
+    {"name": "linear_sphere_r5",           "kind": "physics"},
+    {"name": "weakly_nonlinear_sphere_r5", "kind": "physics"},
+    {"name": "fk_nonlinear_sphere_r5",     "kind": "physics"}
+  ],
+  "wave_sources": [
+    {"type": "cfd_case", "case_name": "cases"}
+  ],
+  "solvers": [
+    {
+      "method": "RK4",
+      "dt": 0.01,
+      "interpolation": {"fe": true, "eta_hs": true, "fk": true}
+    }
+  ],
+  "eta_inputs": [
+    {"type": "true"}
+  ],
+  "simulation": [
+    {"type": "closed_loop"}
+  ],
   "plot_options": {
-    "cost_curves": true,
-    "coeff_grid": true,
-    "coeff_distribution": true,
-    "timeseries": true
+    "states": true
   }
 }

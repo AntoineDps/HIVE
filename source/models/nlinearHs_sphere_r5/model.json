@@ -1,0 +1,9 @@
+{
+  "type": "physics",
+  "body": {"hydro_sphere_pkl": "r5", "rho": 1025, "g": 9.81},
+  "force_terms": {
+    "restoring": "nonlinear",
+    "radiation": "state_space",
+    "excitation": "linear_conv"
+  }
+}

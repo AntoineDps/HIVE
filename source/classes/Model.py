@@ -385,6 +385,10 @@ class Model:
         if restoring == "linear":
             forces.append(RestoringLinear(S, name="fb_lin"))
         elif restoring == "nonlinear":
+            # nonlinear hydrostatic without free-surface correction (eta=0)
+            forces.append(RestoringNonlinear(r, rho, g, m, eta=None, name="fb_nl"))
+        elif restoring == "nonlinear_eta":
+            # nonlinear hydrostatic with free-surface elevation correction
             eta_interp = interp1d(
                 eta_t,
                 eta_values,
@@ -404,7 +408,10 @@ class Model:
                 )
             )
         else:
-            raise ValueError(f"Unknown restoring flavor '{restoring}'")
+            raise ValueError(
+                f"Unknown restoring flavor '{restoring}'. "
+                f"Available: 'linear', 'nonlinear', 'nonlinear_eta'"
+            )
 
         # radiation
         if ft.get("radiation") == "state_space":
