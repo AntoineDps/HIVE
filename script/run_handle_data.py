@@ -52,6 +52,7 @@ PLOT_DISPATCH = {
     "dynamics": DataHandle.plot_dynamics,
     "hydro": DataHandle.plot_hydro,
     "3d": DataHandle.scatter3d,
+    "variable": DataHandle.plot_variable,
 }
 
 # %% FUNCTIONS AND CLASSES
@@ -252,7 +253,7 @@ def main():
             return
         import pickle
 
-        pkl_path = MODEL_DIR / f"{config.hydro_sphere_pkl}.pkl"
+        pkl_path = MODEL_DIR / "physics" / f"{config.hydro_sphere_pkl}.pkl"
         if not pkl_path.exists():
             log.error("HydroSphere pkl not found: %s", pkl_path)
             return
@@ -304,7 +305,7 @@ def main():
     plots_dir.mkdir(parents=True, exist_ok=True)
 
     for plot_name, active in config.plot_options.items():
-        if not active:
+        if isinstance(active, bool) and not active:
             continue
         if plot_name not in PLOT_DISPATCH:
             log.warning(
@@ -312,9 +313,14 @@ def main():
                 plot_name,
             )
             continue
-        PLOT_DISPATCH[plot_name](
-            data_to_plot, save_path=plots_dir, name=config_path.stem
-        )
+        if isinstance(active, bool):
+            PLOT_DISPATCH[plot_name](
+                data_to_plot, save_path=plots_dir, name=config_path.stem
+            )
+        else:
+            PLOT_DISPATCH[plot_name](
+                data_to_plot, active, save_path=plots_dir, name=config_path.stem
+            )
 
     log.info("Done.")
     plt.show()

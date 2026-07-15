@@ -1,0 +1,22 @@
+{
+  "models": [
+    {"name": "linear_sphere_r5"}
+  ],
+  "wave_sources": [
+    {"type": "cfd_case", "case_name": "cases"}
+  ],
+  "solvers": [
+    {
+      "method": "RK4",
+      "dt": 0.05,
+      "n_wave_components": 50,
+      "interpolation": {"fe": true, "eta_hs": false}
+    }
+  ],
+  "eta_inputs": [{"type": "true"}],
+  "simulation": [{"type": "closed_loop"}],
+  "plot_options": {
+    "states": false,
+    "variable": "fe_lin"
+  }
+}

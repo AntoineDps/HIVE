@@ -54,8 +54,9 @@ log = logging.getLogger(__name__)
 
 PLOT_DISPATCH = {
     "states": SimRun.plot_states,
+    "forces": SimRun.plot_forces,
+    "variable": DataHandle.plot_variable,
 }
-
 
 # %% FUNCTION AND CLASSES
 
@@ -283,12 +284,15 @@ def run_plots(groups: dict, plots_dir: Path, plot_options: dict):
             "models"
         ]
         for plot_name, active in plot_options.items():
-            if not active:
+            if isinstance(active, bool) and not active:
                 continue
             if plot_name not in PLOT_DISPATCH:
                 log.warning("plot_option '%s' not implemented yet, skipping", plot_name)
                 continue
-            PLOT_DISPATCH[plot_name](objs, save_path=plots_dir, name=group)
+            if isinstance(active, bool):
+                PLOT_DISPATCH[plot_name](objs, save_path=plots_dir, name=group)
+            else:
+                PLOT_DISPATCH[plot_name](objs, active, save_path=plots_dir, name=group)
 
 
 # %% MAIN

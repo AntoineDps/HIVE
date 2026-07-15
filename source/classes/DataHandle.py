@@ -635,6 +635,21 @@ class DataHandle:
         # x, eta, xdot vs time (the default plot_line shortcut)
         DataHandle.plot_line(objs, save_path=save_path, name=name)
 
+    # variable: takes a column name or list of column names instead of true/false
+    @staticmethod
+    def plot_variable(objs, variable, save_path=None, name=None):
+        """Plot one or more dataset columns by name via plot_line."""
+        variables = variable if isinstance(variable, list) else [variable]
+        for var in variables:
+            DataHandle.plot_line(
+                objs,
+                y=var,
+                ylabel=var,
+                save_path=save_path,
+                name=name,
+                suffix=var,
+            )
+
     # hydro
     @staticmethod
     def plot_hydro(objs, save_path=None, name=None):
