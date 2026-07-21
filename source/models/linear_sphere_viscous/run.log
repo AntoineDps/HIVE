@@ -1,1 +1,17 @@
-2026-07-14 14:18:23,265 INFO Loaded 2 case(s) from 'cases'
+2026-07-21 09:47:23,281 INFO === run_identify ===
+2026-07-21 09:47:23,282 INFO scheme='viscous_drag'  base='linear_sphere_r5'  output='linear_sphere_viscous'
+2026-07-21 09:47:23,505 INFO Loaded 3 case(s) from 'cases_small'
+2026-07-21 09:47:23,505 INFO Loaded 3 case(s) from 'cases_small'
+2026-07-21 09:47:23,506 INFO DDFeed ready: 3 case(s) loaded
+2026-07-21 09:47:23,506 INFO DDFeed ready: 3 case(s) loaded
+2026-07-21 09:55:11,046 INFO === run_identify ===
+2026-07-21 09:55:11,046 INFO scheme='viscous_drag'  base='linear_sphere_r5'  output='linear_sphere_viscous'
+2026-07-21 09:55:13,566 INFO User option: 2
+2026-07-21 09:55:13,567 INFO Stopped.
+2026-07-21 09:55:16,778 INFO === run_identify ===
+2026-07-21 09:55:16,778 INFO scheme='viscous_drag'  base='linear_sphere_r5'  output='linear_sphere_viscous'
+2026-07-21 09:55:17,730 INFO User option: 3
+2026-07-21 09:55:41,231 INFO === run_identify ===
+2026-07-21 09:55:41,231 INFO scheme='viscous_drag'  base='linear_sphere_r5'  output='linear_sphere_viscous'
+2026-07-21 09:56:04,621 INFO User option: 4
+2026-07-21 09:56:04,621 INFO New output folder: linear_sphere_viscous_20260721

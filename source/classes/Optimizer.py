@@ -65,7 +65,7 @@ class Optimizer:
         hydro_sphere = None
         pkl_name = model_def.get("body", {}).get("hydro_sphere_pkl")
         if pkl_name:
-            pkl_path = MODEL_DIR / f"{pkl_name}.pkl"
+            pkl_path = MODEL_DIR / "bem" / f"{pkl_name}.pkl"
             with open(pkl_path, "rb") as f:
                 hydro_sphere = pickle.load(f)
         return model_def, hydro_sphere

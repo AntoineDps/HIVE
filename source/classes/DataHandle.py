@@ -64,9 +64,9 @@ class DataHandle:
 
     def param2case(self, T, H):  #: format depend on sim
         """
-        case name input -> raw data file name
+        case name input -> raw data file name (CFD folder name, unchanged).
+        Also sets save_name: the compact name used for processed output files.
         """
-
         parts = [
             "out",
             "Case",
@@ -83,14 +83,33 @@ class DataHandle:
 
         self.case = "_".join(parts)
 
+        # compact save name: Te5p0_Hs2p0_d120000_k-280000
+        def _f(v: float) -> str:
+            return f"{float(v):.1f}".replace(".", "p")
+
+        save_parts = [f"Hs{_f(H)}", f"Te{_f(T)}"]
+        if self.damping is not None:
+            save_parts.append(f"d{int(self.damping)}")
+        if self.stiffness is not None:
+            save_parts.append(f"k{int(self.stiffness)}")
+        self.save_name = "_".join(save_parts)
+
     def load_cfd_data(self, case_path, data_name):
         """
-        load data: from cfd and process or from processed file
+        load data: from cfd and process or from processed file.
+        Looks for both new format (save_name) and old format (case).
         """
 
-        # look for existing specific name file
-        if (case_path.with_suffix(".csv")).is_file():
-            # load
+        # try new compact save_name format first
+        if ((case_path / f"{self.save_name}_data").with_suffix(".csv")).is_file():
+            self.dataset = pd.read_csv(
+                (case_path / f"{self.save_name}_data").with_suffix(".csv")
+            )
+            self.wave_params = pd.read_csv(
+                (case_path / f"{self.save_name}_wave").with_suffix(".csv")
+            )
+        # look for existing specific name file (legacy)
+        elif (case_path.with_suffix(".csv")).is_file():
             case_path = case_path.parent / case_path.name.rsplit("_", 1)[0]
             self.dataset = pd.read_csv(
                 (case_path.parent / (case_path.name + "_data")).with_suffix(".csv")
@@ -98,7 +117,7 @@ class DataHandle:
             self.wave_params = pd.read_csv(
                 (case_path.parent / (case_path.name + "_wave")).with_suffix(".csv")
             )
-            # look for existing generic name file
+        # look for existing old-format name file
         elif ((case_path / f"{self.case}_data").with_suffix(".csv")).is_file():
             self.dataset = pd.read_csv(
                 (case_path / f"{self.case}_data").with_suffix(".csv")
@@ -395,9 +414,9 @@ class DataHandle:
 
     def save(self, path, name=None):
 
-        # name
+        # name — use compact save_name by default
         if name is None:
-            name = self.case
+            name = self.save_name
 
         # make path
         full_path_data = save_pathing(path, name, "data", ".csv")
@@ -409,12 +428,18 @@ class DataHandle:
 
     @property
     def label(self):
-        parts = [f"Hs = {self.wave_params.Hs[0]} m", f"Te = {self.wave_params.Te[0]} s"]
+        def _f(v: float) -> str:
+            return f"{float(v):.1f}".replace(".", "p")
+
+        parts = [
+            f"Hs{_f(self.wave_params.Hs[0])}",
+            f"Te{_f(self.wave_params.Te[0])}",
+        ]
         if self.damping is not None:
-            parts.append(f"d = {self.damping}")
+            parts.append(f"d{int(self.damping)}")
         if self.stiffness is not None:
-            parts.append(f"k = {self.stiffness}")
-        return ", ".join(parts)
+            parts.append(f"k{int(self.stiffness)}")
+        return "_".join(parts)
 
     @classmethod
     def load_case_in(cls, case_dir: Path, json_path: Path = None) -> list:
@@ -444,6 +469,7 @@ class DataHandle:
 
         case_lookup = {}
         for c in raw["cases"]:
+            # old CFD folder name (for finding raw data)
             case_str = "_".join(
                 [
                     "out",
@@ -454,7 +480,21 @@ class DataHandle:
                     str(c["stiffness"]),
                 ]
             )
-            case_lookup[case_str] = c
+
+            # new compact save name
+            def _f(v):
+                return f"{float(v):.1f}".replace(".", "p")
+
+            save_name = "_".join(
+                [
+                    f"Hs{_f(c['H'])}",
+                    f"Te{_f(c['T'])}",
+                    f"d{int(c['damping'])}",
+                    f"k{int(c['stiffness'])}",
+                ]
+            )
+            case_lookup[case_str] = c  # old format key
+            case_lookup[save_name] = c  # new format key
 
         instances = []
         for data_path in sorted(case_dir.glob("*_data.csv")):

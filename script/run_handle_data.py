@@ -187,10 +187,29 @@ def main():
     data_dir = run_dir / "data"
     plots_dir = run_dir / "plots"
 
-    # run
-    do_process = True
+    # set up log file BEFORE option menu so every path is captured
+    is_new = not run_dir.exists()
+    run_dir.mkdir(parents=True, exist_ok=True)
+    log_path = run_dir / "run.log"
+    # clear any FileHandlers left over from a previous run in the same session
+    _root = logging.getLogger()
+    for _h in _root.handlers[:]:
+        if isinstance(_h, logging.FileHandler):
+            _h.close()
+            _root.removeHandler(_h)
+    _fh = logging.FileHandler(log_path, mode="a")
+    _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    _root.addHandler(_fh)
+    log.info("=== run_handle_data ===")
+    log.info(
+        "Config: %s  (%d case(s))  plot_options=%s",
+        config_path.stem,
+        len(config.cases),
+        [k for k, v in config.plot_options.items() if v],
+    )
 
-    if run_dir.exists():
+    do_process = True
+    if not is_new:
         answer = input(
             f"Output folder '{run_dir}' already exists. Choose an option:\n"
             "  [1] erase and redo all (reprocess + replot)\n"
@@ -199,26 +218,35 @@ def main():
             "  [4] remake figures only (reuse existing processed data)\n"
             "> "
         ).strip()
-
+        log.info("User option: %s", answer)
         if answer == "1":
+            # close the log FileHandler before deleting — it holds run.log open
+            _fh.close()
+            logging.getLogger().removeHandler(_fh)
             for attempt in range(5):
                 try:
                     shutil.rmtree(run_dir)
-                    log.info("Erased existing folder: %s", run_dir)
+                    run_dir.mkdir(parents=True, exist_ok=True)
                     break
                 except PermissionError as e:
                     if attempt < 4:
-                        log.warning(
-                            "Folder locked (OneDrive sync?), retrying in 2s... (%d/5)",
-                            attempt + 1,
-                        )
                         import time
 
                         time.sleep(2)
                     else:
-                        log.error("Could not erase folder after 5 attempts: %s", e)
-                        log.error("Try pausing OneDrive sync and re-running.")
+                        print(f"ERROR: could not erase after 5 attempts: {e}")
                         return
+            # reopen log file in the fresh folder
+            _fh = logging.FileHandler(log_path, mode="w")
+            _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+            logging.getLogger().addHandler(_fh)
+            log.info("=== run_handle_data ===")
+            log.info(
+                "Config: %s  (%d case(s))  plot_options=%s",
+                config_path.stem,
+                len(config.cases),
+                [k for k, v in config.plot_options.items() if v],
+            )
         elif answer == "3":
             reopen_saved_figures(plots_dir)
             return
@@ -228,19 +256,8 @@ def main():
             log.info("Stopped, nothing changed.")
             return
 
-    run_dir.mkdir(parents=True, exist_ok=True)
-
-    # keep a copy of the exact config used, for traceability -- refreshed every
+    # keep a copy of the exact config used
     shutil.copy2(config_path, run_dir / config_path.name)
-
-    # log this run inside the output folder too, not just the console
-    log_path = run_dir / "run.log"
-    file_handler = logging.FileHandler(log_path)
-    file_handler.setFormatter(
-        logging.Formatter("%(asctime)s %(levelname)s %(message)s")
-    )
-    logging.getLogger().addHandler(file_handler)
-    log.info("Logging this run to %s", log_path)
 
     # process
     if do_process:
@@ -253,7 +270,7 @@ def main():
             return
         import pickle
 
-        pkl_path = MODEL_DIR / "physics" / f"{config.hydro_sphere_pkl}.pkl"
+        pkl_path = MODEL_DIR / "bem" / f"{config.hydro_sphere_pkl}.pkl"
         if not pkl_path.exists():
             log.error("HydroSphere pkl not found: %s", pkl_path)
             return
@@ -266,11 +283,19 @@ def main():
         results = []
         for case in config.cases:
             try:
+                log.info(
+                    "  Processing T=%.1f H=%.1f d=%d k=%d",
+                    case["T"],
+                    case["H"],
+                    case["damping"],
+                    case["stiffness"],
+                )
                 obj = process_case(case, config, hydro_sphere, in_path, data_dir)
+                log.info("    saved: %s", obj.label)
                 data.append(obj)
                 results.append((case, "ok"))
             except Exception as e:
-                log.error("Case %s failed: %s", case, e)
+                log.error("  FAILED T=%.1f H=%.1f: %s", case["T"], case["H"], e)
                 results.append((case, f"failed: {e}"))
 
         n_ok = sum(status == "ok" for _, status in results)
@@ -304,6 +329,7 @@ def main():
         shutil.rmtree(plots_dir)
     plots_dir.mkdir(parents=True, exist_ok=True)
 
+    log.info("Generating plots: %s", [k for k, v in config.plot_options.items() if v])
     for plot_name, active in config.plot_options.items():
         if isinstance(active, bool) and not active:
             continue
@@ -313,14 +339,27 @@ def main():
                 plot_name,
             )
             continue
-        if isinstance(active, bool):
-            PLOT_DISPATCH[plot_name](
-                data_to_plot, save_path=plots_dir, name=config_path.stem
-            )
+        log.info("  Plotting: %s", plot_name)
+        fn = PLOT_DISPATCH[plot_name]
+
+        if plot_name == "variable":
+            # one plot per case, named {label}_{variable}
+            variables = active if isinstance(active, list) else [active]
+            for obj in data_to_plot:
+                for var in variables:
+                    DataHandle.plot_line(
+                        [obj],
+                        y=var,
+                        ylabel=var,
+                        title=f"{obj.label} — {var}",
+                        save_path=plots_dir,
+                        name=obj.label,
+                        suffix=var,
+                    )
+        elif isinstance(active, bool):
+            fn(data_to_plot, save_path=plots_dir, name=None)
         else:
-            PLOT_DISPATCH[plot_name](
-                data_to_plot, active, save_path=plots_dir, name=config_path.stem
-            )
+            fn(data_to_plot, active, save_path=plots_dir, name=None)
 
     log.info("Done.")
     plt.show()

@@ -1,7 +1,7 @@
 {
   "scheme": "viscous_drag",
   "waves_train": [
-    "cases"
+    "cases_small"
   ],
   "base_model": "linear_sphere_r5",
   "scheme_params": {
@@ -29,7 +29,6 @@
   "plot_options": {
     "cost_curves": true,
     "coeff_grid": true,
-    "metric_grid": true,
     "coeff_distribution": true,
     "metric_distribution": true,
     "timeseries": true

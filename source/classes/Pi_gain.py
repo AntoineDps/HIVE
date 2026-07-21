@@ -7,6 +7,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from joblib import Parallel, delayed
 from scipy.optimize import minimize
 from tqdm import tqdm
 
@@ -86,6 +87,60 @@ def _compute_power(simrun, B_pto: float) -> float:
     if not (np.all(np.isfinite(xdot)) and np.max(np.abs(xdot)) < 1e4):
         return -np.inf
     return float(np.mean(B_pto * xdot**2))
+
+
+def _eval_grid_point(
+    B: float,
+    K: float,
+    case: dict,
+    model_def: dict,
+    hydro_sphere,
+    solver_cfg: dict,
+    interp_cfg: dict,
+    stab_r: float,
+    stab_on: bool,
+) -> float:
+    """
+    Module-level worker for parallel grid search. Must be picklable — no
+    lambdas, no Optimizer instance. Reconstructs what _run_sim_pto needs.
+    Returns P_abs or np.nan if unstable.
+    """
+    early_stop_fn = _make_early_stop(stab_r) if stab_on else None
+
+    md = copy.deepcopy(model_def)
+    eta_t = case["eta_t"]
+    eta_values = case["eta_values"]
+    ft = md.get("force_terms", {})
+    wc = (
+        decompose_wave(eta_values, eta_t, n_max=50)
+        if ft.get("excitation") == "fk_nonlinear"
+        else None
+    )
+
+    model = Model.from_config(
+        md,
+        hydro_sphere,
+        eta_t,
+        eta_values,
+        wave_components=wc,
+        pto={"damping": B, "stiffness": K},
+        interpolation=interp_cfg,
+    )
+    sr = SimRun.simulate(
+        model,
+        get_solver(solver_cfg["method"]),
+        t0=float(eta_t[0]),
+        t_end=float(eta_t[-1]),
+        dt=solver_cfg["dt"],
+        eta_t=eta_t,
+        eta_values=eta_values,
+        label=f"B={B:.0f} K={K:.0f}",
+        early_stop_fn=early_stop_fn,
+    )
+    expected = int(round((eta_t[-1] - eta_t[0]) / solver_cfg["dt"])) + 1
+    if len(sr.dataset) < expected * 0.5:
+        return np.nan
+    return _compute_power(sr, B)
 
 
 # %% ANALYTICAL GAINS
@@ -265,6 +320,7 @@ def run(opt, feed, config):
 
     for method in methods:
         tqdm.write(f"\n{'=' * 60}\n  Method: {method}\n{'=' * 60}")
+        log.info("--- Method: %s ---", method)
         per_case = {}
         grids = {}
         simruns = {}
@@ -307,16 +363,56 @@ def run(opt, feed, config):
                     f"  {label}  B={B_opt:.0f} K={K_opt:.0f} "
                     f"P={power:.1f}W  ({call_count[0]} evals)"
                 )
+                log.info(
+                    "    %s  B=%.0f  K=%.0f  P=%.1fW  evals=%d  elapsed=%.1fs",
+                    label,
+                    B_opt,
+                    K_opt,
+                    power,
+                    call_count[0],
+                    elapsed_id,
+                )
 
             elif method == "grid":
                 B_grid = np.linspace(B_min, B_max, n_B)
                 K_grid = np.linspace(K_min, K_max, n_K)
-                costs = np.full((n_B, n_K), np.nan)
-                for i, B in enumerate(B_grid):
-                    for j, K in enumerate(K_grid):
-                        sr_ = _run_sim_pto(opt, B, K, case, interp_cfg, early_stop_fn)
-                        if sr_ is not None:
-                            costs[i, j] = _compute_power(sr_, B)
+                n_jobs = sp.get("n_jobs", 1)
+
+                pairs = [(B, K) for B in B_grid for K in K_grid]
+
+                if n_jobs != 1:
+                    tqdm.write(f"  grid: {len(pairs)} points, n_jobs={n_jobs}")
+                    results_flat = Parallel(n_jobs=n_jobs)(
+                        delayed(_eval_grid_point)(
+                            B,
+                            K,
+                            case,
+                            opt.model_def,
+                            opt.hydro_sphere,
+                            opt.solver_cfg,
+                            interp_cfg,
+                            stab_r,
+                            stab_on,
+                        )
+                        for B, K in pairs
+                    )
+                else:
+                    results_flat = [
+                        _eval_grid_point(
+                            B,
+                            K,
+                            case,
+                            opt.model_def,
+                            opt.hydro_sphere,
+                            opt.solver_cfg,
+                            interp_cfg,
+                            stab_r,
+                            stab_on,
+                        )
+                        for B, K in tqdm(pairs, desc="grid", leave=False)
+                    ]
+
+                costs = np.array(results_flat).reshape(n_B, n_K)
                 idx = np.unravel_index(np.nanargmax(costs), costs.shape)
                 B_opt = float(B_grid[idx[0]])
                 K_opt = float(K_grid[idx[1]])
@@ -341,6 +437,14 @@ def run(opt, feed, config):
                 "identification_elapsed_s": elapsed_id,
             }
             tqdm.write(f"  {label}  B={B_opt:.0f}  K={K_opt:.0f}  P_abs={power:.1f} W")
+            log.info(
+                "    %s  B=%.0f  K=%.0f  P_abs=%.1fW  elapsed=%.1fs",
+                label,
+                B_opt,
+                K_opt,
+                power,
+                elapsed_id,
+            )
 
         results[method] = {
             "B_per_case": {l: per_case[l]["B"] for l in per_case},

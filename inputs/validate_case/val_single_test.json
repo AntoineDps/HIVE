@@ -1,0 +1,27 @@
+{
+  "models": [
+    {"name": "linear_sphere_r5"}
+  ],
+  "wave_sources": [
+    {"type": "cfd_case", "case_name": "cases_test"}
+  ],
+  "solvers": [
+    {
+      "method": "RK4",
+      "dt": 0.05,
+      "n_wave_components": 50,
+      "interpolation": {"fe": true, "eta_hs": false}
+    }
+  ],
+  "eta_inputs": [{"type": "true"}],
+  "simulation": [{"type": "closed_loop"}],
+  "plot_options": {
+    "states": false,
+    "variable": "fe_lin",
+    "metric_grid":   {"metrics": ["nrmse_range_P_abs", "time_ratio"]},
+    "metric_stat":   {"metrics": ["nrmse_range_P_abs"]},
+    "metric_scalar": {"metrics": ["nrmse_range_P_abs", "time_ratio"]},
+    "metric_corr": true,
+    "metric_phase": true
+  }
+}

@@ -490,3 +490,47 @@ class Model:
             radiation_term=radiation_term,
             n_radiation_states=n_radiation_states,
         )
+
+    @staticmethod
+    def compute_time_margins(model_def: dict, hydro_sphere) -> tuple:
+        """
+        Compute (t_warmup, t_causal) time margins in seconds from the model definition.
+
+        t_warmup : time to skip at the START of the simulation before results
+                   are physically valid. Driven by:
+                   - radiation state-space: 30s hardcoded (state initialised at 0)
+                   - excitation IRF causal side: t_irf[-1] (positive end)
+                   Conservative = max across all force terms.
+
+        t_causal   : time to exclude from the END of the simulation. Driven by:
+                   - excitation IRF non-causal side: |t_irf[0]| (negative end)
+                     The convolution cannot see future η beyond the signal end.
+                   - radiation: 0 (looks backward only, no end effect)
+                   Conservative = max across all force terms.
+
+        Parameters
+        ----------
+        model_def     : dict from model.json
+        hydro_sphere  : HydroSphere object (provides t_irf)
+
+        Returns
+        -------
+        (t_warmup, t_causal) : both in seconds, both >= 0
+        """
+        ft = model_def.get("force_terms", {})
+        t_warmup = 0.0
+        t_causal = 0.0
+
+        # radiation state-space: states initialised to 0, need ~30s to stabilise
+        if ft.get("radiation") == "state_space":
+            t_warmup = max(t_warmup, 30.0)
+
+        # excitation convolution (linear_conv or fk_nonlinear)
+        if ft.get("excitation") in ("linear_conv", "fk_nonlinear"):
+            t_irf = hydro_sphere.t_irf
+            # positive side: causal warmup
+            t_warmup = max(t_warmup, float(t_irf[-1]))
+            # negative side: non-causal end clip
+            t_causal = max(t_causal, float(abs(t_irf[0])))
+
+        return float(t_warmup), float(t_causal)

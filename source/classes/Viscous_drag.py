@@ -135,6 +135,7 @@ def run(opt, feed, config):
 
     # base model (no drag) — run once, shared across all methods
     tqdm.write("\n  Running base model (no drag)...")
+    log.info("Running base model (no drag) for %d case(s)", len(feed.per_case))
     base_simruns = {
         label: opt._run_base_sim(entry["obj"], interp_cfg)
         for label, entry in feed.per_case.items()
@@ -148,6 +149,7 @@ def run(opt, feed, config):
         tqdm.write(f"\n{'=' * 60}")
         tqdm.write(f"  Method: {method}")
         tqdm.write(f"{'=' * 60}")
+        log.info("--- Method: %s ---", method)
         per_case = {}
         grids = {}
 
@@ -221,9 +223,18 @@ def run(opt, feed, config):
                 "identification_elapsed_s": elapsed_id,
             }
             tqdm.write(f"  {label}  c_v={c_v:.2f}  {objective.label()}={metric:.5f}")
+            log.info(
+                "    %s  c_v=%.2f  %s=%.5f  elapsed=%.2fs",
+                label,
+                c_v,
+                objective.label(),
+                metric,
+                elapsed_id,
+            )
 
         # ---- global ----
         tqdm.write(f"\n  Global [{method}]")
+        log.info("  Global [%s]", method)
         phi_all = feed.global_regressor
         r_all = feed.global_residual
         t0_global = time.perf_counter()
@@ -231,6 +242,7 @@ def run(opt, feed, config):
         if method == "force_opt":
             c_v_global = max(0.0, float((phi_all @ r_all) / (phi_all @ phi_all)))
             tqdm.write(f"  analytical  c_v_global={c_v_global:.2f}")
+            log.info("  analytical  c_v_global=%.2f", c_v_global)
 
         elif method == "force_grid":
             c_grid = np.linspace(c_min, c_max, n_pts)
@@ -240,6 +252,7 @@ def run(opt, feed, config):
             c_v_global = float(c_grid[np.argmin(costs)])
             grids["__global__"] = (c_grid, costs)
             tqdm.write(f"  grid ({n_pts} pts)  c_v_global={c_v_global:.2f}")
+            log.info("  force_grid (%d pts)  c_v_global=%.2f", n_pts, c_v_global)
 
         elif method == "response_grid":
             c_grid = np.linspace(c_min, c_max, n_pts)
@@ -258,6 +271,7 @@ def run(opt, feed, config):
             c_v_global = float(c_grid[np.argmin(costs)])
             grids["__global__"] = (c_grid, costs)
             tqdm.write(f"  grid ({n_pts} pts)  c_v_global={c_v_global:.2f}")
+            log.info("  response_grid (%d pts)  c_v_global=%.2f", n_pts, c_v_global)
 
         elif method == "response_opt":
             valid = [e["obj"] for e in feed.per_case.values()]
@@ -282,6 +296,12 @@ def run(opt, feed, config):
                 f"c_v_global*={c_v_global:.2f}  "
                 f"({time.perf_counter() - t0_global:.1f}s)"
             )
+            log.info(
+                "  response_opt  %d evals  c_v_global=%.2f  elapsed=%.1fs",
+                call_count[0],
+                c_v_global,
+                time.perf_counter() - t0_global,
+            )
 
         global_id_elapsed = time.perf_counter() - t0_global
 
@@ -303,6 +323,13 @@ def run(opt, feed, config):
 
         tqdm.write(
             f"  c_v_global={c_v_global:.2f}  {objective.label()}={metric_global:.5f}"
+        )
+        log.info(
+            "  Global [%s]  c_v_global=%.2f  %s=%.5f",
+            method,
+            c_v_global,
+            objective.label(),
+            metric_global,
         )
 
         c_v_values = [per_case[l]["c_v"] for l in per_case]
@@ -343,14 +370,16 @@ def run(opt, feed, config):
 
 def save(opt, result, output_name):
     """
-    Write one model.json per method (or model.json if only one method).
-    All outputs are validate-ready.
+    Write model.json only when a single method was run — unambiguous result.
+    With multiple methods, result.json already contains everything; the user
+    picks the best method and creates model.json manually from result.json.
     """
     out_dir = MODEL_DIR / output_name
     out_dir.mkdir(parents=True, exist_ok=True)
     methods = list(result["results"].keys())
 
-    for method, r in result["results"].items():
+    if len(methods) == 1:
+        method, r = methods[0], result["results"][methods[0]]
         md = copy.deepcopy(opt.model_def)
         md["force_terms"]["drag"] = "viscous"
         md.setdefault("identified", {}).update(
@@ -362,10 +391,14 @@ def save(opt, result, output_name):
                 "identified_from": str(out_dir),
             }
         )
-        fname = "model.json" if len(methods) == 1 else f"model_{method}.json"
-        with open(out_dir / fname, "w") as f:
+        with open(out_dir / "model.json", "w") as f:
             json.dump(md, f, indent=2)
-        log.info("Model saved: %s", out_dir / fname)
+        log.info("Model saved: %s", out_dir / "model.json")
+    else:
+        log.info(
+            "Multiple methods run — no model.json written. "
+            "Pick the best method from result.json and create model.json manually."
+        )
 
 
 # %% OPTIMIZER — LOG

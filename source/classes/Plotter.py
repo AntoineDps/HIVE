@@ -142,11 +142,11 @@ class Plotter:
         name=None,
         suffix="grid",
     ):
-        # marker
+        # marker — cap size to something readable
         if s is not None:
-            size = base_marker_size * (s / np.max(s))
+            size = np.clip(base_marker_size * (s / np.max(s)), 30, 200)
         else:
-            size = None
+            size = 60
 
         plt.figure()
 
@@ -287,3 +287,197 @@ class Plotter:
             name=name,
             suffix=suffix,
         )
+
+    # %% EXTENDED METHODS FOR METRIC PLOTS
+
+    @staticmethod
+    def plot_multi_scatter(
+        per_model: dict,
+        vmin: float,
+        vmax: float,
+        xlabel="Te [s]",
+        ylabel="Hs [m]",
+        clabel="",
+        title=None,
+        save_path=None,
+        name=None,
+        suffix="multi_scatter",
+    ):
+        """
+        Multiple scatter subplots in one figure with a shared colorbar.
+        Designed for Te×Hs metric grids across models.
+
+        Parameters
+        ----------
+        per_model : {model_label: {"x": arr, "y": arr, "s": arr, "c": arr}}
+            x, y   -- scatter coordinates (Te, Hs)
+            s      -- marker sizes (proportional to wave energy J)
+            c      -- color values (metric)
+        vmin, vmax : unified color scale across all subplots
+        """
+        models = list(per_model.keys())
+        n = len(models)
+        if n == 0:
+            return
+
+        fig, axes = plt.subplots(1, n, figsize=(5 * n, 4), squeeze=False)
+        sc = None
+        for col, label in enumerate(models):
+            ax = axes[0, col]
+            d = per_model[label]
+            sc = ax.scatter(
+                d["x"],
+                d["y"],
+                s=60,
+                c=d["c"],
+                cmap="viridis",
+                vmin=vmin,
+                vmax=vmax,
+            )
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel(ylabel)
+            ax.set_title(label[:35], fontsize=8)
+            ax.grid(True)
+
+        if sc is not None:
+            fig.colorbar(sc, ax=axes[0, :].tolist(), label=clabel)
+
+        if title:
+            fig.suptitle(title)
+        plt.tight_layout()
+        if save_path:
+            Plotter._save(fig, save_path, name, suffix)
+        # do NOT close — let plt.show() in run_plots display it
+
+    @staticmethod
+    def plot_grouped_bars(
+        group_labels: list,
+        series: list,
+        ylabel="",
+        title=None,
+        normalize=False,
+        save_path=None,
+        name=None,
+        suffix="grouped_bars",
+    ):
+        """
+        Grouped bar chart. One group of bars per entry in group_labels.
+        Multiple series shown side-by-side with different colors.
+
+        Parameters
+        ----------
+        group_labels : list of str
+        series       : list of (label, values) tuples
+        normalize    : if True, each series is divided by its max absolute
+                       value so different units are comparable on one axis.
+        """
+        n_groups = len(group_labels)
+        n_series = len(series)
+        width = 0.8 / max(n_series, 1)
+        x = np.arange(n_groups)
+        colors = plt.cm.tab10(np.linspace(0, 1, max(n_series, 1)))
+
+        fig, ax = plt.subplots(figsize=(max(6, 2 * n_groups), 5))
+        for i, (label, values) in enumerate(series):
+            vals = np.array(values, dtype=float)
+            if normalize:
+                vmax = np.nanmax(np.abs(vals))
+                if vmax > 0:
+                    vals = vals / vmax
+                lbl = f"{label} (norm)"
+            else:
+                lbl = label
+            ax.bar(
+                x + i * width, vals, width=width, color=colors[i], label=lbl, alpha=0.85
+            )
+
+        ax.set_xticks(x + width * (n_series - 1) / 2)
+        ax.set_xticklabels([l[:20] for l in group_labels], rotation=30, ha="right")
+        ax.set_ylabel("normalised value" if normalize else ylabel)
+        if title:
+            ax.set_title(title)
+        ax.legend(fontsize=8)
+        ax.grid(axis="y")
+        plt.tight_layout()
+
+        if save_path:
+            Plotter._save(fig, save_path, name, suffix)
+        plt.close(fig)
+
+    @staticmethod
+    def plot_subplots_bars(
+        subplot_titles: list,
+        group_labels: list,
+        subplot_series: list,
+        ncols: int = 4,
+        ylabel="",
+        suptitle=None,
+        normalize=False,
+        save_path=None,
+        name=None,
+        suffix="subplots_bars",
+    ):
+        """
+        Grid of grouped-bar subplots. One subplot per case/group.
+        Maximum 4 columns; rows expand as needed.
+        Figure height scales with number of rows.
+
+        Parameters
+        ----------
+        normalize : if True each series normalised by its max abs value.
+        """
+        n = len(subplot_titles)
+        ncols = min(n, max(1, min(ncols, 4)))  # hard cap at 4
+        nrows = (n + ncols - 1) // ncols
+        n_ser = max(len(s) for s in subplot_series) if subplot_series else 1
+        width = 0.8 / max(n_ser, 1)
+        x = np.arange(len(group_labels))
+        colors = plt.cm.tab10(np.linspace(0, 1, max(n_ser, 1)))
+
+        fig, axes = plt.subplots(
+            nrows,
+            ncols,
+            figsize=(5 * ncols, 4 * nrows),
+            squeeze=False,
+        )
+
+        legend_labels = []
+        for idx, (suptit, series) in enumerate(zip(subplot_titles, subplot_series)):
+            ax = axes[idx // ncols][idx % ncols]
+            for i, (label, values) in enumerate(series):
+                vals = np.array(values, dtype=float)
+                if normalize:
+                    vmax = np.nanmax(np.abs(vals))
+                    if vmax > 0:
+                        vals = vals / vmax
+                    lbl = f"{label} (norm)"
+                else:
+                    lbl = label
+                ax.bar(
+                    x + i * width,
+                    vals,
+                    width=width,
+                    color=colors[i],
+                    label=lbl if idx == 0 else "_",
+                    alpha=0.85,
+                )
+                if idx == 0:
+                    legend_labels.append(lbl)
+            ax.set_xticks(x + width * (len(series) - 1) / 2)
+            ax.set_xticklabels([l[:15] for l in group_labels], rotation=30, ha="right")
+            ax.set_title(suptit[:40], fontsize=8)
+            ax.set_ylabel("norm." if normalize else ylabel)
+            ax.grid(axis="y")
+
+        if legend_labels:
+            axes[0, 0].legend(fontsize=7)
+
+        for idx in range(n, nrows * ncols):
+            axes[idx // ncols][idx % ncols].set_visible(False)
+
+        if suptitle:
+            fig.suptitle(suptitle)
+        plt.tight_layout()
+        if save_path:
+            Plotter._save(fig, save_path, name, suffix)
+        plt.close(fig)

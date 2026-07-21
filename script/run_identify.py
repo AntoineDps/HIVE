@@ -13,6 +13,8 @@ from source.classes.Objective import Objective
 from source.classes.DDFeed import DDFeed
 from source.classes.Optimizer import Optimizer
 from source.classes.Plotter import Plotter
+from source.classes.Model import Model
+from source.classes.Metric import Metric
 import source.classes.Viscous_drag as _viscous_drag
 import source.classes.Pi_gain as _pi_gain
 
@@ -111,10 +113,31 @@ def main():
 
     scheme_module = SCHEME_MODULES[config.scheme]
     model_dir = MODEL_DIR / output_name
-    plots_dir = model_dir / "plots"
+    id_dir = model_dir / "identification"
+    plots_dir = id_dir / "plots"
 
-    # existing folder handling
-    if model_dir.exists():
+    # set up log file BEFORE option menu so every path is captured
+    is_new = not model_dir.exists()
+    model_dir.mkdir(parents=True, exist_ok=True)
+    log_path = model_dir / "run.log"
+    # clear any FileHandlers left over from a previous run in the same session
+    _root = logging.getLogger()
+    for _h in _root.handlers[:]:
+        if isinstance(_h, logging.FileHandler):
+            _h.close()
+            _root.removeHandler(_h)
+    _fh = logging.FileHandler(log_path, mode="a")
+    _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    _root.addHandler(_fh)
+    log.info("=== run_identify ===")
+    log.info(
+        "scheme='%s'  base='%s'  output='%s'",
+        config.scheme,
+        config.base_model,
+        output_name,
+    )
+
+    if not is_new:
         answer = input(
             f"Model folder '{model_dir.name}' already exists.\n"
             "  [1] erase and redo\n"
@@ -123,18 +146,35 @@ def main():
             "  [4] run and save with date suffix  (keeps existing folder)\n"
             "> "
         ).strip()
+        log.info("User option: %s", answer)
         if answer == "1":
-            import time as _time
+            # close log FileHandler before deleting — it holds run.log open
+            _fh.close()
+            logging.getLogger().removeHandler(_fh)
+            import time as _t
 
             for attempt in range(5):
                 try:
                     shutil.rmtree(model_dir)
+                    model_dir.mkdir(parents=True, exist_ok=True)
                     break
-                except PermissionError:
-                    if attempt == 4:
-                        raise
-                    log.warning("Folder locked (OneDrive?), retrying in 2s...")
-                    _time.sleep(2)
+                except PermissionError as e:
+                    if attempt < 4:
+                        _t.sleep(2)
+                    else:
+                        print(f"ERROR: could not erase after 5 attempts: {e}")
+                        return
+            # reopen log in fresh folder
+            _fh = logging.FileHandler(log_path, mode="w")
+            _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+            logging.getLogger().addHandler(_fh)
+            log.info("=== run_identify ===")
+            log.info(
+                "scheme='%s'  base='%s'  output='%s'",
+                config.scheme,
+                config.base_model,
+                output_name,
+            )
         elif answer == "2":
             log.info("Stopped.")
             return
@@ -146,13 +186,28 @@ def main():
         elif answer == "4":
             output_name = f"{output_name}_{date.today().strftime('%Y%m%d')}"
             model_dir = MODEL_DIR / output_name
-            plots_dir = model_dir / "plots"
+            id_dir = model_dir / "identification"
+            plots_dir = id_dir / "plots"
+            model_dir.mkdir(parents=True, exist_ok=True)
+            # re-setup log in the new folder
+            _fh.close()
+            logging.getLogger().removeHandler(_fh)
+            log_path = model_dir / "run.log"
+            _fh = logging.FileHandler(log_path, mode="w")
+            _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+            logging.getLogger().addHandler(_fh)
+            log.info("=== run_identify ===")
+            log.info(
+                "scheme='%s'  base='%s'  output='%s'",
+                config.scheme,
+                config.base_model,
+                output_name,
+            )
             log.info("New output folder: %s", output_name)
         else:
             log.info("Stopped.")
             return
 
-    model_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(config_path, model_dir / config_path.name)
 
     fh = logging.FileHandler(model_dir / "run.log")
@@ -165,13 +220,30 @@ def main():
         config.scheme_params,
         solver_cfg=config.solver,
     )
+    log.info("DDFeed ready: %d case(s) loaded", len(feed.data))
     opt = Optimizer(scheme_module, config.base_model, config.solver)
+    log.info("Optimizer ready: base_model='%s'", config.base_model)
 
+    log.info(
+        "Starting identification: scheme='%s'  output='%s'", config.scheme, output_name
+    )
+    log.info("Wave cases: %d", len(getattr(feed, "cases", feed.data)))
     result, grids_by_method, simruns_by_method = opt.run(feed, config)
+    log.info("Identification complete: %d method(s)", len(result.get("results", {})))
 
+    # compute time margins from base model for metric trimming
+    t_warmup, t_causal = 0.0, 0.0
+    if opt.hydro_sphere is not None:
+        t_warmup, t_causal = Model.compute_time_margins(opt.model_def, opt.hydro_sphere)
+        log.info("Time margins: t_warmup=%.1fs  t_causal=%.1fs", t_warmup, t_causal)
+
+    log.info("Saving results...")
     opt.save(result, output_name)
-    opt.save_result(result, model_dir)
-    opt.save_data(result, simruns_by_method, grids_by_method, feed, model_dir)
+    opt.save_result(result, id_dir)
+    opt.save_data(result, simruns_by_method, grids_by_method, feed, id_dir)
+    log.info("Data saved to %s/data/", output_name)
+    log.info("Generating plots...")
+    log.info("Generating plots in %s", plots_dir)
     opt.run_plots(config, feed, simruns_by_method, result, grids_by_method, plots_dir)
 
     log.info("Done.")

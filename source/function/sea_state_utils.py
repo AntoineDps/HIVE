@@ -206,3 +206,37 @@ def Eflux(T, H, type, rho=1025):
 def CWR(P, J, r):
     CWR = P / (J * 2 * r)
     return CWR
+
+
+def WaveJ(T, H, type, rho=1025):
+    """
+    Compute wave energy flux J [W/m] for given wave parameters.
+
+    Parameters
+    ----------
+    T : float
+        Wave period [s].
+    H : float
+        Wave height [m].
+    type : str
+        Wave type: 'reg' for regular waves, 'irr' for irregular waves.
+    rho : float, optional
+        Water density [kg/m³]. Default is 1025 kg/m³ (seawater).
+
+    Returns
+    -------
+    J : float
+        Wave energy flux [W/m].
+    """
+    g = 9.81  # Acceleration due to gravity [m/s²]
+
+    if type == "reg":
+        # Energy flux for regular waves
+        J = rho * g**2 * H**2 * T / (32 * np.pi)
+    elif type == "irr":
+        # Energy flux for irregular waves
+        J = rho * g**2 * H**2 * T / (64 * np.pi)
+    else:
+        raise ValueError("Invalid wave type. Use 'reg' or 'irr'.")
+
+    return J

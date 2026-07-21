@@ -12,6 +12,7 @@ from tqdm import tqdm
 
 from source.config import DATA_DIR, INPUT_DIR, MODEL_DIR, OUT_DIR
 from source.classes.DataHandle import DataHandle
+from source.classes.Metric import Metric
 from source.classes.Model import Model, decompose_wave
 from source.classes.Plotter import Plotter
 from source.classes.SimRun import SimRun, get_solver
@@ -57,6 +58,7 @@ PLOT_DISPATCH = {
     "forces": SimRun.plot_forces,
     "variable": DataHandle.plot_variable,
 }
+METRIC_PLOT_DISPATCH = Metric.PLOT_DISPATCH
 
 # %% FUNCTION AND CLASSES
 
@@ -137,7 +139,7 @@ def load_model_entry(name: str):
     if pkl_name:
         import pickle
 
-        pkl_path = MODEL_DIR / f"{pkl_name}.pkl"
+        pkl_path = MODEL_DIR / "bem" / f"{pkl_name}.pkl"
         if not pkl_path.exists():
             raise FileNotFoundError(f"HydroSphere pkl not found: {pkl_path}")
         with open(pkl_path, "rb") as f:
@@ -169,7 +171,7 @@ def resolve_wave_sources(wave_sources: list) -> list:
                 eta_values = ref.dataset["eta"].to_numpy()
                 runs.append(
                     {
-                        "group": f"{case_name} - {ref.label}",
+                        "group": ref.label,  # Hs2p0_Te5p0_d... — no case_name prefix
                         "eta_t": eta_t,
                         "eta_values": eta_values,
                         "wave_components": decompose_wave(
@@ -241,15 +243,17 @@ def check_dt_mismatch(runs: list, solvers: list) -> bool:
     return True
 
 
-def reopen_saved_figures(plots_dir: Path):
+def reopen_saved_figures(plots_dir: Path) -> list:
+    """Reload all saved figure PKLs. Caller is responsible for plt.show()."""
     pkls = sorted(plots_dir.glob("*.pkl")) if plots_dir.is_dir() else []
     if not pkls:
         log.warning("No saved figures found in %s", plots_dir)
-        return
+        return []
+    figs = []
     for p in pkls:
         log.info("Reopening %s", p.name)
-        Plotter.load_figure(p)
-    plt.show()
+        figs.append(Plotter.load_figure(p))
+    return figs
 
 
 def load_existing_simruns(data_dir: Path, config: ValidateConfig, runs: list) -> dict:
@@ -274,25 +278,63 @@ def load_existing_simruns(data_dir: Path, config: ValidateConfig, runs: list) ->
 # %% PLOTTING
 
 
-def run_plots(groups: dict, plots_dir: Path, plot_options: dict):
+def run_plots(
+    groups: dict, plots_dir: Path, plot_options: dict, metric_results: dict = None
+):
     if plots_dir.exists():
         shutil.rmtree(plots_dir)
     plots_dir.mkdir(parents=True, exist_ok=True)
+    metric_results = metric_results or {}
 
+    # build unique short save names per group
+    used, group_names = {}, {}
+    for group in groups:
+        base = safe_name(group)[:50]
+        n = used.get(base, 0)
+        used[base] = n + 1
+        group_names[group] = base if n == 0 else f"{base}_{n}"
+
+    # per-group plots (states, forces, variable)
     for group, info in groups.items():
         objs = ([info["reference"]] if info["reference"] is not None else []) + info[
             "models"
         ]
+        sname = group_names[group]
         for plot_name, active in plot_options.items():
             if isinstance(active, bool) and not active:
                 continue
-            if plot_name not in PLOT_DISPATCH:
-                log.warning("plot_option '%s' not implemented yet, skipping", plot_name)
+            if plot_name in METRIC_PLOT_DISPATCH:
                 continue
-            if isinstance(active, bool):
-                PLOT_DISPATCH[plot_name](objs, save_path=plots_dir, name=group)
+            if plot_name not in PLOT_DISPATCH:
+                log.warning(
+                    "plot_option '%s' not in PLOT_DISPATCH, skipping", plot_name
+                )
+                continue
+            log.info("  plot [%s]: %s", sname, plot_name)
+            try:
+                fn = PLOT_DISPATCH[plot_name]
+                if isinstance(active, bool):
+                    fn(objs, save_path=plots_dir, name=sname)
+                else:
+                    fn(objs, active, save_path=plots_dir, name=sname)
+            except Exception as e:
+                log.error("  plot failed [%s / %s]: %s", sname, plot_name, e)
+
+    # metric plots (once, after all groups)
+    for plot_name, active in plot_options.items():
+        if isinstance(active, bool) and not active:
+            continue
+        if plot_name not in METRIC_PLOT_DISPATCH:
+            continue
+        log.info("  metric plot: %s", plot_name)
+        try:
+            fn = METRIC_PLOT_DISPATCH[plot_name]
+            if isinstance(active, dict):
+                fn(metric_results, plots_dir, active)
             else:
-                PLOT_DISPATCH[plot_name](objs, active, save_path=plots_dir, name=group)
+                fn(metric_results, plots_dir)
+        except Exception as e:
+            log.error("  metric plot failed [%s]: %s", plot_name, e)
 
 
 # %% MAIN
@@ -352,7 +394,9 @@ def main():
                         log.error("Try pausing OneDrive sync and re-running.")
                         return
         elif answer == "3":
-            reopen_saved_figures(plots_dir)
+            figs = reopen_saved_figures(plots_dir)
+            if figs:
+                plt.show()
             return
         elif answer == "4":
             # reload wave sources to get CFD references, then load SimRun CSVs
@@ -361,9 +405,12 @@ def main():
             if not groups:
                 log.error("No SimRun CSVs found to reload.")
                 return
-            run_plots(groups, plots_dir, config.plot_options)
-            log.info("Done (remake plots).")
+            # load metrics from existing CSVs — no recomputation
+            metric_dir = run_dir / "metric"
+            metric_results_r4 = Metric.load(metric_dir)
+            run_plots(groups, plots_dir, config.plot_options, metric_results_r4)
             plt.show()
+            log.info("Done (remake plots).")
             return
         else:
             log.info("Stopped, nothing changed.")
@@ -400,7 +447,14 @@ def main():
         log.error("No usable model definitions.")
         return
 
-    # simulate
+    # compute conservative time margins across all models
+    t_warmup, t_causal = 0.0, 0.0
+    for name, (md, hs) in model_entries.items():
+        if hs is not None:
+            tw, tc = Model.compute_time_margins(md, hs)
+            t_warmup = max(t_warmup, tw)
+            t_causal = max(t_causal, tc)
+    log.info("Time margins: t_warmup=%.1fs  t_causal=%.1fs", t_warmup, t_causal)
     combos = [
         (m, run, s)
         for m in config.models
@@ -440,6 +494,9 @@ def main():
                 eta_values=run["eta_values"],
                 label=label,
             )
+            # clip to physically valid window (excitation + radiation margins)
+            if t_warmup > 0 or t_causal > 0:
+                result = result.clip(t_warmup=t_warmup, t_causal=t_causal)
             phys_s = float(run["eta_t"][-1]) - float(run["eta_t"][0])
             tqdm.write(
                 f"  {label[:50]} | {run['group'][:40]}"
@@ -463,9 +520,17 @@ def main():
         return
 
     # plot
-    run_plots(groups, plots_dir, config.plot_options)
-    log.info("Done.")
+    # metrics
+    log.info("Computing metrics...")
+    metric_dir = run_dir / "metric"
+    metric_results = Metric.compute_all(groups, t_warmup=t_warmup, t_causal=t_causal)
+    Metric.save(metric_results, metric_dir)
+
+    # plots — all shown at once after everything is created
+    log.info("Generating plots: %s", [k for k, v in config.plot_options.items() if v])
+    run_plots(groups, plots_dir, config.plot_options, metric_results)
     plt.show()
+    log.info("Done.")
 
 
 if __name__ == "__main__":

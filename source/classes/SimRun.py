@@ -152,7 +152,29 @@ class SimRun:
         for col, values in forces.items():
             dataset[col] = values
 
+        # derive f_pto = fs_pto + fd_pto and P_abs = -fd_pto * xdot
+        if "fs_pto" in dataset.columns and "fd_pto" in dataset.columns:
+            dataset["f_pto"] = dataset["fs_pto"] + dataset["fd_pto"]
+            dataset["P_abs"] = -dataset["fd_pto"] * dataset["xdot"]
+        elif "fd_pto" in dataset.columns:
+            dataset["f_pto"] = dataset["fd_pto"]
+            dataset["P_abs"] = -dataset["fd_pto"] * dataset["xdot"]
+
         return cls(dataset, label, sim_time=sim_time)
+
+    def clip(self, t_warmup: float = 0.0, t_causal: float = 0.0) -> "SimRun":
+        """
+        Return a new SimRun with the dataset trimmed to the physically valid window:
+          - discard first t_warmup seconds (radiation + excitation causal warmup)
+          - discard last t_causal seconds (excitation non-causal IRF margin)
+        """
+        t = self.dataset["t"].to_numpy()
+        t_start = t[0] + t_warmup
+        t_end = t[-1] - t_causal
+        mask = (t >= t_start) & (t <= t_end)
+        return SimRun(
+            self.dataset[mask].reset_index(drop=True), self.label, self.sim_time
+        )
 
     @classmethod
     def load(cls, path, label=None):
@@ -172,14 +194,25 @@ class SimRun:
 
     @staticmethod
     def plot_states(objs, save_path=None, name=None):
-        """x, xdot, eta -- one figure per variable, all runs overlaid."""
-        # deferred import: DataHandle imports SimRun for mixed-list plotting
+        """x, xdot, eta, f_pto, P_abs — one figure per variable.
+        P_abs y-axis starts at 0 (power is non-negative).
+        """
         from source.classes.DataHandle import DataHandle
+        import matplotlib.pyplot as plt
 
         safe = _safe_name(name) if name else None
-        for var, ylabel in [("x", "x [m]"), ("xdot", "xdot [m/s]"), ("eta", "eta [m]")]:
+        for var, ylabel in [
+            ("x", "x [m]"),
+            ("xdot", "xdot [m/s]"),
+            ("eta", "eta [m]"),
+            ("f_pto", "f_pto [N]"),
+            ("P_abs", "P_abs [W]"),
+        ]:
+            objs_with = [o for o in objs if var in o.dataset.columns]
+            if not objs_with:
+                continue
             DataHandle.plot_line(
-                objs,
+                objs_with,
                 y=var,
                 ylabel=ylabel,
                 title=f"{var}  —  {name}" if name else var,
@@ -187,33 +220,32 @@ class SimRun:
                 name=safe,
                 suffix=var,
             )
+            if var == "P_abs":
+                plt.ylim(bottom=0)
 
     @staticmethod
     def plot_forces(objs, save_path=None, name=None):
         """
         One figure per force term present in SimRun objects.
-        CFD reference objects (DataHandle) are included in the plot only
-        if they share the same column — allowing direct comparison.
-        Columns exclusive to the CFD dataset are not plotted.
+        CFD reference included only if it shares the column name.
+        Excludes t, x, xdot, eta, f_pto, P_abs (handled by plot_states).
         """
         from source.classes.DataHandle import DataHandle
 
-        _states = {"t", "x", "xdot", "eta"}
+        _skip = {"t", "x", "xdot", "eta", "f_pto", "P_abs"}
         safe = _safe_name(name) if name else None
 
-        # collect force columns from SimRun objects only
         force_cols = []
         for obj in objs:
             if isinstance(obj, SimRun):
                 for col in obj.dataset.columns:
-                    if col not in _states and col not in force_cols:
+                    if col not in _skip and col not in force_cols:
                         force_cols.append(col)
 
         for col in force_cols:
-            # include all objects that have this column (SimRun + CFD reference)
-            objs_with_col = [o for o in objs if col in o.dataset.columns]
+            objs_with = [o for o in objs if col in o.dataset.columns]
             DataHandle.plot_line(
-                objs_with_col,
+                objs_with,
                 y=col,
                 ylabel=f"{col} [N]",
                 title=f"{col}  —  {name}" if name else col,
