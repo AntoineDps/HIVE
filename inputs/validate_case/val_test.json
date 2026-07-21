@@ -1,9 +1,11 @@
 {
   "models": [
-    {"name": "linear"}
+    {"name": "linear"},
+    {"name": "nonlinearHs"}
   ],
   "wave_sources": [
-    {"type": "cfd_case", "case_name": "cases_test"}
+    {"type": "cfd_case", "case_name": "cases_test"},
+    {"type": "cfd_case", "case_name": "cases_test_bis"}
   ],
   "solvers": [
     {
@@ -11,6 +13,12 @@
       "dt": 0.05,
       "n_wave_components": 50,
       "interpolation": {"fe": true, "eta_hs": false}
+    },
+    {
+      "method": "RK4",
+      "dt": 0.1,
+      "n_wave_components": 50,
+      "interpolation": {"fe": false, "eta_hs": false}
     }
   ],
   "eta_inputs": [{"type": "true"}],
