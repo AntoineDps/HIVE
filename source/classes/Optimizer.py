@@ -3,6 +3,7 @@ import logging
 import copy
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 from source.config import MODEL_DIR
 from source.classes.Model import Model, decompose_wave
@@ -42,6 +43,16 @@ class Optimizer:
         self.scheme = scheme_module.__name__.split(".")[-1]
         self.solver_cfg = solver_cfg
         self.model_def, self.hydro_sphere = self.load_base_model(base_model)
+
+        # time margins — computed once, applied to all simulations
+        from source.classes.Model import Model as _Model
+
+        if self.hydro_sphere is not None:
+            self.t_warmup, self.t_causal = _Model.compute_time_margins(
+                self.model_def, self.hydro_sphere
+            )
+        else:
+            self.t_warmup, self.t_causal = 0.0, 0.0
 
         ft = self.model_def.get("force_terms", {})
         self.n_wave_components = (
@@ -96,7 +107,7 @@ class Optimizer:
             pto={"damping": obj.damping, "stiffness": obj.stiffness},
             interpolation=interpolation,
         )
-        return SimRun.simulate(
+        result = SimRun.simulate(
             model,
             get_solver(self.solver_cfg["method"]),
             t0=float(eta_t[0]),
@@ -106,6 +117,9 @@ class Optimizer:
             eta_values=eta_values,
             label=f"{obj.label} | c_v={c_v:.1f}",
         )
+        if self.t_warmup > 0 or self.t_causal > 0:
+            result = result.clip(self.t_warmup, self.t_causal)
+        return result
 
     def _run_base_sim(self, obj, interpolation):
         """Run the base model without viscous drag."""
@@ -126,7 +140,7 @@ class Optimizer:
             pto={"damping": obj.damping, "stiffness": obj.stiffness},
             interpolation=interpolation,
         )
-        return SimRun.simulate(
+        result = SimRun.simulate(
             model,
             get_solver(self.solver_cfg["method"]),
             t0=float(eta_t[0]),
@@ -136,6 +150,9 @@ class Optimizer:
             eta_values=eta_values,
             label=f"{obj.label} | base",
         )
+        if self.t_warmup > 0 or self.t_causal > 0:
+            result = result.clip(self.t_warmup, self.t_causal)
+        return result
 
     # %% DISPATCH
 
@@ -146,6 +163,7 @@ class Optimizer:
         self._mod.save(self, result, output_name)
 
     def save_result(self, result, model_dir):
+        model_dir.mkdir(parents=True, exist_ok=True)
         with open(model_dir / "result.json", "w") as f:
             json.dump(result, f, indent=2)
         log.info("Result saved.")
@@ -161,16 +179,11 @@ class Optimizer:
     ):
         plots_dir.mkdir(parents=True, exist_ok=True)
         dispatch = self._mod.PLOT_DISPATCH
-        for plot_name, active in config.plot_options.items():
-            if not active:
-                continue
-            if plot_name not in dispatch:
-                log.warning(
-                    "plot '%s' not in PLOT_DISPATCH for scheme '%s'",
-                    plot_name,
-                    self.scheme,
-                )
-                continue
-            dispatch[plot_name](
-                feed.data, simruns_by_method, result, grids_by_method, plots_dir
-            )
+        # always run all available plots — user config plot_options is ignored here
+        for plot_name, fn in dispatch.items():
+            log.info("  plot: %s", plot_name)
+            try:
+                fn(feed.data, simruns_by_method, result, grids_by_method, plots_dir)
+            except Exception as e:
+                log.error("  plot failed [%s]: %s", plot_name, e)
+        plt.show()

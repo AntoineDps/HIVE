@@ -5,15 +5,15 @@
   "hydro_sphere_pkl": "r5",
   "dt": 0.05,
   "cases": [
-    {"T": 5.0, "H": 2.0, "damping": 120000, "stiffness": -280000, "plot": true},
-    {"T": 5.0, "H": 3.0, "damping": 130000, "stiffness": -270000, "plot": false},
+    {"T": 5.0, "H": 2.0, "damping": 120000, "stiffness": -280000, "plot": false},
+    {"T": 5.0, "H": 3.0, "damping": 130000, "stiffness": -270000, "plot": true},
     {"T": 6.5, "H": 2.0, "damping": 120000, "stiffness": -430000, "plot": false},
-    {"T": 6.5, "H": 3.0, "damping": 140000, "stiffness": -400000, "plot": false},
+    {"T": 6.5, "H": 3.0, "damping": 140000, "stiffness": -400000, "plot": true},
     {"T": 8.0, "H": 2.0, "damping": 140000, "stiffness": -480000, "plot": false},
     {"T": 8.0, "H": 3.0, "damping": 230000, "stiffness": -460000, "plot": false}
   ],
   "plot_options": {
-    "sea_state": false,
+    "sea_state": true,
     "power":     false,
     "dynamics":  false,
     "hydro":     false,

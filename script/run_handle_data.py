@@ -92,7 +92,7 @@ def parse_args():
     parser.add_argument(
         "--case",
         type=Path,
-        default="cases.json",
+        default="case.json",
         help="Filename inside inputs/handle/, e.g. cases.json (default: %(default)s)",
     )
     return parser.parse_args()
@@ -125,7 +125,7 @@ def process_case(
         cut_time=config.cut_time,
         duration=config.duration,
     )
-    data.processData(r=hydro_sphere.r, hydro_sphere=hydro_sphere)
+    data.processData(r=hydro_sphere.r, hydro_sphere=hydro_sphere, freq="w")
 
     if config.dt is not None:
         data.resample(new_dt=config.dt)
@@ -363,6 +363,7 @@ def main():
 
     log.info("Done.")
     plt.show()
+    a = 2  #!
 
 
 if __name__ == "__main__":

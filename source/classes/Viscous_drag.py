@@ -378,27 +378,35 @@ def save(opt, result, output_name):
     out_dir.mkdir(parents=True, exist_ok=True)
     methods = list(result["results"].keys())
 
-    if len(methods) == 1:
-        method, r = methods[0], result["results"][methods[0]]
-        md = copy.deepcopy(opt.model_def)
-        md["force_terms"]["drag"] = "viscous"
-        md.setdefault("identified", {}).update(
-            {
-                "c_v": r["c_v_global"],
-                "method": method,
-                "metric": r["metric_label"],
-                "metric_value": r["metric_global"],
-                "identified_from": str(out_dir),
-            }
-        )
-        with open(out_dir / "model.json", "w") as f:
-            json.dump(md, f, indent=2)
-        log.info("Model saved: %s", out_dir / "model.json")
-    else:
-        log.info(
-            "Multiple methods run — no model.json written. "
-            "Pick the best method from result.json and create model.json manually."
-        )
+    # pick best method (lowest metric = best for RMSE-type objectives)
+    def _metric_val(r):
+        return float(r.get("metric_global", float("inf")))
+
+    best_method = min(
+        result["results"], key=lambda m: _metric_val(result["results"][m])
+    )
+    r = result["results"][best_method]
+    md = copy.deepcopy(opt.model_def)
+    md["force_terms"]["drag"] = "viscous"
+    md.setdefault("identified", {}).update(
+        {
+            "c_v": r["c_v_global"],
+            "method": best_method,
+            "metric": r["metric_label"],
+            "metric_value": r["metric_global"],
+            "identified_from": str(out_dir),
+        }
+    )
+    with open(out_dir / "model.json", "w") as f:
+        json.dump(md, f, indent=2)
+    log.info(
+        "Model saved: %s  (best method: %s, c_v=%.2f)",
+        out_dir / "model.json",
+        best_method,
+        r["c_v_global"],
+    )
+    if len(methods) > 1:
+        log.info("All methods: %s — full results in result.json", methods)
 
 
 # %% OPTIMIZER — LOG
@@ -441,33 +449,50 @@ def save_data(result, simruns_by_method, grids_by_method, feed, data_dir):
             if label not in simruns_g:
                 continue
 
-            t_ref = obj.dataset["t"].to_numpy()
-            f_base_col = obj.dataset[base_col].to_numpy()
             f_residual = feed.per_case[label]["residual"]
-            sr_base = base_simruns.get(label)
-            if sr_base is not None:
-                t_b = sr_base.dataset["t"].to_numpy()
-                x_base = np.interp(t_ref, t_b, sr_base.dataset["x"].to_numpy())
-                xdot_base = np.interp(t_ref, t_b, sr_base.dataset["xdot"].to_numpy())
-            else:
-                x_base = xdot_base = np.full_like(t_ref, np.nan)
 
             def _make_df(sr, c_v):
-                t_s = sr.dataset["t"].to_numpy()
-                x_sim = np.interp(t_ref, t_s, sr.dataset["x"].to_numpy())
-                xdot_sim = np.interp(t_ref, t_s, sr.dataset["xdot"].to_numpy())
+                """Build CSV using the simrun's clipped time as the axis."""
+                t_s = sr.dataset["t"].to_numpy()  # already clipped to valid window
+                t_ref = obj.dataset["t"].to_numpy()
+                # mask reference and force data to simrun window
+                mk_ref = (t_ref >= t_s[0]) & (t_ref <= t_s[-1])
+                t_out = t_s
+
+                x_sim = sr.dataset["x"].to_numpy()
+                xdot_sim = sr.dataset["xdot"].to_numpy()
+
+                x_ref_interp = np.interp(t_out, t_ref, obj.dataset["x"].to_numpy())
+                xdot_ref_interp = np.interp(
+                    t_out, t_ref, obj.dataset["xdot"].to_numpy()
+                )
+                f_base_interp = np.interp(
+                    t_out, t_ref, obj.dataset[base_col].to_numpy()
+                )
+                f_res_interp = np.interp(t_out, t_ref, f_residual)
+
+                sr_base = base_simruns.get(label)
+                if sr_base is not None:
+                    t_b = sr_base.dataset["t"].to_numpy()
+                    x_base = np.interp(t_out, t_b, sr_base.dataset["x"].to_numpy())
+                    xdot_base = np.interp(
+                        t_out, t_b, sr_base.dataset["xdot"].to_numpy()
+                    )
+                else:
+                    x_base = xdot_base = np.full_like(t_out, np.nan)
+
                 return pd.DataFrame(
                     {
-                        "t": t_ref,
-                        "x_ref": obj.dataset["x"].to_numpy(),
+                        "t": t_out,
+                        "x_ref": x_ref_interp,
                         "x_base": x_base,
                         "x_sim": x_sim,
-                        "xdot_ref": obj.dataset["xdot"].to_numpy(),
+                        "xdot_ref": xdot_ref_interp,
                         "xdot_base": xdot_base,
                         "xdot_sim": xdot_sim,
                         "f_visc": -c_v * np.abs(xdot_sim) * xdot_sim,
-                        "f_residual": f_residual,
-                        "f_base": f_base_col,
+                        "f_residual": f_res_interp,
+                        "f_base": f_base_interp,
                     }
                 )
 
@@ -575,10 +600,17 @@ def plot_cost_curves(data, simruns_by_method, result, grids_by_method, save_path
 
 
 def plot_coeff_grid(data, simruns_by_method, result, grids_by_method, save_path):
-    """Per-case c_v on (Te, Hs) grid — one figure per method."""
+    """Te×Hs scatter colored by c_v — all methods as subplots in one figure."""
+    methods = list(result["results"].keys())
+    n = len(methods)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+
+    # collect data per method
+    per_method = {}
     for method, r in result["results"].items():
         c_v_map = r["c_v_per_case"]
-        Te_arr, Hs_arr, J_arr, c_v_arr = [], [], [], []
+        Te_arr, Hs_arr, J_arr, cv_arr = [], [], [], []
         for obj in data:
             if obj.label not in c_v_map:
                 continue
@@ -588,33 +620,62 @@ def plot_coeff_grid(data, simruns_by_method, result, grids_by_method, save_path)
             Te_arr.append(Te)
             Hs_arr.append(Hs)
             J_arr.append(J)
-            c_v_arr.append(c_v_map[obj.label])
+            cv_arr.append(c_v_map[obj.label])
+        if Te_arr:
+            per_method[method] = dict(
+                Te=np.array(Te_arr),
+                Hs=np.array(Hs_arr),
+                J=np.array(J_arr),
+                cv=np.array(cv_arr),
+            )
 
-        if not Te_arr:
-            log.warning("No wave_params for coeff_grid [%s], skipping", method)
-            continue
+    if not per_method:
+        return
 
-        Plotter.plot_grid(
-            np.array(Te_arr),
-            np.array(Hs_arr),
-            s=np.array(J_arr),
-            c=np.array(c_v_arr),
-            xlabel="Te [s]",
-            ylabel="Hs [m]",
-            clabel="c_v  [N·s²/m²]",
-            title=(
-                f"Viscous drag coefficient [{method}]\n"
-                f"global={r['c_v_global']:.1f}  "
-                f"mean±std={r['c_v_mean']:.1f}±{r['c_v_std']:.1f}"
-            ),
-            save_path=save_path,
-            name="identify",
-            suffix=f"coeff_grid_{method}",
+    all_cv = [v for d in per_method.values() for v in d["cv"]]
+    vmin, vmax = np.nanmin(all_cv), np.nanmax(all_cv)
+    if vmin == vmax:
+        vmin -= 0.5
+        vmax += 0.5
+
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+    sc = None
+    for idx, method in enumerate(per_method):
+        ax = axes[idx // ncols][idx % ncols]
+        d = per_method[method]
+        sc = ax.scatter(
+            d["Te"], d["Hs"], c=d["cv"], s=60, cmap="viridis", vmin=vmin, vmax=vmax
         )
+        r = result["results"][method]
+        ax.set_title(
+            f"{method}\nglobal={r['c_v_global']:.1f} mean±std={r['c_v_mean']:.1f}±{r['c_v_std']:.1f}",
+            fontsize=7,
+        )
+        ax.set_xlabel("Te [s]")
+        ax.set_ylabel("Hs [m]")
+        ax.grid(True)
+    for idx in range(len(per_method), nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+    fig.subplots_adjust(right=0.87)
+    if sc is not None:
+        cax = fig.add_axes([0.89, 0.15, 0.02, 0.7])
+        fig.colorbar(sc, cax=cax, label="c_v [N·s²/m²]")
+    fig.suptitle("Viscous drag coefficient — Te × Hs")
+    plt.tight_layout(rect=[0, 0, 0.87, 1])
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "coeff_grid")
 
 
 def plot_metric_grid(data, simruns_by_method, result, grids_by_method, save_path):
-    """Per-case metric on (Te, Hs) grid — one figure per method."""
+    """Te×Hs scatter colored by metric — all methods as subplots in one figure."""
+    methods = list(result["results"].keys())
+    n = len(methods)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+
+    per_method = {}
     for method, r in result["results"].items():
         metric_map = r["metric_per_case"]
         metric_label = r["metric_label"]
@@ -629,111 +690,183 @@ def plot_metric_grid(data, simruns_by_method, result, grids_by_method, save_path
             Hs_arr.append(Hs)
             J_arr.append(J)
             m_arr.append(metric_map[obj.label])
+        if Te_arr:
+            per_method[method] = dict(
+                Te=np.array(Te_arr),
+                Hs=np.array(Hs_arr),
+                m=np.array(m_arr),
+                label=metric_label,
+                global_v=r["metric_global"],
+            )
 
-        if not Te_arr:
-            continue
+    if not per_method:
+        return
 
-        Plotter.plot_grid(
-            np.array(Te_arr),
-            np.array(Hs_arr),
-            s=np.array(J_arr),
-            c=np.array(m_arr),
-            xlabel="Te [s]",
-            ylabel="Hs [m]",
-            clabel=metric_label,
-            title=f"{metric_label} per case [{method}]",
-            save_path=save_path,
-            name="identify",
-            suffix=f"metric_grid_{method}",
+    all_m = [v for d in per_method.values() for v in d["m"]]
+    vmin, vmax = np.nanmin(all_m), np.nanmax(all_m)
+    if vmin == vmax:
+        vmin -= 0.5
+        vmax += 0.5
+    metric_label = next(iter(per_method.values()))["label"]
+
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+    sc = None
+    for idx, method in enumerate(per_method):
+        ax = axes[idx // ncols][idx % ncols]
+        d = per_method[method]
+        sc = ax.scatter(
+            d["Te"], d["Hs"], c=d["m"], s=60, cmap="viridis", vmin=vmin, vmax=vmax
         )
+        ax.set_title(f"{method}  global={d['global_v']:.5f}", fontsize=7)
+        ax.set_xlabel("Te [s]")
+        ax.set_ylabel("Hs [m]")
+        ax.grid(True)
+    for idx in range(len(per_method), nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+    fig.subplots_adjust(right=0.87)
+    if sc is not None:
+        cax = fig.add_axes([0.89, 0.15, 0.02, 0.7])
+        fig.colorbar(sc, cax=cax, label=metric_label)
+    fig.suptitle(f"{metric_label} — Te × Hs")
+    plt.tight_layout(rect=[0, 0, 0.87, 1])
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "metric_grid")
 
 
 def plot_coeff_distribution(
     data, simruns_by_method, result, grids_by_method, save_path
 ):
-    """Histogram of per-case c_v — one figure per method."""
-    for method, r in result["results"].items():
+    """Histogram of per-case c_v — all methods as subplots in one figure."""
+    methods = list(result["results"].keys())
+    n = len(methods)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+    for idx, method in enumerate(methods):
+        r = result["results"][method]
+        ax = axes[idx // ncols][idx % ncols]
         vals = list(r["c_v_per_case"].values())
-        Plotter.plot_histogram(
-            series=[(np.array(vals), "per-case c_v")],
-            xlabel="c_v  [N·s²/m²]",
-            ylabel="count",
-            title=(
-                f"Viscous drag coefficient [{method}]\n"
-                f"mean={r['c_v_mean']:.1f}  std={r['c_v_std']:.1f}  "
-                f"global={r['c_v_global']:.1f}"
-            ),
-            bins=max(5, len(vals) // 2 + 1),
-            density=False,
-            save_path=save_path,
-            name="identify",
-            suffix=f"coeff_distribution_{method}",
+        ax.hist(
+            np.array(vals), bins=max(5, len(vals) // 2 + 1), density=False, alpha=0.8
         )
+        ax.axvline(
+            r["c_v_global"], color="red", ls="--", label=f"global={r['c_v_global']:.1f}"
+        )
+        ax.set_title(
+            f"{method}\nmean={r['c_v_mean']:.1f} std={r['c_v_std']:.1f}", fontsize=7
+        )
+        ax.set_xlabel("c_v [N·s²/m²]")
+        ax.set_ylabel("count")
+        ax.legend(fontsize=7)
+        ax.grid(True)
+    for idx in range(n, nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+    fig.suptitle("Viscous drag coefficient distribution")
+    plt.tight_layout()
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "coeff_distribution")
 
 
 def plot_metric_distribution(
     data, simruns_by_method, result, grids_by_method, save_path
 ):
-    """Histogram of per-case metric — one figure per method."""
-    for method, r in result["results"].items():
+    """Histogram of per-case metric — all methods as subplots in one figure."""
+    methods = list(result["results"].keys())
+    n = len(methods)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+    for idx, method in enumerate(methods):
+        r = result["results"][method]
+        ax = axes[idx // ncols][idx % ncols]
         vals = list(r["metric_per_case"].values())
         metric_label = r["metric_label"]
-        mean_v = float(np.mean(vals))
-        std_v = float(np.std(vals))
-        Plotter.plot_histogram(
-            series=[(np.array(vals), f"per-case {metric_label}")],
-            xlabel=metric_label,
-            ylabel="count",
-            title=(
-                f"{metric_label} [{method}]\n"
-                f"mean={mean_v:.5f}  std={std_v:.5f}  "
-                f"global={r['metric_global']:.5f}"
-            ),
-            bins=max(5, len(vals) // 2 + 1),
-            density=False,
-            save_path=save_path,
-            name="identify",
-            suffix=f"metric_distribution_{method}",
+        ax.hist(
+            np.array(vals), bins=max(5, len(vals) // 2 + 1), density=False, alpha=0.8
         )
+        ax.axvline(
+            r["metric_global"],
+            color="red",
+            ls="--",
+            label=f"global={r['metric_global']:.5f}",
+        )
+        ax.set_title(f"{method}  mean={np.mean(vals):.5f}", fontsize=7)
+        ax.set_xlabel(metric_label)
+        ax.set_ylabel("count")
+        ax.legend(fontsize=7)
+        ax.grid(True)
+    for idx in range(n, nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+    fig.suptitle("Metric distribution")
+    plt.tight_layout()
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "metric_distribution")
 
 
 def plot_timeseries(data, simruns_by_method, result, grids_by_method, save_path):
-    """Per method, per case: ref / base (no drag) / model."""
-
-    class _L:
-        def __init__(self, obj, label):
-            self.dataset = obj.dataset
-            self.label = label
-
+    """One plot per case: ref (black) + base (no drag) + one line per method."""
     base_simruns = simruns_by_method.get("__base__", {})
 
-    for method, r in result["results"].items():
-        simruns_pc = simruns_by_method[method]["per_case"]
-        metric_label = r["metric_label"]
-        for obj in data:
-            label = obj.label
-            if label not in simruns_pc:
-                continue
-            sr = simruns_pc[label]
-            objs = [
-                _L(obj, "ref"),
-                _L(sr, f"model (c_v={r['c_v_per_case'].get(label, 0):.1f})"),
-            ]
-            if label in base_simruns:
-                objs.append(_L(base_simruns[label], "base (no drag)"))
-            DataHandle.plot_line(
-                objs,
-                y="x",
-                ylabel="x [m]",
-                title=(
-                    f"x — {label}  [{method}]\n"
-                    f"c_v={r['c_v_per_case'].get(label, 0):.1f}  "
-                    f"{metric_label}={r['metric_per_case'].get(label, 0):.5f}"
-                ),
-                save_path=save_path,
-                name="identify",
-                suffix=f"ts_{method}_{_safe(label)[:40]}",
+    for obj in data:
+        label = obj.label
+
+        # use simrun time as the valid window (already clipped once in Optimizer)
+        sr_any = None
+        for method in result["results"]:
+            sr_any = simruns_by_method.get(method, {}).get("per_case", {}).get(label)
+            if sr_any is not None:
+                break
+        if sr_any is None:
+            continue
+
+        t_lo = float(sr_any.dataset["t"].iloc[0])
+        t_hi = float(sr_any.dataset["t"].iloc[-1])
+        fig, ax = plt.subplots(figsize=(10, 4))
+
+        # CFD reference — matched to simrun window (no double clip)
+        if "x" in obj.dataset.columns:
+            t_c = obj.dataset["t"].to_numpy()
+            x_c = obj.dataset["x"].to_numpy()
+            mk = (t_c >= t_lo) & (t_c <= t_hi)
+            ax.plot(t_c[mk], x_c[mk], color="black", lw=1.5, label="CFD ref")
+
+        # base (no drag) — plot as-is (already clipped)
+        if label in base_simruns:
+            bs = base_simruns[label]
+            ax.plot(
+                bs.dataset["t"].to_numpy(),
+                bs.dataset["x"].to_numpy(),
+                ls="--",
+                label="base (no drag)",
             )
+
+        # each method — plot as-is (already clipped)
+        for method, r in result["results"].items():
+            sr = simruns_by_method.get(method, {}).get("per_case", {}).get(label)
+            if sr is None or "x" not in sr.dataset.columns:
+                continue
+            cv = r["c_v_per_case"].get(label, 0)
+            mv = r["metric_per_case"].get(label, 0)
+            ax.plot(
+                sr.dataset["t"].to_numpy(),
+                sr.dataset["x"].to_numpy(),
+                label=f"{method}  c_v={cv:.1f}  {r['metric_label']}={mv:.5f}",
+            )
+
+        ax.set_title(label)
+        ax.set_xlabel("t [s]")
+        ax.set_ylabel("x [m]")
+        ax.legend(fontsize=7)
+        ax.grid(True)
+        plt.tight_layout()
+        if save_path:
+            Plotter._save(fig, save_path, None, f"{_safe(label)[:50]}")
 
 
 # %% PLOT DISPATCH

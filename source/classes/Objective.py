@@ -24,11 +24,22 @@ from source.function.error_utils import metricError
 
 # %% HELPERS
 
-def _interp(simrun, ref_obj, variable: str) -> np.ndarray:
-    """Interpolate simrun variable onto ref_obj time grid."""
+
+def _interp(simrun, ref_obj, variable: str) -> tuple:
+    """
+    Interpolate simrun variable onto ref_obj time grid, restricted to the
+    simrun time range. Returns (y_sim, y_ref) both clipped to the valid window.
+    This avoids extrapolation into the transient period that was clipped out.
+    """
     t_ref = ref_obj.dataset["t"].to_numpy()
     t_sim = simrun.dataset["t"].to_numpy()
-    return np.interp(t_ref, t_sim, simrun.dataset[variable].to_numpy())
+    y_sim_data = simrun.dataset[variable].to_numpy()
+    # mask reference to simrun valid window
+    mask = (t_ref >= t_sim[0]) & (t_ref <= t_sim[-1])
+    t_ref_v = t_ref[mask]
+    y_sim = np.interp(t_ref_v, t_sim, y_sim_data)
+    y_ref = ref_obj.dataset[variable].to_numpy()[mask]
+    return y_sim, y_ref
 
 
 def _is_valid(y: np.ndarray, limit: float = 1e6) -> bool:
@@ -37,64 +48,63 @@ def _is_valid(y: np.ndarray, limit: float = 1e6) -> bool:
 
 # %% OBJECTIVE REGISTRY
 
+
 def _rmse(variable: str):
-    """RMSE of a simulated state variable vs reference."""
     def fn(simrun, ref_obj):
-        y_sim = _interp(simrun, ref_obj, variable)
+        y_sim, y_ref = _interp(simrun, ref_obj, variable)
         if not _is_valid(y_sim):
             return np.inf
-        y_ref = ref_obj.dataset[variable].to_numpy()
         return metricError(y_sim, y_ref, "rmse")
+
     return fn
 
 
 def _nrmse(variable: str, norm: str = "range"):
-    """Normalised RMSE of a simulated state variable vs reference."""
     metric = f"nrmse_{norm}"
+
     def fn(simrun, ref_obj):
-        y_sim = _interp(simrun, ref_obj, variable)
+        y_sim, y_ref = _interp(simrun, ref_obj, variable)
         if not _is_valid(y_sim):
             return np.inf
-        y_ref = ref_obj.dataset[variable].to_numpy()
         return metricError(y_sim, y_ref, metric)
+
     return fn
 
 
 def _mean_P_abs(simrun, ref_obj):
-    """
-    Mean absorbed power: P_abs = B_pto * xdot^2.
-    Direction should be "maximize" in the Objective.
-    """
-    xdot_sim = _interp(simrun, ref_obj, "xdot")
+    xdot_sim, _ = _interp(simrun, ref_obj, "xdot")
     if not _is_valid(xdot_sim):
         return np.inf
-    return float(np.mean(ref_obj.damping * xdot_sim ** 2))
+    return float(np.mean(ref_obj.damping * xdot_sim**2))
 
 
 def _rmse_P_abs(simrun, ref_obj):
-    """RMSE of absorbed power vs reference power."""
-    xdot_sim = _interp(simrun, ref_obj, "xdot")
+    xdot_sim, xdot_ref = _interp(simrun, ref_obj, "xdot")
     if not _is_valid(xdot_sim):
         return np.inf
-    P_sim = ref_obj.damping * xdot_sim ** 2
+    P_sim = ref_obj.damping * xdot_sim**2
     if "P_abs" in ref_obj.dataset.columns:
-        P_ref = ref_obj.dataset["P_abs"].to_numpy()
+        t_ref = ref_obj.dataset["t"].to_numpy()
+        t_sim = simrun.dataset["t"].to_numpy()
+        mask = (t_ref >= t_sim[0]) & (t_ref <= t_sim[-1])
+        P_ref = ref_obj.dataset["P_abs"].to_numpy()[mask]
     else:
-        P_ref = ref_obj.damping * ref_obj.dataset["xdot"].to_numpy() ** 2
+        P_ref = ref_obj.damping * xdot_ref**2
     return metricError(P_sim, P_ref, "rmse")
 
 
 OBJECTIVES: dict[str, Callable] = {
-    "rmse_x":         _rmse("x"),
-    "rmse_xdot":      _rmse("xdot"),
-    "nrmse_x":        _nrmse("x", "range"),
-    "nrmse_xdot":     _nrmse("xdot", "range"),
-    "mean_P_abs":     _mean_P_abs,
-    "rmse_P_abs":     _rmse_P_abs,
+    "rmse_x": _rmse("x"),
+    "rmse_xdot": _rmse("xdot"),
+    "nrmse_x": _nrmse("x", "range"),
+    "nrmse_xdot": _nrmse("xdot", "range"),
+    "mean_P_abs": _mean_P_abs,
+    "rmse_P_abs": _rmse_P_abs,
 }
 
 
 # %% OBJECTIVE CLASS
+
 
 @dataclass
 class Objective:
@@ -107,16 +117,17 @@ class Objective:
     direction : "minimize" | "maximize"
     fn        : the callable — set automatically from name via from_dict()
     """
-    name:      str
+
+    name: str
     direction: str = "minimize"
-    fn:        Callable = field(default=None, repr=False)
+    fn: Callable = field(default=None, repr=False)
 
     def __post_init__(self):
         if self.fn is None:
             if self.name not in OBJECTIVES:
                 raise ValueError(
-                    f"Unknown objective '{self.name}'. "
-                    f"Available: {list(OBJECTIVES)}")
+                    f"Unknown objective '{self.name}'. Available: {list(OBJECTIVES)}"
+                )
             self.fn = OBJECTIVES[self.name]
 
     def sign(self) -> float:
@@ -148,6 +159,6 @@ class Objective:
         if isinstance(d, str):
             return cls(name=d)
         return cls(
-            name      = d.get("name",      "rmse_x"),
-            direction = d.get("direction", "minimize"),
+            name=d.get("name", "rmse_x"),
+            direction=d.get("direction", "minimize"),
         )

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from source.function.sea_state_utils import param2S, eta2S, S2eta, S2param
+from source.function.sea_state_utils import param2S, eta2S, S2eta, S2param, waveJ
 # from source.function.waveJ import waveJ
 # from source.function.eta2S import eta2S
 # from source.function.S2eta import S2eta

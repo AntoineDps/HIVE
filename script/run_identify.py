@@ -210,10 +210,6 @@ def main():
 
     shutil.copy2(config_path, model_dir / config_path.name)
 
-    fh = logging.FileHandler(model_dir / "run.log")
-    fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
-    logging.getLogger().addHandler(fh)
-
     feed = DDFeed(
         scheme_module,
         config.waves_train,
@@ -236,6 +232,8 @@ def main():
     if opt.hydro_sphere is not None:
         t_warmup, t_causal = Model.compute_time_margins(opt.model_def, opt.hydro_sphere)
         log.info("Time margins: t_warmup=%.1fs  t_causal=%.1fs", t_warmup, t_causal)
+        result["t_warmup"] = t_warmup
+        result["t_causal"] = t_causal
 
     log.info("Saving results...")
     opt.save(result, output_name)

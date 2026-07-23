@@ -1,11 +1,13 @@
 import numpy as np
 from scipy import signal
 import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
 
 def eta2all(t, eta, freq="f", wave_type="irr", S_type="JONSWAP", gamma=None):
     x, S_fft, S_fft_filt, S_welch = eta2S(t, eta, freq=freq)
-    Te, Hs = S2param(x, S_fft)
+    Te, Hs = S2param(x, S_fft_filt, freq=freq)
     J = Eflux(Te, Hs, wave_type)
     eps = steepness(Te, Hs)
     S_th = param2S(Te, Hs, x, gamma=gamma, type=S_type)
@@ -38,61 +40,67 @@ def eta2S(t, eta, freq="f"):
 
     # TODO : test // f or w // welch implement // welch, fft, fft_filt compare
 
-    # Sampling
+    # sampling parameters
     dt = t[1] - t[0]
     fs = 1.0 / dt
     N = len(eta)
+    df = fs / N
 
     # FFT
     z = np.abs(np.fft.fft(eta))
     Nz = len(z)
-    df = fs / N
 
-    # remove negatives and DC component
-    z = z[Nz // 2 + 1 :]
+    z = z[1 : N // 2 + 1]  # remove negatives and DC component
+
     Nz = len(z)
+    A = z * 2 / N  # multipply by 2 and account for N
 
-    # multipply by 2 and account for N
-    A = z * 2 / N
-
-    # spectral frequencies
-    S_f_fft = 0.5 * A**2 / df
-
-    # frequency vector
-    f_fft = np.arange(df, df * (Nz + 1), df)
+    S_f_fft = 0.5 * A**2 / df  # spectral frequencies
+    f_fft = np.arange(df, df * (Nz + 1), df)  # frequency vector
 
     # FFT filtered
-
-    # moving average filter
-    window_size = 5
+    window_size = 5  # moving average filter
     S_f_fft_filt = signal.convolve(
         S_f_fft, np.ones(window_size) / window_size, mode="same"
     )
+
     # WELCH
     nperseg = 4024
+    noverlap = 1024
 
     f_welch, S_f_welch = signal.welch(
-        eta.to_numpy(), fs=fs, window="hann", nperseg=nperseg, detrend="constant"
+        eta.to_numpy(),
+        fs=fs,
+        window="hann",
+        nperseg=nperseg,
+        noverlap=noverlap,
+        detrend="constant",
+        scaling="density",
     )
 
-    # remove DC component
-    f_welch = f_welch[1:]
-    S_f_welch = S_f_welch[1:]
-    f_welch = f_fft  #!
-    S_f_welch = S_f_fft  #!
+    mask = f_welch > 0
 
-    # freq variable
+    f_welch = f_welch[mask]
+    S_f_welch = S_f_welch[mask]
+
+    interp = interp1d(  # Interpolate Welch onto FFT frequency grid
+        f_welch, S_f_welch, kind="linear", bounds_error=False, fill_value=0
+    )
+
+    S_welch_interp = interp(f_fft)
+
+    # freq variable #!
     if freq == "w":
         w_fft = 2.0 * np.pi * f_fft
         S_w_fft = S_f_fft / (2.0 * np.pi)
         S_w_fft_filt = S_f_fft_filt / (2.0 * np.pi)
-        S_w_welch = S_f_welch / (2.0 * np.pi)
-        return w_fft, S_w_fft, S_w_fft_filt, S_w_welch
+        S_welch_interp = S_welch_interp / (2.0 * np.pi)
+        return w_fft, S_w_fft, S_w_fft_filt, S_welch_interp
     else:
-        return f_fft, S_f_fft, S_f_fft_filt, S_f_welch
+        return f_fft, S_f_fft, S_f_fft_filt, S_welch_interp
 
 
-def S2param(x, S):
+def S2param(x, S, freq="f"):
 
     df = x[1] - x[0]
     m0 = np.sum(S * df)
@@ -101,10 +109,16 @@ def S2param(x, S):
     Hs = round(4 * np.sqrt(m0), 2)
     Te = round(m_minus1 / m0, 2)
 
+    if freq == "f":
+        Te = m_minus1 / m0
+
+    elif freq == "w":
+        Te = 2 * np.pi * m_minus1 / m0
+
     return Te, Hs
 
 
-def param2S(T, H, x, freq="f", gamma=3.3, type="JONSWAP"):  #! w or f
+def param2S(T, H, x, freq="f", gamma=3.3, type="JONSWAP"):
     """
     Convert wave parameters to power spectral density S(w) or S(f)
     """
@@ -112,7 +126,7 @@ def param2S(T, H, x, freq="f", gamma=3.3, type="JONSWAP"):  #! w or f
     if type == "JONSWAP":
         if freq == "w":
             w = x
-            wp = 2 * np.pi / (T / 0.903)
+            wp = 2 * np.pi / (T / 0.903)  #!
             alpha = 1 - 0.287 * np.log(gamma)
             theta = np.zeros_like(w)
             theta[w <= wp] = 0.07

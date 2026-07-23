@@ -1,0 +1,17 @@
+{
+  "wave_type": "irr",
+  "cut_time": [60, 0],
+  "duration": null,
+  "hydro_sphere_pkl": "r5",
+  "dt": 0.05,
+  "cases": [
+    {"T": 6.5, "H": 2.0, "damping": 120000, "stiffness": -430000, "plot": true}
+  ],
+  "plot_options": {
+    "sea_state": true,
+    "power":     false,
+    "dynamics":  false,
+    "hydro":     false,
+    "3d":        false
+  }
+}

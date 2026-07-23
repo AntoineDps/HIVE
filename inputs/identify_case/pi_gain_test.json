@@ -3,7 +3,7 @@
   "waves_train": [
     {"type": "cfd_case", "case_name": "cases_test"}
   ],
-  "base_model": "linear_sphere_r5",
+  "base_model": "linear",
   "scheme_params": {
     "method": ["analytical", "opt", "grid"],
     "B_min": 0,
@@ -11,7 +11,7 @@
     "K_min": -200000,
     "K_max": -100000,
     "n_B": 3,
-    "n_K": 1,
+    "n_K": 2,
     "B_init": 150000,
     "K_init": 0,
     "stability": {
@@ -27,11 +27,5 @@
     "method": "RK4",
     "dt": 0.05,
     "interpolation": {"fe": true, "eta_hs": true}
-  },
-  "plot_options": {
-    "timeseries":             true,
-    "relative_position_dist": true,
-    "gains_grid":             true,
-    "gains_scatter":          true
   }
 }

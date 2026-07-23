@@ -184,6 +184,7 @@ def _load_cfd_case(case_name: str) -> list:
                 "Te": float(wp.Te.iloc[0]) if wp is not None else None,
                 "Hs": float(wp.Hs.iloc[0]) if wp is not None else None,
                 "J": float(wp.J.iloc[0]) if wp is not None else None,
+                "ref_obj": obj,  # DataHandle — provides CFD x for timeseries
             }
         )
     return cases
@@ -428,6 +429,9 @@ def run(opt, feed, config):
                 power = _compute_power(sr, B_opt) if sr is not None else np.nan
 
             if sr is not None:
+                # clip to valid window before storing and saving
+                if opt.t_warmup > 0 or opt.t_causal > 0:
+                    sr = sr.clip(opt.t_warmup, opt.t_causal)
                 simruns[label] = sr
 
             per_case[label] = {
@@ -568,101 +572,195 @@ def save_data(result, simruns_by_method, grids_by_method, feed, data_dir):
 
 
 def plot_timeseries(data, simruns_by_method, result, grids_by_method, save_path):
-    """Per case: all methods overlaid on one figure (x + eta)."""
+    """One plot per case — CFD ref (black) + all methods.
+    Simruns are already clipped to valid window. Reference is matched to simrun range.
+    """
     for case in data:
         label = case["label"]
-        series = []
+
+        # use simrun time as the valid window (already clipped once)
+        sr_any = None
+        for simruns in simruns_by_method.values():
+            if label in simruns:
+                sr_any = simruns[label]
+                break
+        if sr_any is None:
+            continue
+
+        t_lo = float(sr_any.dataset["t"].iloc[0])
+        t_hi = float(sr_any.dataset["t"].iloc[-1])
+        fig, ax = plt.subplots(figsize=(10, 4))
+
+        # CFD reference clipped to simrun window
+        ref_obj = case.get("ref_obj")
+        if ref_obj is not None and "x" in ref_obj.dataset.columns:
+            t_cfd = ref_obj.dataset["t"].to_numpy()
+            x_cfd = ref_obj.dataset["x"].to_numpy()
+            mk = (t_cfd >= t_lo) & (t_cfd <= t_hi)
+            ax.plot(t_cfd[mk], x_cfd[mk], color="black", lw=1.5, label="CFD ref")
+
+        # simulated results — plot as-is (already clipped)
         for method, simruns in simruns_by_method.items():
             if label not in simruns:
                 continue
             sr = simruns[label]
-            t = sr.dataset["t"].to_numpy()
-            series.append((t, sr.dataset["x"].to_numpy(), f"x [{method}]"))
-        if not series:
-            continue
-        t_ref = series[0][0]
-        eta = np.interp(t_ref, case["eta_t"], case["eta_values"])
-        series.insert(0, (t_ref, eta, "eta"))
-        info = "  ".join(
-            f"{m}: B={r['B_per_case'].get(label, 0):.0f} "
-            f"K={r['K_per_case'].get(label, 0):.0f} "
-            f"P={r['metric_per_case'].get(label, 0):.1f}W"
-            for m, r in result["results"].items()
-            if label in r.get("B_per_case", {})
-        )
-        Plotter.plot_lines(
-            series,
-            xlabel="t [s]",
-            ylabel="[m]",
-            title=f"{label}\n{info}",
-            save_path=save_path,
-            name="identify",
-            suffix=f"ts_{_safe(label)[:50]}",
-        )
+            r = result["results"].get(method, {})
+            B = r.get("B_per_case", {}).get(label, 0)
+            K = r.get("K_per_case", {}).get(label, 0)
+            P = r.get("metric_per_case", {}).get(label, 0)
+            ax.plot(
+                sr.dataset["t"].to_numpy(),
+                sr.dataset["x"].to_numpy(),
+                label=f"{method}  B={B:.0f} K={K:.0f} P={P:.1f} W",
+            )
+
+        ax.set_title(label)
+        ax.set_xlabel("t [s]")
+        ax.set_ylabel("x [m]")
+        ax.legend(fontsize=7)
+        ax.grid(True)
+        plt.tight_layout()
+        if save_path:
+            Plotter._save(fig, save_path, None, f"{_safe(label)[:50]}")
 
 
 def plot_relative_position_dist(
     data, simruns_by_method, result, grids_by_method, save_path
 ):
-    """Per case: histogram of (x - eta) for all methods on one figure."""
-    for case in data:
+    """All cases as subplots — histogram of (x - η) per case, all methods overlaid."""
+    n = len(data)
+    if n == 0:
+        return
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+    colors = plt.cm.tab10(np.linspace(0, 1, max(len(simruns_by_method), 1)))
+    r_val = result.get("stability", {}).get("r")
+
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+
+    for idx, case in enumerate(data):
+        ax = axes[idx // ncols][idx % ncols]
         label = case["label"]
-        series = []
-        for method, simruns in simruns_by_method.items():
+        for m_idx, (method, simruns) in enumerate(simruns_by_method.items()):
             if label not in simruns:
                 continue
             sr = simruns[label]
             t = sr.dataset["t"].to_numpy()
             eta = np.interp(t, case["eta_t"], case["eta_values"])
-            series.append((sr.dataset["x"].to_numpy() - eta, method))
-        if not series:
-            continue
-        r_val = result.get("stability", {}).get("r")
-        Plotter.plot_histogram(
-            series=series,
-            xlabel="x - eta  [m]",
-            ylabel="count",
-            title=f"Relative position — {label}  |  r = {r_val}",
-            bins=30,
-            density=False,
-            save_path=save_path,
-            name="identify",
-            suffix=f"rel_pos_{_safe(label)[:50]}",
-        )
+            rel = sr.dataset["x"].to_numpy() - eta
+            ax.hist(
+                rel,
+                bins=30,
+                density=False,
+                alpha=0.5,
+                color=colors[m_idx],
+                label=method,
+            )
+        if r_val is not None:
+            ax.axvline(-r_val, color="red", ls="--", lw=1, label=f"±r={r_val}")
+            ax.axvline(r_val, color="red", ls="--", lw=1)
+        ax.set_title(label[:35], fontsize=8)
+        ax.set_xlabel("x - η [m]")
+        ax.set_ylabel("count")
+        ax.legend(fontsize=7)
+        ax.grid(True)
+
+    for idx in range(n, nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+
+    fig.suptitle("Relative position distribution")
+    plt.tight_layout()
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "rel_pos")
 
 
 def plot_gains_grid(data, simruns_by_method, result, grids_by_method, save_path):
-    """2D B×K power heatmap per case (grid method only)."""
+    """Power landscape — all cases as subplots.
+    B_grid and K_grid are 1D linspace arrays; costs has shape (n_B, n_K).
+    Handles 2D heatmap, 1D-over-B, and 1D-over-K automatically.
+    """
     grids = grids_by_method.get("grid", {})
     if not grids:
         return
-    r = result["results"].get("grid", {})
-    for label, g in grids.items():
-        fig, ax = plt.subplots(figsize=(7, 5))
-        im = ax.pcolormesh(
-            g["K_grid"], g["B_grid"], g["costs"], shading="auto", cmap="viridis"
-        )
-        plt.colorbar(im, ax=ax, label="P_abs [W]")
-        ax.scatter(
-            [g["K_opt"]],
-            [g["B_opt"]],
-            color="red",
-            marker="*",
-            s=200,
-            label=f"opt  B={g['B_opt']:.0f}  K={g['K_opt']:.0f}",
-        )
-        ax.set_xlabel("K_pto  [N/m]")
-        ax.set_ylabel("B_pto  [N·s/m]")
-        ax.set_title(f"Power landscape — {label}")
-        ax.legend()
-        plt.tight_layout()
-        if save_path:
-            Plotter._save(fig, save_path, "identify", f"gains_grid_{_safe(label)[:40]}")
+
+    labels = list(grids.keys())
+    n = len(labels)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+    )
+
+    for idx, label in enumerate(labels):
+        ax = axes[idx // ncols][idx % ncols]
+        g = grids[label]
+        B_vec = np.array(g["B_grid"])  # 1D, length n_B
+        K_vec = np.array(g["K_grid"])  # 1D, length n_K
+        costs = np.array(g["costs"])  # shape (n_B, n_K)
+        n_B = len(B_vec)
+        n_K = len(K_vec)
+
+        if n_B > 1 and n_K > 1:
+            # 2D heatmap — needs meshgrid for pcolormesh
+            KK, BB = np.meshgrid(K_vec, B_vec)  # both (n_B, n_K)
+            im = ax.pcolormesh(KK, BB, costs, shading="auto", cmap="viridis")
+            plt.colorbar(im, ax=ax, label="P_abs [W]")
+            ax.scatter(
+                [g["K_opt"]],
+                [g["B_opt"]],
+                color="red",
+                marker="*",
+                s=150,
+                label=f"opt B={g['B_opt']:.0f} K={g['K_opt']:.0f}",
+            )
+            ax.set_xlabel("K [N/m]")
+            ax.set_ylabel("B [N·s/m]")
+            ax.legend(fontsize=7)
+
+        elif n_K == 1:
+            # only B varies
+            ax.plot(B_vec, costs[:, 0])
+            ax.axvline(
+                g["B_opt"], color="red", ls="--", label=f"B_opt={g['B_opt']:.0f}"
+            )
+            ax.set_xlabel("B [N·s/m]")
+            ax.set_ylabel("P_abs [W]")
+            ax.legend(fontsize=7)
+
+        else:
+            # only K varies
+            ax.plot(K_vec, costs[0, :])
+            ax.axvline(
+                g["K_opt"], color="red", ls="--", label=f"K_opt={g['K_opt']:.0f}"
+            )
+            ax.set_xlabel("K [N/m]")
+            ax.set_ylabel("P_abs [W]")
+            ax.legend(fontsize=7)
+
+        ax.set_title(label[:35], fontsize=8)
+        ax.grid(True)
+
+    for idx in range(n, nrows * ncols):
+        axes[idx // ncols][idx % ncols].set_visible(False)
+
+    fig.suptitle("Power landscape")
+    plt.tight_layout()
+    if save_path:
+        Plotter._save(fig, save_path, "identify", "gains_grid")
 
 
 def plot_gains_scatter(data, simruns_by_method, result, grids_by_method, save_path):
-    """B and K on (Te, Hs) grid — one plot per variable per method."""
-    for method, r in result["results"].items():
+    """Te×Hs scatter colored by B or K — one figure per variable, subplot per method."""
+    methods = [m for m in result["results"] if "B_per_case" in result["results"][m]]
+    if not methods:
+        return
+
+    # collect per-method data
+    per_method = {}
+    for method in methods:
+        r = result["results"][method]
         Te_arr, Hs_arr, J_arr, B_arr, K_arr = [], [], [], [], []
         for case in data:
             label = case["label"]
@@ -676,28 +774,60 @@ def plot_gains_scatter(data, simruns_by_method, result, grids_by_method, save_pa
             J_arr.append(J or 1.0)
             B_arr.append(r["B_per_case"][label])
             K_arr.append(r["K_per_case"][label])
-        if not Te_arr:
+        if Te_arr:
+            per_method[method] = {
+                "Te": np.array(Te_arr),
+                "Hs": np.array(Hs_arr),
+                "J": np.array(J_arr),
+                "B": np.array(B_arr),
+                "K": np.array(K_arr),
+            }
+
+    if not per_method:
+        return
+
+    n = len(per_method)
+    ncols = min(n, 4)
+    nrows = (n + ncols - 1) // ncols
+
+    for var, clabel, suffix in [
+        ("B", "B [N·s/m]", "scatter_B"),
+        ("K", "K [N/m]", "scatter_K"),
+    ]:
+        all_vals = [v for m in per_method.values() for v in m[var]]
+        if not all_vals:
             continue
-        Te_a = np.array(Te_arr)
-        Hs_a = np.array(Hs_arr)
-        J_a = np.array(J_arr)
-        for vals, name, sfx in [
-            (np.array(B_arr), "B_pto  [N·s/m]", f"scatter_B_{method}"),
-            (np.array(K_arr), "K_pto  [N/m]", f"scatter_K_{method}"),
-        ]:
-            Plotter.plot_grid(
-                Te_a,
-                Hs_a,
-                s=J_a,
-                c=vals,
-                xlabel="Te [s]",
-                ylabel="Hs [m]",
-                clabel=name,
-                title=f"{name} [{method}]",
-                save_path=save_path,
-                name="identify",
-                suffix=sfx,
+        vmin, vmax = np.nanmin(all_vals), np.nanmax(all_vals)
+        if vmin == vmax:
+            vmin -= 0.5
+            vmax += 0.5
+
+        fig, axes = plt.subplots(
+            nrows, ncols, figsize=(5 * ncols, 4 * nrows), squeeze=False
+        )
+        sc = None
+        for idx, (method, d) in enumerate(per_method.items()):
+            ax = axes[idx // ncols][idx % ncols]
+            sc = ax.scatter(
+                d["Te"], d["Hs"], c=d[var], s=60, cmap="viridis", vmin=vmin, vmax=vmax
             )
+            ax.set_xlabel("Te [s]")
+            ax.set_ylabel("Hs [m]")
+            ax.set_title(method, fontsize=8)
+            ax.grid(True)
+
+        for idx in range(n, nrows * ncols):
+            axes[idx // ncols][idx % ncols].set_visible(False)
+
+        # place colorbar to the right of the whole figure without stealing subplot space
+        fig.subplots_adjust(right=0.87)
+        cax = fig.add_axes([0.89, 0.15, 0.02, 0.7])
+        if sc is not None:
+            fig.colorbar(sc, cax=cax, label=clabel)
+        fig.suptitle(f"Optimal {var} — Te × Hs")
+        plt.tight_layout()
+        if save_path:
+            Plotter._save(fig, save_path, "identify", suffix)
 
 
 # %% PLOT DISPATCH

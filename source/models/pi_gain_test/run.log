@@ -1,6 +1,14 @@
-2026-07-21 14:00:52,559 INFO === run_identify ===
-2026-07-21 14:00:52,559 INFO scheme='pi_gain'  base='linear_sphere_r5'  output='pi_gain_test'
-2026-07-21 14:00:52,704 INFO Loaded 3 case(s) from 'cfd_case'
-2026-07-21 14:00:52,704 INFO DDFeed ready: 3 case(s) loaded
-
-2026-07-21 14:00:52,704 INFO DDFeed ready: 3 case(s) loaded
+2026-07-22 11:22:24,497 INFO === run_identify ===
+2026-07-22 11:22:24,497 INFO scheme='pi_gain'  base='linear'  output='pi_gain_test'
+2026-07-22 11:22:24,633 INFO Loaded 3 case(s) from 'cfd_case'
+2026-07-22 11:22:24,634 INFO DDFeed ready: 3 case(s) loaded
+2026-07-22 11:46:51,759 INFO === run_identify ===
+2026-07-22 11:46:51,760 INFO scheme='pi_gain'  base='linear'  output='pi_gain_test'
+2026-07-22 11:46:53,021 INFO User option: 2
+2026-07-22 11:46:53,021 INFO Stopped.
+2026-07-22 11:46:55,986 INFO === run_identify ===
+2026-07-22 11:46:55,986 INFO scheme='pi_gain'  base='linear'  output='pi_gain_test'
+2026-07-22 11:46:56,644 INFO User option: 3
+2026-07-22 11:47:30,917 INFO === run_identify ===
+2026-07-22 11:47:30,917 INFO scheme='pi_gain'  base='linear'  output='pi_gain_test'
+2026-07-22 11:47:32,939 INFO User option: 4
