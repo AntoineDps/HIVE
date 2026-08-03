@@ -16,8 +16,8 @@
   "eta_inputs": [{"type": "true"}],
   "simulation": [{"type": "closed_loop"}],
   "plot_options": {
-    "states": false,
-    "variable": "fe_lin",
+    "states": true,
+    "variable": false,
     "metric_grid":   {"metrics": ["nrmse_range_P_abs", "time_ratio"]},
     "metric_stat":   {"metrics": ["nrmse_range_P_abs"]},
     "metric_scalar": {"metrics": ["nrmse_range_P_abs", "time_ratio"]},

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 
 
-def eta2all(t, eta, freq="f", wave_type="irr", S_type="JONSWAP", gamma=None):
+def eta2all(t, eta, freq="f", wave_type="irr", S_type="JONSWAP", gamma=3.3):
     x, S_fft, S_fft_filt, S_welch = eta2S(t, eta, freq=freq)
     Te, Hs = S2param(x, S_fft_filt, freq=freq)
     J = Eflux(Te, Hs, wave_type)
@@ -222,26 +222,7 @@ def CWR(P, J, r):
     return CWR
 
 
-def WaveJ(T, H, type, rho=1025):
-    """
-    Compute wave energy flux J [W/m] for given wave parameters.
-
-    Parameters
-    ----------
-    T : float
-        Wave period [s].
-    H : float
-        Wave height [m].
-    type : str
-        Wave type: 'reg' for regular waves, 'irr' for irregular waves.
-    rho : float, optional
-        Water density [kg/m³]. Default is 1025 kg/m³ (seawater).
-
-    Returns
-    -------
-    J : float
-        Wave energy flux [W/m].
-    """
+def waveJ(T, H, type, rho=1025):
     g = 9.81  # Acceleration due to gravity [m/s²]
 
     if type == "reg":

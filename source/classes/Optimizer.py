@@ -42,7 +42,11 @@ class Optimizer:
         self._mod = scheme_module
         self.scheme = scheme_module.__name__.split(".")[-1]
         self.solver_cfg = solver_cfg
-        self.model_def, self.hydro_sphere = self.load_base_model(base_model)
+        if base_model and base_model.lower() not in ("none", ""):
+            self.model_def, self.hydro_sphere = self.load_base_model(base_model)
+        else:
+            self.model_def, self.hydro_sphere = {}, None
+            log.info("No base model specified — physics simulation disabled.")
 
         # time margins — computed once, applied to all simulations
         from source.classes.Model import Model as _Model
@@ -178,7 +182,10 @@ class Optimizer:
         self, config, feed, simruns_by_method, result, grids_by_method, plots_dir
     ):
         plots_dir.mkdir(parents=True, exist_ok=True)
-        dispatch = self._mod.PLOT_DISPATCH
+        dispatch = dict(self._mod.PLOT_DISPATCH)  # copy so we can patch
+        # inject HydroSphere for BEM overlay in Linear_si bode plot
+        if self.hydro_sphere is not None and hasattr(self._mod, "plot_bode_with_hs"):
+            dispatch["bode"] = self._mod.plot_bode_with_hs(self.hydro_sphere)
         # always run all available plots — user config plot_options is ignored here
         for plot_name, fn in dispatch.items():
             log.info("  plot: %s", plot_name)

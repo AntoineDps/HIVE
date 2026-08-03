@@ -17,10 +17,12 @@ from source.classes.Model import Model
 from source.classes.Metric import Metric
 import source.classes.Viscous_drag as _viscous_drag
 import source.classes.Pi_gain as _pi_gain
+import source.classes.Linear_si as _linear_si
 
 SCHEME_MODULES = {
     "viscous_drag": _viscous_drag,
     "pi_gain": _pi_gain,
+    "linear_si": _linear_si,
 }
 
 """
