@@ -3,34 +3,30 @@
   "waves_train": ["my_case"],
   "base_model": "linear_sphere_r5",
   "scheme_params": {
-    "eta2f": {
-      "input_signals":  ["eta"],
-      "output_signals": ["fe_lin"],
-      "order_list":     [2, 4, 6, 8, 10],
-      "w_min":          0.3,
-      "w_max":          5.0,
-      "w_rel_start":    0.3,
-      "w_rel_end":      4.0,
-      "tau_min":        0.0,
-      "tau_max":        20.0,
-      "n_tau":          40,
-      "smooth_window":  1
-    },
-    "f2v": {
-      "input_signals":  ["fe_lin"],
-      "output_signals": ["xdot"],
-      "order_list":     [2, 4, 6, 8, 10],
-      "w_min":          0.05,
-      "w_max":          7.0,
-      "w_rel_start":    0.8,
-      "w_rel_end":      2.5,
-      "identification": "frequency",
-      "smooth_window":  20,
-      "tau_min":        0.0,
-      "tau_max":        0.0,
-      "n_tau":          1,
-      "num_block_rows": 40
-    }
+  "eta2f": {
+    "input_signals":  ["eta"],
+    "output_signals": ["fe_lin"],
+    "order_list":     [2, 4, 6, 8, 10],
+    "w_start":        0.3,
+    "w_end":          4.0,
+    "tau_min":        0.0,
+    "tau_max":        20.0,
+    "n_tau":          40,
+    "smooth_window":  1
+  },
+  "f2v": {
+    "input_signals":  ["fe_lin"],
+    "output_signals": ["xdot"],
+    "order_list":     [2, 4, 6, 8, 10],
+    "w_start":        0.8,
+    "w_end":          2.5,
+    "identification": "frequency",
+    "smooth_window":  20,
+    "tau_min":        0.0,
+    "tau_max":        0.0,
+    "n_tau":          1,
+    "num_block_rows": 40
+  }
   },
   "solver": {
     "method": "RK4",

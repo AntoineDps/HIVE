@@ -1,16 +1,3 @@
-import json
-import logging
-from pathlib import Path
-
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import invres, tf2ss, lsim
-from scipy.signal import StateSpace as ScipySS
-from scipy.integrate import cumulative_trapezoid
-
-from source.classes import vectfit as _vf
-from source.classes.Plotter import Plotter
-
 """
 # -------------------------------------------------------------------------
 # Name:            Linear_si.py
@@ -33,6 +20,19 @@ from source.classes.Plotter import Plotter
 # Project:         wec_modeling_benchmark
 # -------------------------------------------------------------------------
 """
+
+import json
+import logging
+from pathlib import Path
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import invres, tf2ss, lsim
+from scipy.signal import StateSpace as ScipySS
+from scipy.integrate import cumulative_trapezoid
+
+from source.classes import vectfit as _vf
+from source.classes.Plotter import Plotter
 
 log = logging.getLogger(__name__)
 
@@ -271,7 +271,7 @@ def run(opt, feed, config):
         dt,
         smooth_window=e_c.get("smooth_window", 1),
     )
-    msk_e = (w_e >= e_c.get("w_rel_start", 0.3)) & (w_e <= e_c.get("w_rel_end", 4.0))
+    msk_e = (w_e >= e_c.get("w_start", 0.3)) & (w_e <= e_c.get("w_end", 4.0))
     w_e_rel = w_e[msk_e]
     G_e_rel = G_e[msk_e]
 
@@ -301,7 +301,7 @@ def run(opt, feed, config):
         dt,
         smooth_window=f_c.get("smooth_window", 20),
     )
-    msk_f = (w_f >= f_c.get("w_rel_start", 0.8)) & (w_f <= f_c.get("w_rel_end", 2.5))
+    msk_f = (w_f >= f_c.get("w_start", 0.8)) & (w_f <= f_c.get("w_end", 2.5))
     w_f_rel = w_f[msk_f]
     G_f_rel = G_f[msk_f]
 
@@ -396,10 +396,8 @@ def run(opt, feed, config):
             "p": p_e,
             "r": r_e,
             "d": d_e,
-            "w_min": e_c.get("w_min", 0.3),
-            "w_max": e_c.get("w_max", 5.0),
-            "w_rel_start": e_c.get("w_rel_start", 0.3),
-            "w_rel_end": e_c.get("w_rel_end", 4.0),
+            "w_start": e_c.get("w_start", 0.3),
+            "w_end": e_c.get("w_end", 4.0),
         },
         "f2v": {
             "w": w_f,
@@ -418,10 +416,8 @@ def run(opt, feed, config):
             "r": r_f,
             "d": d_f,
             "method": id_method,
-            "w_min": f_c.get("w_min", 0.05),
-            "w_max": f_c.get("w_max", 7.0),
-            "w_rel_start": f_c.get("w_rel_start", 0.8),
-            "w_rel_end": f_c.get("w_rel_end", 2.5),
+            "w_start": f_c.get("w_start", 0.8),
+            "w_end": f_c.get("w_end", 2.5),
         },
         "cascade": {
             "A": A_c,
@@ -548,8 +544,8 @@ def _plot_bode(g, hs, title_prefix, save_path):
     best_tau = g["best_tau"]
     w_rel = g["w_rel"]
     G_rel = g["G_rel"]
-    w_min = g["w_min"]
-    w_max = g["w_max"]
+    w_start = g["w_start"]
+    w_end = g["w_end"]
     colors = plt.cm.tab10(np.linspace(0, 1, len(order_list)))
 
     fig, ax = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
@@ -586,10 +582,10 @@ def _plot_bode(g, hs, title_prefix, save_path):
         )
 
     for a in ax:
-        a.axvline(g["w_rel_start"], color="grey", ls=":", lw=0.8)
-        a.axvline(g["w_rel_end"], color="grey", ls=":", lw=0.8)
+        a.axvline(g["w_start"], color="grey", ls=":", lw=0.8)
+        a.axvline(g["w_end"], color="grey", ls=":", lw=0.8)
         a.set_xscale("log")
-        a.set_xlim(w_min, w_max)
+        a.set_xlim(w_start, w_end)
         a.grid(True, which="both")
     ax[0].set(
         ylabel="|G| [dB]",
@@ -697,9 +693,9 @@ def plot_etfe(data, simruns, result, grids, save_path):
         G_r = g.get("G_rel")
         if w is None:
             continue
-        w_min = g["w_min"]
-        w_max = g["w_max"]
-        msk_w = (w >= w_min) & (w <= w_max)
+        w_start = g["w_start"]
+        w_end = g["w_end"]
+        msk_w = (w >= w_start) & (w <= w_end)
 
         fig, ax = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
         fig.suptitle(f"ETFE — {label}")
@@ -726,10 +722,10 @@ def plot_etfe(data, simruns, result, grids, save_path):
         ax[1].set(ylabel="Phase [°]", xlabel="ω [rad/s]")
         ax[1].grid(True, which="both")
         for a in ax:
-            a.axvline(g["w_rel_start"], color="red", ls="--", lw=0.8)
-            a.axvline(g["w_rel_end"], color="red", ls="--", lw=0.8)
+            a.axvline(g["w_start"], color="red", ls="--", lw=0.8)
+            a.axvline(g["w_end"], color="red", ls="--", lw=0.8)
             a.set_xscale("log")
-            a.set_xlim(w_min, w_max)
+            a.set_xlim(w_start, w_end)
         plt.tight_layout()
         Plotter._save(fig, save_path, None, f"etfe_{tf_name}")
 

@@ -118,11 +118,11 @@ PKL_NAME = "r5"
 W_REL_START = 0.2  # rad/s  — relevant (kept) range
 W_REL_END = 4  # rad/s
 
-order = [2, 4, 6, 8, 10]  # , 16, 18, 20, 22]
+order = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 
 # causality inputs
 TAU_MIN = 0.0  # s — minimum time advance
-TAU_MAX = 8.0  # s — maximum time advance (cover non-causal horizon)
+TAU_MAX = 15.0  # s — maximum time advance (cover non-causal horizon)
 N_TAU = 100  # number of trial advances
 
 # %% LOAD HYDRO SPHERE
