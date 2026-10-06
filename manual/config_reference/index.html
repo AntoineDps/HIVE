@@ -257,7 +257,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../theory/hydrodynamics/" class="md-tabs__link">
+        <a href="../../theory/hydrodynamics.md" class="md-tabs__link">
           
   
   
@@ -672,6 +672,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Validate config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solverinterpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solver.interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -855,7 +872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../theory/hydrodynamics/" class="md-nav__link">
+      <a href="../../theory/hydrodynamics.md" class="md-nav__link">
         
   
   
@@ -883,7 +900,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../theory/force_terms/" class="md-nav__link">
+      <a href="../../theory/force_terms.md" class="md-nav__link">
         
   
   
@@ -911,7 +928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../theory/identification/" class="md-nav__link">
+      <a href="../../theory/identification.md" class="md-nav__link">
         
   
   
@@ -967,7 +984,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../theory/metrics/" class="md-nav__link">
+      <a href="../../theory/metrics.md" class="md-nav__link">
         
   
   
@@ -1191,12 +1208,51 @@
 <td>Integration timestep [s]</td>
 </tr>
 <tr>
+<td><code>solver.interpolation</code></td>
+<td>dict</td>
+<td>Interpolation scheme for forcing signals (see below)</td>
+</tr>
+<tr>
 <td><code>metrics</code></td>
 <td>list[str]</td>
-<td>See <a href="../../theory/metrics/">Metrics</a></td>
+<td>See <a href="../theory/metrics.md">Metrics</a></td>
 </tr>
 </tbody>
 </table>
+<h3 id="solverinterpolation"><code>solver.interpolation</code><a class="headerlink" href="#solverinterpolation" title="Permanent link">&para;</a></h3>
+<p>The excitation force <span class="arithmatex">\(f_e^{lin}\)</span> and wave elevation are precomputed on the handled data grid. At each ODE stage the solver evaluates them at intermediate time points via interpolation. The <code>interpolation</code> dict is passed to <code>scipy.interpolate.interp1d</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">               </span><span class="c1">// default — linear interpolation</span>
+<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">}</span><span class="w">   </span><span class="c1">// same as above, explicit</span>
+<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nearest&quot;</span><span class="p">}</span><span class="w">  </span><span class="c1">// zero-order hold (step function)</span>
+<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">}</span><span class="w">    </span><span class="c1">// cubic spline, smoothest</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th><code>kind</code> value</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"linear"</code></td>
+<td>Piecewise linear (default, recommended)</td>
+</tr>
+<tr>
+<td><code>"nearest"</code></td>
+<td>Zero-order hold — holds value at nearest grid point</td>
+</tr>
+<tr>
+<td><code>"quadratic"</code></td>
+<td>Quadratic spline</td>
+</tr>
+<tr>
+<td><code>"cubic"</code></td>
+<td>Cubic spline — smoothest, highest cost</td>
+</tr>
+</tbody>
+</table>
+<p>Using <code>"nearest"</code> with <code>RK4</code> reduces the effective accuracy of the forcing term to first order. <code>"linear"</code> is a good default for all solver methods. See <a href="../../theory/models_solvers/#forcing-signal-interpolation">Models &amp; Solvers — Forcing signal interpolation</a> for a full discussion.</p>
 <hr />
 <h2 id="identify-config">Identify config<a class="headerlink" href="#identify-config" title="Permanent link">&para;</a></h2>
 <p>Path: <code>inputs/identify_case/&lt;name&gt;.json</code></p>
@@ -1251,7 +1307,7 @@
 <tr>
 <td><code>solver</code></td>
 <td>dict</td>
-<td>Same as validate config</td>
+<td>Same as validate config — see <code>solver.interpolation</code> above</td>
 </tr>
 </tbody>
 </table>

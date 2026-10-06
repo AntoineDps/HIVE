@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../identification/">
+        <link rel="prev" href="../../manual/output_files/">
       
       
-        <link rel="next" href="../metrics/">
+        <link rel="next" href="../../roadmap/">
       
       
         
@@ -257,7 +257,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../hydrodynamics/" class="md-tabs__link">
+        <a href="../hydrodynamics.md" class="md-tabs__link">
           
   
   
@@ -736,7 +736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../hydrodynamics/" class="md-nav__link">
+      <a href="../hydrodynamics.md" class="md-nav__link">
         
   
   
@@ -764,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../force_terms/" class="md-nav__link">
+      <a href="../force_terms.md" class="md-nav__link">
         
   
   
@@ -792,7 +792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identification/" class="md-nav__link">
+      <a href="../identification.md" class="md-nav__link">
         
   
   
@@ -935,13 +935,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#signal-interpolation" class="md-nav__link">
+  <a href="#forcing-signal-interpolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Signal interpolation
+        Forcing signal interpolation
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Forcing signal interpolation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-interpolation-is-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why interpolation is needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpolation-schemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolation schemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistency-with-the-ode-solver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistency with the ODE solver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-note-on-grid-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical note on grid resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -961,7 +1011,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
+      <a href="../metrics.md" class="md-nav__link">
         
   
   
@@ -1132,10 +1182,52 @@ t_{warmup} = \frac{-\log(\epsilon)}{\min_k |\text{Re}(p_k)|}
 <p>where <span class="arithmatex">\(\epsilon\)</span> is a small tolerance (default <span class="arithmatex">\(10^{-3}\)</span>) and <span class="arithmatex">\(p_k\)</span> are the eigenvalues of <span class="arithmatex">\(A_{rad}\)</span>. The value is logged in <code>run.log</code> and saved in <code>result.json</code>.</p>
 <p>Metrics are computed only over <span class="arithmatex">\([t_{warmup},\; T_{end} - t_{causal}]\)</span>.</p>
 <hr />
-<h2 id="signal-interpolation">Signal interpolation<a class="headerlink" href="#signal-interpolation" title="Permanent link">&para;</a></h2>
-<p>When the solver timestep <code>dt</code> differs from the CFD data timestep, forcing signals must be interpolated. The <code>interpolation</code> dict in the solver config is passed to <code>scipy.interpolate.interp1d</code>. Default (empty dict) uses linear interpolation. Example to use cubic splines:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">}</span>
-</code></pre></div>
+<h2 id="forcing-signal-interpolation">Forcing signal interpolation<a class="headerlink" href="#forcing-signal-interpolation" title="Permanent link">&para;</a></h2>
+<h3 id="why-interpolation-is-needed">Why interpolation is needed<a class="headerlink" href="#why-interpolation-is-needed" title="Permanent link">&para;</a></h3>
+<p>The excitation force <span class="arithmatex">\(f_e^{lin}\)</span> and wave elevation <span class="arithmatex">\(\eta\)</span> are precomputed on a fixed grid — the timestep of the handled CFD data (set by <code>dt</code> in the handle config). The ODE solver may use a different timestep. At each stage of the integrator (e.g. the four stages of RK4), the forcing signals must be evaluated at intermediate time points that generally do not fall on the original grid, requiring interpolation.</p>
+<p>Note that <span class="arithmatex">\(f_e^{lin}\)</span> is <strong>state-independent</strong> — it does not depend on <span class="arithmatex">\(x\)</span> or <span class="arithmatex">\(\dot{x}\)</span> — so it is fully precomputed before integration begins. This is unlike the radiation force <span class="arithmatex">\(f_{rad}\)</span>, which is stepped forward as a state-space system at each stage, or <span class="arithmatex">\(f_{hs}\)</span> and <span class="arithmatex">\(f_{pto}\)</span>, which are evaluated from the current state.</p>
+<h3 id="interpolation-schemes">Interpolation schemes<a class="headerlink" href="#interpolation-schemes" title="Permanent link">&para;</a></h3>
+<p>The <code>interpolation</code> dict in the solver config is passed directly to <code>scipy.interpolate.interp1d</code> via the <code>kind</code> keyword:</p>
+<table>
+<thead>
+<tr>
+<th><code>kind</code></th>
+<th>Description</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"linear"</code> (default)</td>
+<td>Piecewise linear between grid points</td>
+<td>2nd order in grid spacing</td>
+</tr>
+<tr>
+<td><code>"nearest"</code></td>
+<td>Zero-order hold — value at nearest grid point</td>
+<td>1st order (step function)</td>
+</tr>
+<tr>
+<td><code>"quadratic"</code></td>
+<td>Piecewise quadratic spline</td>
+<td>3rd order</td>
+</tr>
+<tr>
+<td><code>"cubic"</code></td>
+<td>Piecewise cubic spline</td>
+<td>4th order</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consistency-with-the-ode-solver">Consistency with the ODE solver<a class="headerlink" href="#consistency-with-the-ode-solver" title="Permanent link">&para;</a></h3>
+<p>A subtle point: if you use RK4 (<code>"method": "RK4"</code>) but hold the forcing constant within a step (<code>"kind": "nearest"</code>), the integration is effectively first-order in the forcing term. The radiation and restoring forces benefit from the full RK4 accuracy, but the excitation forcing does not. For best results, match the interpolation order to the solver:</p>
+<ul>
+<li><strong>RK4 / RK2:</strong> use <code>"linear"</code> or <code>"cubic"</code></li>
+<li><strong>Euler:</strong> <code>"nearest"</code> (ZOH) is sufficient and cheapest</li>
+</ul>
+<p>In practice, <code>"linear"</code> is a good default — it is cheap and ensures that <span class="arithmatex">\(f_e^{lin}\)</span> varies smoothly across RK stages.</p>
+<h3 id="practical-note-on-grid-resolution">Practical note on grid resolution<a class="headerlink" href="#practical-note-on-grid-resolution" title="Permanent link">&para;</a></h3>
+<p>The interpolation error decreases as the handled data timestep decreases. If you notice artefacts in simulated time series (especially at high frequencies), try reducing <code>dt</code> in the handle config to produce a finer forcing grid, rather than switching to a higher-order interpolation scheme.</p>
 
 
 
