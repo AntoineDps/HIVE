@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../run_signals/">
+        <link rel="prev" href="../run_identify/">
       
       
         <link rel="next" href="../naming_conventions/">
@@ -565,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_signals/" class="md-nav__link">
+      <a href="../run_signals.md" class="md-nav__link">
         
   
   
@@ -1052,17 +1052,25 @@
 <h2 id="validate-config">Validate config<a class="headerlink" href="#validate-config" title="Permanent link">&para;</a></h2>
 <p>Path: <code>inputs/validate_case/&lt;name&gt;.json</code></p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;waves_validate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;linear_viscous&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;nrmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nrmse_xdot&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_viscous&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;scatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1075,11 +1083,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>waves_validate</code></td>
-<td>list[str]</td>
-<td>Handle config stems to load from <code>data/handled/</code></td>
-</tr>
 <tr>
 <td><code>models</code></td>
 <td>list[str]</td>
@@ -1099,11 +1102,6 @@
 <td><code>solver.interpolation</code></td>
 <td>dict</td>
 <td>Interpolation scheme for forcing signals (see below)</td>
-</tr>
-<tr>
-<td><code>metrics</code></td>
-<td>list[str]</td>
-<td>See <a href="../theory/metrics.md">Metrics</a></td>
 </tr>
 </tbody>
 </table>

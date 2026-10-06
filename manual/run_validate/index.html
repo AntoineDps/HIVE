@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#run_validate" class="md-skip">
+        <a href="#input-config-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -569,10 +569,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#handle-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Handle config
       
     </span>
   </a>
@@ -580,68 +580,91 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-it-does" class="md-nav__link">
+  <a href="#validate-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it does
+        Validate config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validate config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solver-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solver config
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#config-fields" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#interpolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config fields
+        interpolation
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#rerun-options" class="md-nav__link">
+  <a href="#identify-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Rerun options
+        Identify config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Identify config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viscous_drag-scheme-params" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        viscous_drag scheme params
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#pi_gain-scheme-params" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        pi_gain scheme params
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#time-margins" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#linear_si-scheme-params" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Time margins
+        linear_si scheme params
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -689,7 +712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_signals/" class="md-nav__link">
+      <a href="../run_signals.md" class="md-nav__link">
         
   
   
@@ -935,73 +958,387 @@
   
 
 
-<h1 id="run_validate">run_validate<a class="headerlink" href="#run_validate" title="Permanent link">&para;</a></h1>
-<p>Runs one or more physics-based models against processed CFD reference data and
-computes performance metrics across the sea state space.</p>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>&lt;filename&gt;.json
+<h1 id="input-config-reference">Input Config Reference<a class="headerlink" href="#input-config-reference" title="Permanent link">&para;</a></h1>
+<p>All scripts are driven by JSON config files. This page lists every field for each script.</p>
+<hr />
+<h2 id="handle-config">Handle config<a class="headerlink" href="#handle-config" title="Permanent link">&para;</a></h2>
+<p>Path: <code>inputs/handle_case/&lt;name&gt;.json</code></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-280000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;sea_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;power&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dynamics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hydro&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;3d&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Config files live in <code>inputs/validate_case/</code>.</p>
-<h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Loads processed <code>DataHandle</code> objects from <code>data/handled/&lt;wave&gt;/</code></li>
-<li>Loads <code>model.json</code> definitions from <code>models/&lt;name&gt;/</code></li>
-<li>For each model and each sea state, runs <code>SimRun.simulate()</code> with the chosen solver</li>
-<li>Clips the simulation to the physically valid window (warmup + causal margins)</li>
-<li>Computes metrics (NRMSE, RMSE, power) and aggregates results</li>
-<li>Generates scatter plots over the <span class="arithmatex">\((H_s, T_e)\)</span> space and time series comparisons</li>
-</ol>
-<h2 id="config-fields">Config fields<a class="headerlink" href="#config-fields" title="Permanent link">&para;</a></h2>
-<p>See <a href="../config_reference/#validate-config">Input Config Reference — validate</a>.</p>
-<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Option</th>
-<th>Action</th>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>[1]</code></td>
-<td>Erase and redo all simulations and plots</td>
+<td><code>wave_type</code></td>
+<td>string</td>
+<td><code>"regular"</code> or <code>"irregular"</code></td>
 </tr>
 <tr>
-<td><code>[2]</code></td>
-<td>Stop</td>
+<td><code>cut_time</code></td>
+<td>[float, float]</td>
+<td>Seconds to cut from [start, end]</td>
 </tr>
 <tr>
-<td><code>[3]</code></td>
-<td>Reload saved figures (no recompute)</td>
+<td><code>duration</code></td>
+<td>float | null</td>
+<td>If set, truncates to this duration after cut</td>
 </tr>
 <tr>
-<td><code>[4]</code></td>
-<td>Reload processed CSVs, remake plots only</td>
+<td><code>hydro_sphere_pkl</code></td>
+<td>string</td>
+<td>BEM pickle filename (without <code>.pkl</code>) in <code>models/bem/</code></td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td>float | null</td>
+<td>Resample timestep [s]. Null keeps original</td>
+</tr>
+<tr>
+<td><code>cases</code></td>
+<td>list</td>
+<td>One entry per CFD case</td>
+</tr>
+<tr>
+<td><code>cases[].T</code></td>
+<td>float</td>
+<td>Wave period [s]</td>
+</tr>
+<tr>
+<td><code>cases[].H</code></td>
+<td>float</td>
+<td>Wave height [m]</td>
+</tr>
+<tr>
+<td><code>cases[].damping</code></td>
+<td>float</td>
+<td>PTO damping [N s/m]</td>
+</tr>
+<tr>
+<td><code>cases[].stiffness</code></td>
+<td>float</td>
+<td>PTO stiffness [N/m]</td>
+</tr>
+<tr>
+<td><code>cases[].plot</code></td>
+<td>bool</td>
+<td>Include in plots (default true)</td>
+</tr>
+<tr>
+<td><code>plot_options</code></td>
+<td>dict</td>
+<td>Which plots to generate</td>
 </tr>
 </tbody>
 </table>
-<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>models/&lt;name&gt;/validation/
-├── result.json           ← metric summary per model and sea state
-├── run.log
-├── data/
-│   └── &lt;label&gt;_simrun.csv
-└── plots/
-    └── *.png / *.pkl
+<hr />
+<h2 id="validate-config">Validate config<a class="headerlink" href="#validate-config" title="Permanent link">&para;</a></h2>
+<p>Path: <code>inputs/validate_case/&lt;name&gt;.json</code></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_viscous&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<h2 id="time-margins">Time margins<a class="headerlink" href="#time-margins" title="Permanent link">&para;</a></h2>
-<p>HIVE automatically computes two time margins from the base model:</p>
-<ul>
-<li><strong><code>t_warmup</code></strong> — radiation state warmup (from radiation SS pole magnitudes)</li>
-<li><strong><code>t_causal</code></strong> — non-causal excitation horizon (from BEM IRF tail)</li>
-</ul>
-<p>The clipped window <code>[t_warmup, T − t_causal]</code> is used for all metric computations.
-These values are logged and saved in <code>result.json</code>.</p>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Option <code>[4]</code> skips simulation entirely and reloads existing CSVs — useful when only plot parameters change.</li>
-<li>Mixed lists of <code>DataHandle</code> (CFD reference) and <code>SimRun</code> (model) can be passed to the same plotter calls because both expose <code>.dataset</code> and <code>.label</code>.</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>models</code></td>
+<td>list[dict]</td>
+<td>Models to validate; each entry has a <code>"name"</code> key matching a folder under <code>models/</code></td>
+</tr>
+<tr>
+<td><code>wave_sources</code></td>
+<td>list[dict]</td>
+<td>Wave data sources; <code>"cfd_case"</code> loads a handled CFD case by <code>"case_name"</code></td>
+</tr>
+<tr>
+<td><code>solvers</code></td>
+<td>list[dict]</td>
+<td>One or more solver configurations to run (see below)</td>
+</tr>
+<tr>
+<td><code>eta_inputs</code></td>
+<td>list[dict]</td>
+<td>Wave elevation input type; <code>"true"</code> uses the measured elevation</td>
+</tr>
+<tr>
+<td><code>simulation</code></td>
+<td>list[dict]</td>
+<td>Simulation mode; <code>"closed_loop"</code> includes PTO feedback</td>
+</tr>
+<tr>
+<td><code>plot_options</code></td>
+<td>dict</td>
+<td>Which plots to generate</td>
+</tr>
+</tbody>
+</table>
+<h3 id="solver-config">Solver config<a class="headerlink" href="#solver-config" title="Permanent link">&para;</a></h3>
+<p>Each entry in <code>solvers</code> has the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td>string</td>
+<td><code>"RK4"</code>, <code>"RK2"</code>, or <code>"euler"</code></td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td>float</td>
+<td>Integration timestep [s]</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td>dict</td>
+<td>Per-force-term interpolation flags (see below)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interpolation"><code>interpolation</code><a class="headerlink" href="#interpolation" title="Permanent link">&para;</a></h3>
+<p>The precomputed force signals (<span class="arithmatex">\(f_e^{lin}\)</span>, nonlinear FK force, wave elevation) are evaluated on the handled data grid. During ODE integration, sub-stage evaluations may fall between grid points. The <code>interpolation</code> dict controls, for each force term, whether it is re-evaluated at every RK sub-stage or frozen to the value at the start of the step (zero-order hold).</p>
+<p>The underlying grid interpolation is always piecewise linear.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Force term</th>
+<th>Effect when <code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"fe"</code></td>
+<td>Linear excitation force <span class="arithmatex">\(f_e^{lin}\)</span></td>
+<td>Evaluated at each RK sub-stage</td>
+</tr>
+<tr>
+<td><code>"fk"</code></td>
+<td>Nonlinear Froude–Krylov force</td>
+<td>Evaluated at each RK sub-stage</td>
+</tr>
+<tr>
+<td><code>"eta_hs"</code></td>
+<td>Wave elevation for nonlinear hydrostatic</td>
+<td>Evaluated at each RK sub-stage</td>
+</tr>
+</tbody>
+</table>
+<p>Setting a key to <code>false</code> freezes that term within each timestep (ZOH), which is cheaper but reduces effective accuracy for that term. An empty dict <code>{}</code> enables interpolation for all terms and is recommended for RK4 and RK2.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">                        </span><span class="c1">// all terms interpolated (default)</span>
+<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span><span class="w">             </span><span class="c1">// freeze excitation force, interpolate rest</span>
+<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="c1">// freeze both, interpolate eta_hs only</span>
+</code></pre></div>
+<hr />
+<h2 id="identify-config">Identify config<a class="headerlink" href="#identify-config" title="Permanent link">&para;</a></h2>
+<p>Path: <code>inputs/identify_case/&lt;name&gt;.json</code></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;c_v_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5000</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;grid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scheme</code></td>
+<td>string</td>
+<td>Identification scheme: <code>"viscous_drag"</code>, <code>"pi_gain"</code>, or <code>"linear_si"</code></td>
+</tr>
+<tr>
+<td><code>base_model</code></td>
+<td>string</td>
+<td>Folder name under <code>models/</code> for the base physics model. Use <code>"none"</code> for <code>linear_si</code>.</td>
+</tr>
+<tr>
+<td><code>waves_train</code></td>
+<td>list[str]</td>
+<td>Handle config stems to use as training data</td>
+</tr>
+<tr>
+<td><code>scheme_params</code></td>
+<td>dict</td>
+<td>Scheme-specific parameters (see below)</td>
+</tr>
+<tr>
+<td><code>solver</code></td>
+<td>dict</td>
+<td>Solver configuration — same fields as validate config (see above)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="viscous_drag-scheme-params"><code>viscous_drag</code> scheme params<a class="headerlink" href="#viscous_drag-scheme-params" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>c_v_range</code></td>
+<td>[min, max] search range for <span class="arithmatex">\(c_v\)</span> [N s²/m²]</td>
+</tr>
+<tr>
+<td><code>n_points</code></td>
+<td>Number of grid points</td>
+</tr>
+<tr>
+<td><code>objective</code></td>
+<td>Objective name (default <code>"nrmse_x"</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pi_gain-scheme-params"><code>pi_gain</code> scheme params<a class="headerlink" href="#pi_gain-scheme-params" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Kp_range</code></td>
+<td>[min, max] for proportional gain</td>
+</tr>
+<tr>
+<td><code>Ki_range</code></td>
+<td>[min, max] for integral gain</td>
+</tr>
+<tr>
+<td><code>n_points</code></td>
+<td>Grid resolution per dimension</td>
+</tr>
+</tbody>
+</table>
+<h3 id="linear_si-scheme-params"><code>linear_si</code> scheme params<a class="headerlink" href="#linear_si-scheme-params" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signal_file</code></td>
+<td>Path to signal CSV (relative to <code>code/</code>)</td>
+</tr>
+<tr>
+<td><code>input_signals</code></td>
+<td>List of input column names</td>
+</tr>
+<tr>
+<td><code>output_signals</code></td>
+<td>List of output column names</td>
+</tr>
+<tr>
+<td><code>identification</code></td>
+<td><code>"frequency"</code> (VF) or <code>"time"</code> (N4SID)</td>
+</tr>
+<tr>
+<td><code>w_start</code>, <code>w_end</code></td>
+<td>Frequency range for fitting [rad/s]</td>
+</tr>
+<tr>
+<td><code>order_list</code></td>
+<td>List of VF pole orders to sweep</td>
+</tr>
+<tr>
+<td><code>tau_min</code>, <code>tau_max</code>, <code>n_tau</code></td>
+<td>Causality delay sweep parameters</td>
+</tr>
+<tr>
+<td><code>smooth_window</code></td>
+<td>ETFE smoothing window length</td>
+</tr>
+<tr>
+<td><code>num_block_rows</code></td>
+<td>N4SID block rows (Hankel matrix size)</td>
+</tr>
+</tbody>
+</table>
 
 
 

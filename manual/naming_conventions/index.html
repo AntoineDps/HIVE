@@ -565,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_signals/" class="md-nav__link">
+      <a href="../run_signals.md" class="md-nav__link">
         
   
   
@@ -970,10 +970,10 @@
 <hr />
 <h2 id="case-labels">Case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h2>
 <p>Within a handled dataset, each CFD case is assigned a <strong>label</strong> derived from its wave parameters. The label appears as the CSV filename and as the series label in plots:</p>
-<div class="highlight"><pre><span></span><code>T8_H2      ← wave period 8 s, wave height 2 m
-T10_H3
+<div class="highlight"><pre><span></span><code>Hs2p0_Te8p0_d120000_k-280000
 </code></pre></div>
-<p>Labels are constructed automatically from <code>cases[].T</code> and <code>cases[].H</code> in the handle config.</p>
+<p>Labels are constructed automatically from <code>cases[].T</code> and <code>cases[].H</code> in the handle config.
+Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}</p>
 <hr />
 <h2 id="model-folder-names">Model folder names<a class="headerlink" href="#model-folder-names" title="Permanent link">&para;</a></h2>
 <p>Model folders live under <code>models/</code>. Each folder contains a <code>model.json</code> describing the model's physics and parameters. The folder name is:</p>

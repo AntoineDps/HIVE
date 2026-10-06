@@ -16,7 +16,7 @@
         <link rel="prev" href="../run_validate/">
       
       
-        <link rel="next" href="../run_signals/">
+        <link rel="next" href="../config_reference/">
       
       
         
@@ -700,7 +700,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_signals/" class="md-nav__link">
+      <a href="../run_signals.md" class="md-nav__link">
         
   
   
@@ -1019,8 +1019,7 @@ folder name under <code>models/</code>.</p>
 </table>
 <h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>models/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of config
-├── model.json                ← updated model with identified parameters
+├── model.json          ← updated with identified parameters
 ├── run.log
 └── identification/
     ├── result.json
@@ -1031,8 +1030,9 @@ folder name under <code>models/</code>.</p>
 </code></pre></div>
 <h2 id="scheme-contract">Scheme contract<a class="headerlink" href="#scheme-contract" title="Permanent link">&para;</a></h2>
 <p>Every scheme module must implement:</p>
-<div class="highlight"><pre><span></span><code><span class="n">SELF_LOADING</span> <span class="o">=</span> <span class="kc">False</span>   <span class="c1"># True if scheme loads its own data (e.g. linear_si)</span>
+<div class="highlight"><pre><span></span><code><span class="n">SELF_LOADING</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># True if scheme loads its own data (e.g. linear_si)</span>
 <span class="n">PLOT_DISPATCH</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>  <span class="c1"># {name: fn(data, simruns, result, grids, plots_dir)}</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">prep</span><span class="p">(</span><span class="n">feed</span><span class="p">:</span> <span class="n">DDFeed</span><span class="p">):</span> <span class="o">...</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">opt</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">feed</span><span class="p">:</span> <span class="n">DDFeed</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span> <span class="o">...</span>

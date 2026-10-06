@@ -565,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_signals/" class="md-nav__link">
+      <a href="../run_signals.md" class="md-nav__link">
         
   
   
@@ -1109,16 +1109,6 @@
 <td>N</td>
 <td>Hydrostatic force</td>
 </tr>
-<tr>
-<td><code>f_pto</code></td>
-<td>N</td>
-<td>PTO force</td>
-</tr>
-<tr>
-<td><code>P_abs</code></td>
-<td>W</td>
-<td>Absorbed power</td>
-</tr>
 </tbody>
 </table>
 <h3 id="wave-parameters-csv-columns">Wave parameters CSV columns<a class="headerlink" href="#wave-parameters-csv-columns" title="Permanent link">&para;</a></h3>
@@ -1233,6 +1223,7 @@
 <h2 id="pickle-figures-pkl">Pickle figures (<code>.pkl</code>)<a class="headerlink" href="#pickle-figures-pkl" title="Permanent link">&para;</a></h2>
 <p>Every plot is saved in both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun menu, or directly:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
 <span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/timeseries_T8_H2.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
