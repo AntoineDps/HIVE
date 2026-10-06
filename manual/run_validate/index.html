@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="User manual for the WEC modeling and identification pipeline">
+        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, system identification and benchmarking.">
       
       
-        <meta name="author" content="Antoine">
+        <meta name="author" content="Antoine Dupuis">
       
       
       
-        <link rel="prev" href="../../pipeline/">
+        <link rel="prev" href="../run_handle_data/">
       
       
-        <link rel="next" href="../run_validate/">
+        <link rel="next" href="../run_identify/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>run_handle_data - WEC Modeling Benchmark</title>
+        <title>run_validate - HIVE</title>
       
     
     
@@ -67,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#run_handle_data" class="md-skip">
+        <a href="#run_validate" class="md-skip">
           Skip to content
         </a>
       
@@ -90,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="WEC Modeling Benchmark" class="md-header__button md-logo" aria-label="WEC Modeling Benchmark" data-md-component="logo">
+    <a href="../.." title="HIVE" class="md-header__button md-logo" aria-label="HIVE" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -104,13 +104,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            WEC Modeling Benchmark
+            HIVE
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              run_handle_data
+              run_validate
             
           </span>
         </div>
@@ -162,6 +162,18 @@
 </div>
       
     
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntoineDps/HIVE" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AntoineDps/HIVE
+  </div>
+</a>
+      </div>
     
   </nav>
   
@@ -219,36 +231,17 @@
   
   
   
-  
-    <li class="md-tabs__item">
-      <a href="../../pipeline/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Pipeline Overview
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
     
   
   
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../pipeline_overview/" class="md-tabs__link">
           
   
   
-  Scripts
+  User Manual
 
         </a>
       </li>
@@ -264,31 +257,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../config/model_json/" class="md-tabs__link">
+        <a href="../../theory/hydrodynamics/" class="md-tabs__link">
           
   
   
-  Configuration
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../concepts/hydro/" class="md-tabs__link">
-          
-  
-  
-  Concepts
+  Theory
 
         </a>
       </li>
@@ -302,7 +275,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../roadmap/roadmap/" class="md-tabs__link">
+      <a href="../../roadmap/" class="md-tabs__link">
         
   
   
@@ -335,16 +308,30 @@
   
 
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="WEC Modeling Benchmark" class="md-nav__button md-logo" aria-label="WEC Modeling Benchmark" data-md-component="logo">
+    <a href="../.." title="HIVE" class="md-nav__button md-logo" aria-label="HIVE" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    WEC Modeling Benchmark
+    HIVE
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntoineDps/HIVE" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AntoineDps/HIVE
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -406,33 +393,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../../pipeline/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Pipeline Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -454,17 +414,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Scripts
+    User Manual
   
 
     
@@ -475,16 +435,72 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Scripts
+    User Manual
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipeline_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_handle_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_handle_data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -509,7 +525,7 @@
   <span class="md-ellipsis">
     
   
-    run_handle_data
+    run_validate
   
 
     
@@ -527,7 +543,7 @@
   <span class="md-ellipsis">
     
   
-    run_handle_data
+    run_validate
   
 
     
@@ -553,10 +569,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run
+        Usage
       
     </span>
   </a>
@@ -564,10 +580,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#input" class="md-nav__link">
+  <a href="#what-it-does" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Input
+        What it does
       
     </span>
   </a>
@@ -575,38 +591,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#output" class="md-nav__link">
+  <a href="#config-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Output
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Output">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#csv-columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CSV columns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#options-menu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options menu
+        Config fields
       
     </span>
   </a>
@@ -614,10 +602,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#plot-output" class="md-nav__link">
+  <a href="#rerun-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Plot output
+        Rerun options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-margins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time margins
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
       
     </span>
   </a>
@@ -628,34 +649,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run_validate/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    run_validate
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -689,65 +682,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Configuration
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
               
                 
   
@@ -755,14 +689,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../config/model_json/" class="md-nav__link">
+      <a href="../run_signals/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    model.json
+    run_signals
   
 
     
@@ -783,14 +717,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../config/validate_json/" class="md-nav__link">
+      <a href="../config_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    validate run.json
+    Input Config Reference
   
 
     
@@ -811,14 +745,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../../config/identify_json/" class="md-nav__link">
+      <a href="../naming_conventions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    identify config
+    Naming Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Files & Folder Structure
   
 
     
@@ -859,17 +821,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    Concepts
+    Theory
   
 
     
@@ -880,12 +842,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Concepts
+    Theory
   
 
           </label>
@@ -898,7 +860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/hydro/" class="md-nav__link">
+      <a href="../../theory/hydrodynamics/" class="md-nav__link">
         
   
   
@@ -926,14 +888,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/models/" class="md-nav__link">
+      <a href="../../theory/force_terms/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Models & Force Terms
+    Force Terms
   
 
     
@@ -954,14 +916,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/solvers/" class="md-nav__link">
+      <a href="../../theory/identification/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Solvers & Interpolation
+    System Identification
   
 
     
@@ -982,7 +944,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/metrics/" class="md-nav__link">
+      <a href="../../theory/models_solvers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models & Solvers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/metrics/" class="md-nav__link">
         
   
   
@@ -1017,7 +1007,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../roadmap/roadmap/" class="md-nav__link">
+      <a href="../../roadmap/" class="md-nav__link">
         
   
   
@@ -1044,104 +1034,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Input
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Output">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#csv-columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CSV columns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#options-menu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options menu
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plot-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plot output
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           
             <div class="md-content" data-md-component="content">
@@ -1151,150 +1043,77 @@
                   
 
 
+  
+  
 
-<h1 id="run_handle_data">run_handle_data</h1>
-<p>Loads raw CFD output, computes derived quantities, and saves structured CSVs that all downstream scripts consume.</p>
-<h2 id="run">Run</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data
+
+<h1 id="run_validate">run_validate<a class="headerlink" href="#run_validate" title="Permanent link">&para;</a></h1>
+<p>Runs one or more physics-based models against processed CFD reference data and
+computes performance metrics across the sea state space.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>&lt;filename&gt;.json
 </code></pre></div>
-<h2 id="input">Input</h2>
-<p><code>inputs/handle_case/cases.json</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hs2p0_Te5p0_D120000_K-280000&quot;</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">]</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td>string</td>
-<td>Source type. Currently <code>"cfd_case"</code></td>
-</tr>
-<tr>
-<td><code>case_name</code></td>
-<td>string</td>
-<td>Exact name of the CFD folder under <code>data/cfd/</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="output">Output</h2>
-<p>For each case, writes <code>data/handled/{label}/data/{label}_data.csv</code>.</p>
-<h3 id="csv-columns">CSV columns</h3>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Unit</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>t</code></td>
-<td>s</td>
-<td>Time</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>m</td>
-<td>Heave displacement</td>
-</tr>
-<tr>
-<td><code>xdot</code></td>
-<td>m/s</td>
-<td>Heave velocity</td>
-</tr>
-<tr>
-<td><code>eta</code></td>
-<td>m</td>
-<td>Wave elevation at WEC location</td>
-</tr>
-<tr>
-<td><code>fe_lin</code></td>
-<td>N</td>
-<td>Linear excitation force (BEM convolution)</td>
-</tr>
-<tr>
-<td><code>fhyd_lin</code></td>
-<td>N</td>
-<td>Linear hydrodynamic force</td>
-</tr>
-<tr>
-<td><code>fhyd_cfd</code></td>
-<td>N</td>
-<td>Total CFD hydrodynamic force</td>
-</tr>
-<tr>
-<td><code>f_pto</code></td>
-<td>N</td>
-<td>PTO force</td>
-</tr>
-<tr>
-<td><code>P_abs</code></td>
-<td>W</td>
-<td>Absorbed power</td>
-</tr>
-</tbody>
-</table>
-<h2 id="options-menu">Options menu</h2>
+<p>Config files live in <code>inputs/validate_case/</code>.</p>
+<h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Loads processed <code>DataHandle</code> objects from <code>data/handled/&lt;wave&gt;/</code></li>
+<li>Loads <code>model.json</code> definitions from <code>models/&lt;name&gt;/</code></li>
+<li>For each model and each sea state, runs <code>SimRun.simulate()</code> with the chosen solver</li>
+<li>Clips the simulation to the physically valid window (warmup + causal margins)</li>
+<li>Computes metrics (NRMSE, RMSE, power) and aggregates results</li>
+<li>Generates scatter plots over the <span class="arithmatex">\((H_s, T_e)\)</span> space and time series comparisons</li>
+</ol>
+<h2 id="config-fields">Config fields<a class="headerlink" href="#config-fields" title="Permanent link">&para;</a></h2>
+<p>See <a href="../config_reference/#validate-config">Input Config Reference — validate</a>.</p>
+<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Option</th>
-<th>Effect</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>[1]</code></td>
-<td>Erase existing and reprocess all cases</td>
+<td>Erase and redo all simulations and plots</td>
 </tr>
 <tr>
 <td><code>[2]</code></td>
-<td>Skip already-processed cases</td>
+<td>Stop</td>
 </tr>
 <tr>
 <td><code>[3]</code></td>
-<td>Append new cases only</td>
+<td>Reload saved figures (no recompute)</td>
 </tr>
 <tr>
 <td><code>[4]</code></td>
-<td>Remake plots only (no reprocessing)</td>
+<td>Reload processed CSVs, remake plots only</td>
 </tr>
 </tbody>
 </table>
-<h2 id="plot-output">Plot output</h2>
-<p><code>out/handled_{case}/plots/</code></p>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Content</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>variable_{label}.png</code></td>
-<td>Time series of all variables</td>
-</tr>
-<tr>
-<td><code>eta_spectrum_{label}.png</code></td>
-<td>Wave elevation spectrum</td>
-</tr>
-</tbody>
-</table>
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>models/&lt;name&gt;/validation/
+├── result.json           ← metric summary per model and sea state
+├── run.log
+├── data/
+│   └── &lt;label&gt;_simrun.csv
+└── plots/
+    └── *.png / *.pkl
+</code></pre></div>
+<h2 id="time-margins">Time margins<a class="headerlink" href="#time-margins" title="Permanent link">&para;</a></h2>
+<p>HIVE automatically computes two time margins from the base model:</p>
+<ul>
+<li><strong><code>t_warmup</code></strong> — radiation state warmup (from radiation SS pole magnitudes)</li>
+<li><strong><code>t_causal</code></strong> — non-causal excitation horizon (from BEM IRF tail)</li>
+</ul>
+<p>The clipped window <code>[t_warmup, T − t_causal]</code> is used for all metric computations.
+These values are logged and saved in <code>result.json</code>.</p>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Option <code>[4]</code> skips simulation entirely and reloads existing CSVs — useful when only plot parameters change.</li>
+<li>Mixed lists of <code>DataHandle</code> (CFD reference) and <code>SimRun</code> (model) can be passed to the same plotter calls because both expose <code>.dataset</code> and <code>.label</code>.</li>
+</ul>
 
 
 
@@ -1350,10 +1169,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

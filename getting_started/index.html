@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="User manual for the WEC modeling and identification pipeline">
+        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, system identification and benchmarking.">
       
       
-        <meta name="author" content="Antoine">
+        <meta name="author" content="Antoine Dupuis">
       
       
       
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../pipeline/">
+        <link rel="next" href="../manual/pipeline_overview/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Getting Started - WEC Modeling Benchmark</title>
+        <title>Getting Started - HIVE</title>
       
     
     
@@ -67,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -90,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="WEC Modeling Benchmark" class="md-header__button md-logo" aria-label="WEC Modeling Benchmark" data-md-component="logo">
+    <a href=".." title="HIVE" class="md-header__button md-logo" aria-label="HIVE" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -104,7 +104,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            WEC Modeling Benchmark
+            HIVE
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -162,6 +162,18 @@
 </div>
       
     
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntoineDps/HIVE" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AntoineDps/HIVE
+  </div>
+</a>
+      </div>
     
   </nav>
   
@@ -222,33 +234,14 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../pipeline/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Pipeline Overview
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
     
     
       <li class="md-tabs__item">
-        <a href="../scripts/run_handle_data/" class="md-tabs__link">
+        <a href="../manual/pipeline_overview/" class="md-tabs__link">
           
   
   
-  Scripts
+  User Manual
 
         </a>
       </li>
@@ -264,31 +257,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../config/model_json/" class="md-tabs__link">
+        <a href="../theory/hydrodynamics/" class="md-tabs__link">
           
   
   
-  Configuration
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../concepts/hydro/" class="md-tabs__link">
-          
-  
-  
-  Concepts
+  Theory
 
         </a>
       </li>
@@ -302,7 +275,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../roadmap/roadmap/" class="md-tabs__link">
+      <a href="../roadmap/" class="md-tabs__link">
         
   
   
@@ -335,16 +308,30 @@
   
 
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="WEC Modeling Benchmark" class="md-nav__button md-logo" aria-label="WEC Modeling Benchmark" data-md-component="logo">
+    <a href=".." title="HIVE" class="md-nav__button md-logo" aria-label="HIVE" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    WEC Modeling Benchmark
+    HIVE
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntoineDps/HIVE" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AntoineDps/HIVE
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -453,10 +440,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#path-configuration" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Path configuration
+        Installation
       
     </span>
   </a>
@@ -464,10 +451,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bem-data" class="md-nav__link">
+  <a href="#quick-run" class="md-nav__link">
     <span class="md-ellipsis">
       
-        BEM data
+        Quick run
       
     </span>
   </a>
@@ -475,10 +462,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-run-checklist" class="md-nav__link">
+  <a href="#test-case" class="md-nav__link">
     <span class="md-ellipsis">
       
-        First run checklist
+        Test case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#folder-layout-before-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder layout before running
       
     </span>
   </a>
@@ -499,8 +497,60 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Manual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../pipeline/" class="md-nav__link">
+      <a href="../manual/pipeline_overview/" class="md-nav__link">
         
   
   
@@ -516,6 +566,210 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/run_handle_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_handle_data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/run_validate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_validate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/run_identify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_identify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/run_signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/config_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/naming_conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Naming Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/output_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Files & Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -550,7 +804,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts
+    Theory
   
 
     
@@ -566,7 +820,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Scripts
+    Theory
   
 
           </label>
@@ -579,293 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scripts/run_handle_data/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    run_handle_data
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../scripts/run_validate/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    run_validate
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../scripts/run_identify/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    run_identify
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Configuration
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../config/model_json/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    model.json
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../config/validate_json/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    validate run.json
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../config/identify_json/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    identify config
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Concepts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Concepts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/hydro/" class="md-nav__link">
+      <a href="../theory/hydrodynamics/" class="md-nav__link">
         
   
   
@@ -893,14 +861,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/models/" class="md-nav__link">
+      <a href="../theory/force_terms/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Models & Force Terms
+    Force Terms
   
 
     
@@ -921,14 +889,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/solvers/" class="md-nav__link">
+      <a href="../theory/identification/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Solvers & Interpolation
+    System Identification
   
 
     
@@ -949,7 +917,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/metrics/" class="md-nav__link">
+      <a href="../theory/models_solvers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models & Solvers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theory/metrics/" class="md-nav__link">
         
   
   
@@ -984,7 +980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../roadmap/roadmap/" class="md-nav__link">
+      <a href="../roadmap/" class="md-nav__link">
         
   
   
@@ -1011,76 +1007,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requirements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#path-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bem-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        BEM data
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#first-run-checklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        First run checklist
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           
             <div class="md-content" data-md-component="content">
@@ -1090,108 +1016,71 @@
                   
 
 
+  
+  
 
-<h1 id="getting-started">Getting Started</h1>
-<h2 id="requirements">Requirements</h2>
+
+<h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Python 3.10+</li>
-<li>conda environment <code>surrogate</code></li>
+<li>Conda (recommended)</li>
+<li>A HydroSphere BEM pickle file (<code>.pkl</code>) placed under <code>models/bem/</code></li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>conda<span class="w"> </span>activate<span class="w"> </span>surrogate
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>control<span class="w"> </span>nfoursid<span class="w"> </span>cvxpy<span class="w"> </span>pysindy
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>Clone the repository and create the conda environment:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AntoineDps/HIVE.git
+<span class="nb">cd</span><span class="w"> </span>HIVE/code
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+conda<span class="w"> </span>activate<span class="w"> </span>surrogate
 </code></pre></div>
-<h2 id="path-configuration">Path configuration</h2>
-<p>All paths are defined in <code>source/config.py</code>. The file resolves everything relative to the <code>source/</code> directory:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">_SRC</span>     <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>   <span class="c1"># → code/source/</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">DATA_DIR</span>  <span class="o">=</span> <span class="n">_SRC</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>             <span class="c1"># → code/data/</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">INPUT_DIR</span> <span class="o">=</span> <span class="n">_SRC</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;inputs&quot;</span>           <span class="c1"># → code/inputs/</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">OUT_DIR</span>   <span class="o">=</span> <span class="n">_SRC</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;out&quot;</span>              <span class="c1"># → code/out/</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">_SRC</span> <span class="o">/</span> <span class="s2">&quot;models&quot;</span>                  <span class="c1"># → code/source/models/</span>
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Running scripts</p>
-<p>Always run scripts as <strong>modules</strong> from the <code>code/</code> directory so imports resolve correctly:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>code/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If no <code>environment.yml</code> is provided yet, install manually:
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>surrogate<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>surrogate
+pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>control<span class="w"> </span>vectfit<span class="w"> </span>nfoursid<span class="w"> </span>cvxpy<span class="w"> </span>mkdocs-material
 </code></pre></div></p>
 </div>
-<h2 id="bem-data">BEM data</h2>
-<p>The hydrodynamic coefficients live in <code>source/models/bem/r5.pkl</code>.<br />
-Load it with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="s2">&quot;bem&quot;</span> <span class="o">/</span> <span class="s2">&quot;r5.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">hs</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<hr />
+<h2 id="quick-run">Quick run<a class="headerlink" href="#quick-run" title="Permanent link">&para;</a></h2>
+<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder:</p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>surrogate
+<span class="nb">cd</span><span class="w"> </span>HIVE/code
+
+<span class="c1"># 1 — process CFD data</span>
+python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>my_cases.json
+
+<span class="c1"># 2 — validate models</span>
+python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>my_validate.json
+
+<span class="c1"># 3 — identify parameters</span>
+python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>my_identify.json
 </code></pre></div>
-<p>Attributes available on <code>hs</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-<th>Unit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>hs.mass</code></td>
-<td>Displaced mass</td>
-<td>kg</td>
-</tr>
-<tr>
-<td><code>hs.ma_inf</code></td>
-<td>Infinite-frequency added mass</td>
-<td>kg</td>
-</tr>
-<tr>
-<td><code>hs.stiffness</code></td>
-<td>Hydrostatic restoring coefficient $K_{hs}$</td>
-<td>N/m</td>
-</tr>
-<tr>
-<td><code>hs.r</code></td>
-<td>Sphere radius</td>
-<td>m</td>
-</tr>
-<tr>
-<td><code>hs.w</code></td>
-<td>BEM frequency grid</td>
-<td>rad/s</td>
-</tr>
-<tr>
-<td><code>hs.Fe_mod</code></td>
-<td>Excitation force magnitude $|F_e(\omega)|$</td>
-<td>N/m</td>
-</tr>
-<tr>
-<td><code>hs.Fe_ang</code></td>
-<td>Excitation force phase $\angle F_e(\omega)$</td>
-<td>rad</td>
-</tr>
-<tr>
-<td><code>hs.rad_ss</code></td>
-<td>Radiation state-space <code>{Ar, Br, Cr, Dr}</code></td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>hs.Kp</code></td>
-<td>Array of proportional gains</td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>hs.Ki</code></td>
-<td>Array of integral gains</td>
-<td>—</td>
-</tr>
-</tbody>
-</table>
-<h2 id="first-run-checklist">First run checklist</h2>
-<ol>
-<li>Raw CFD data in <code>data/cfd/{case_folder}/</code></li>
-<li><code>inputs/handle_case/cases.json</code> lists the cases to process</li>
-<li>Run <code>run_handle_data.py</code> → creates <code>data/handled/{case}/data/*.csv</code></li>
-<li>Edit <code>inputs/validate_case/run.json</code> with desired models and wave sources</li>
-<li>Run <code>run_validate.py</code> → outputs in <code>out/validated_{name}/</code></li>
-</ol>
+<p>Each <code>--case</code> argument points to a JSON file inside <code>inputs/&lt;script&gt;/</code>.</p>
+<hr />
+<h2 id="test-case">Test case<a class="headerlink" href="#test-case" title="Permanent link">&para;</a></h2>
+<p>A minimal test case is provided under <code>inputs/</code> to verify the installation.
+Run it with:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example.json
+python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>example.json
+python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_viscous.json
+</code></pre></div>
+<p>Expected outputs appear in <code>data/handled/example/</code> and <code>models/example_viscous/</code>.</p>
+<hr />
+<h2 id="folder-layout-before-running">Folder layout before running<a class="headerlink" href="#folder-layout-before-running" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>code/
+├── inputs/
+│   ├── handle_case/    ← put your handle JSON here
+│   ├── validate_case/  ← put your validate JSON here
+│   └── identify_case/  ← put your identify JSON here
+├── models/
+│   └── bem/
+│       └── r5.pkl      ← BEM HydroSphere file
+└── source/
+</code></pre></div>
+<p>See <a href="../manual/naming_conventions/">Naming Conventions</a> for label and file naming rules,
+and <a href="../manual/config_reference/">Input Config Reference</a> for all JSON fields.</p>
 
 
 
@@ -1247,10 +1136,12 @@ Load it with:</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>
