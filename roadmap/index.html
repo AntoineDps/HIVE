@@ -948,10 +948,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-linear_si-models-not-usable-in-run_validate" class="md-nav__link">
+  <a href="#1-merge-system-identification-to-run_identify-pipeline-plan-on-reference-dataset-type-specific-signal" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. linear_si models not usable in run_validate
+        1. merge system identification to run_identify pipeline. Plan on reference dataset type (specific signal)
       
     </span>
   </a>
@@ -959,10 +959,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-no-direct-link-from-run_signals-to-linear_si" class="md-nav__link">
+  <a href="#2-merge-sindy-to-run_identify-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. No direct link from run_signals to linear_si
+        2. merge SINDY to run_identify pipeline
       
     </span>
   </a>
@@ -970,10 +970,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-etfe-averaging-not-implemented" class="md-nav__link">
+  <a href="#3-wave-prediction-forecast" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. ETFE averaging not implemented
+        3. Wave prediction / forecast
       
     </span>
   </a>
@@ -981,10 +981,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-no-passivity-enforcement" class="md-nav__link">
+  <a href="#4-uncertainty-quantification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. No passivity enforcement
+        4. Uncertainty quantification
       
     </span>
   </a>
@@ -997,66 +997,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#missing-features" class="md-nav__link">
+  <a href="#technical-matters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Missing features
+        Technical matters
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Missing features">
+    <nav class="md-nav" aria-label="Technical matters">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wave-prediction-forecast" class="md-nav__link">
+  <a href="#1-no-passivity-enforcement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wave prediction / forecast
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#model-predictive-control-mpc" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model-predictive control (MPC)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonlinear-system-identification-sindy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Nonlinear system identification (SINDy)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cross-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cross-validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uncertainty-quantification-uq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Uncertainty quantification (UQ)
+        1. No passivity enforcement
       
     </span>
   </a>
@@ -1065,28 +1021,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#known-code-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Known code issues
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#undocumented-scripts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Undocumented scripts
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1122,86 +1056,13 @@
 <p>This page tracks planned features, missing integrations, and known issues in HIVE.</p>
 <hr />
 <h2 id="pipeline-gaps">Pipeline gaps<a class="headerlink" href="#pipeline-gaps" title="Permanent link">&para;</a></h2>
-<h3 id="1-linear_si-models-not-usable-in-run_validate">1. <code>linear_si</code> models not usable in <code>run_validate</code><a class="headerlink" href="#1-linear_si-models-not-usable-in-run_validate" title="Permanent link">&para;</a></h3>
-<p>Models identified by <code>linear_si</code> produce two state-space blocks (<code>eta2f</code> and <code>f2v</code>). These are not yet wired into <code>SimRun</code>, so they cannot be passed to <code>run_validate</code> for metric evaluation.</p>
-<p><strong>Planned:</strong> A <code>LinearSIModel</code> class that chains the two state-space blocks and exposes the same interface as the existing <code>SimRun</code>.</p>
+<h3 id="1-merge-system-identification-to-run_identify-pipeline-plan-on-reference-dataset-type-specific-signal">1. merge system identification to run_identify pipeline. Plan on reference dataset type (specific signal)<a class="headerlink" href="#1-merge-system-identification-to-run_identify-pipeline-plan-on-reference-dataset-type-specific-signal" title="Permanent link">&para;</a></h3>
+<h3 id="2-merge-sindy-to-run_identify-pipeline">2. merge SINDY to run_identify pipeline<a class="headerlink" href="#2-merge-sindy-to-run_identify-pipeline" title="Permanent link">&para;</a></h3>
+<h3 id="3-wave-prediction-forecast">3. Wave prediction / forecast<a class="headerlink" href="#3-wave-prediction-forecast" title="Permanent link">&para;</a></h3>
+<h3 id="4-uncertainty-quantification">4. Uncertainty quantification<a class="headerlink" href="#4-uncertainty-quantification" title="Permanent link">&para;</a></h3>
 <hr />
-<h3 id="2-no-direct-link-from-run_signals-to-linear_si">2. No direct link from <code>run_signals</code> to <code>linear_si</code><a class="headerlink" href="#2-no-direct-link-from-run_signals-to-linear_si" title="Permanent link">&para;</a></h3>
-<p>Signal generation (<code>run_signals</code>) and system identification (<code>linear_si</code>) are currently separate steps. The user must manually specify <code>signal_file</code> in the identify config and ensure it points to a file produced by <code>run_signals</code>.</p>
-<p><strong>Planned:</strong> A helper in the identify config or a <code>run_signals</code> step embedded in the <code>linear_si</code> scheme, so that the signal parameters are versioned alongside the identification result.</p>
-<hr />
-<h3 id="3-etfe-averaging-not-implemented">3. ETFE averaging not implemented<a class="headerlink" href="#3-etfe-averaging-not-implemented" title="Permanent link">&para;</a></h3>
-<p>Currently a single period of the multi-sine signal is used for ETFE estimation. Averaging over multiple periods (when the experiment runs for <span class="arithmatex">\(M\)</span> periods) would reduce variance by a factor of <span class="arithmatex">\(M\)</span>.</p>
-<p><strong>Planned:</strong> Support for multi-period signals and averaged ETFE computation.</p>
-<hr />
-<h3 id="4-no-passivity-enforcement">4. No passivity enforcement<a class="headerlink" href="#4-no-passivity-enforcement" title="Permanent link">&para;</a></h3>
-<p>The identified <code>f2v</code> state-space model is not guaranteed to be passive (i.e. it may produce energy from nothing). For physics-consistent simulation, passivity should be enforced as a post-processing step.</p>
-<p><strong>Planned:</strong> LMI-based passivity enforcement or enforcement via balanced truncation.</p>
-<hr />
-<h2 id="missing-features">Missing features<a class="headerlink" href="#missing-features" title="Permanent link">&para;</a></h2>
-<h3 id="wave-prediction-forecast">Wave prediction / forecast<a class="headerlink" href="#wave-prediction-forecast" title="Permanent link">&para;</a></h3>
-<p>For model-predictive control (MPC), the wave elevation must be known a number of seconds into the future (the non-causal horizon <code>t_causal</code>). HIVE currently does not include a wave prediction module.</p>
-<p><strong>Planned:</strong> ARMA/Kalman-based short-term wave predictor, or interface to an external predictor.</p>
-<hr />
-<h3 id="model-predictive-control-mpc">Model-predictive control (MPC)<a class="headerlink" href="#model-predictive-control-mpc" title="Permanent link">&para;</a></h3>
-<p>The PI gain scheme provides a simple reactive controller. An MPC layer using the identified linear models and a wave forecast would allow optimal, constrained power extraction.</p>
-<hr />
-<h3 id="nonlinear-system-identification-sindy">Nonlinear system identification (SINDy)<a class="headerlink" href="#nonlinear-system-identification-sindy" title="Permanent link">&para;</a></h3>
-<p>For cases where the linear WEC model is insufficient (large amplitude, vortex-induced forces), SINDy (Sparse Identification of Nonlinear Dynamics) could identify a parsimonious nonlinear model from CFD data.</p>
-<p><strong>Planned:</strong> A <code>sindy</code> scheme module wrapping PySINDy, with a library of candidate nonlinear terms (drag, Froude–Krylov second-order, etc.).</p>
-<hr />
-<h3 id="cross-validation">Cross-validation<a class="headerlink" href="#cross-validation" title="Permanent link">&para;</a></h3>
-<p>Models identified on one set of sea states should be validated on a held-out set. A cross-validation workflow (separate train/test splits in the config) is not yet implemented.</p>
-<hr />
-<h3 id="uncertainty-quantification-uq">Uncertainty quantification (UQ)<a class="headerlink" href="#uncertainty-quantification-uq" title="Permanent link">&para;</a></h3>
-<p>HIVE produces point estimates of model parameters. Bayesian or bootstrap-based UQ would provide confidence intervals on predicted quantities.</p>
-<hr />
-<h2 id="known-code-issues">Known code issues<a class="headerlink" href="#known-code-issues" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Issue</th>
-<th>Severity</th>
-<th>Location</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Unfiltered PTO saved in signal 2</td>
-<td>Low</td>
-<td><code>run_signals</code></td>
-<td>The CSV for signal 2 stores the raw random PTO force without the low-pass filter. Users must filter before use.</td>
-</tr>
-<tr>
-<td><code>set_title</code> bug in plotter</td>
-<td>Low</td>
-<td><code>src/Plotter.py</code></td>
-<td>Calling <code>set_title</code> on certain plot types raises <code>AttributeError</code>. Use <code>ax.set_title</code> directly as a workaround.</td>
-</tr>
-<tr>
-<td><code>multisine</code> return type inconsistency</td>
-<td>Low</td>
-<td><code>src/signals.py</code></td>
-<td>Returns <code>(signal, phases)</code> in some code paths and only <code>signal</code> in others. Always unpack with <code>signal, _ = multisine(...)</code>.</td>
-</tr>
-<tr>
-<td>Debug print statements</td>
-<td>Low</td>
-<td>Various</td>
-<td>Several <code>print()</code> debug calls remain in <code>src/</code>. These do not affect results but clutter logs.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="undocumented-scripts">Undocumented scripts<a class="headerlink" href="#undocumented-scripts" title="Permanent link">&para;</a></h2>
-<p>The following utility scripts exist in <code>script/</code> but are not yet documented:</p>
-<ul>
-<li><code>run_bem.py</code> — calls NEMOH/CAPYTAINE and saves the BEM pickle</li>
-<li><code>run_plot.py</code> — standalone plotter for re-rendering saved figures</li>
-<li><code>run_export.py</code> — exports result summaries to Excel</li>
-</ul>
-<p>Documentation for these will be added in a future update.</p>
+<h2 id="technical-matters">Technical matters<a class="headerlink" href="#technical-matters" title="Permanent link">&para;</a></h2>
+<h3 id="1-no-passivity-enforcement">1. No passivity enforcement<a class="headerlink" href="#1-no-passivity-enforcement" title="Permanent link">&para;</a></h3>
 
 
 
