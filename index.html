@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, system identification and benchmarking.">
+        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, identification and validation.">
       
       
         <meta name="author" content="Antoine Dupuis">
@@ -415,28 +415,6 @@
     <span class="md-ellipsis">
       
         Key features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#project-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Project structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#citing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Citing
       
     </span>
   </a>
@@ -1008,49 +986,26 @@
 
 
 <h1 id="hive">HIVE<a class="headerlink" href="#hive" title="Permanent link">&para;</a></h1>
-<p><strong>Hydrodynamic Identification and Validation Environment</strong></p>
+<p><strong>H</strong>ydrodynamic <strong>I</strong>dentification and <strong>V</strong>alidation <strong>E</strong>nvironment</p>
 <p>HIVE is a Python framework for wave energy converter (WEC) hydrodynamic modelling,
-system identification, and model benchmarking. It is developed as part of a PhD
-project at Uppsala University.</p>
+identification, and model benchmarking. </p>
 <hr />
 <h2 id="what-hive-does">What HIVE does<a class="headerlink" href="#what-hive-does" title="Permanent link">&para;</a></h2>
 <p>HIVE provides a structured pipeline to:</p>
 <ul>
-<li><strong>Process</strong> CFD simulation data into a common format</li>
-<li><strong>Validate</strong> physics-based models (linear, viscous drag, nonlinear FK) against CFD reference data</li>
-<li><strong>Identify</strong> model parameters and data-driven surrogates from CFD or signal data</li>
-<li><strong>Benchmark</strong> multiple models against each other across a range of sea states</li>
+<li><strong>Process</strong> CFD simulation data</li>
+<li><strong>Validate</strong> existing physics and data-based models against CFD reference data</li>
+<li><strong>Identify</strong> model parameters and data-driven surrogates from CFD reference data</li>
 </ul>
-<p>The framework is built around three main scripts — <code>run_handle_data</code>, <code>run_validate</code>,
-and <code>run_identify</code> — each driven by a JSON config file, so no code changes are needed
-to run different cases.</p>
 <hr />
 <h2 id="key-features">Key features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <ul>
-<li>BEM-based linear hydrodynamic model (radiation, excitation, hydrostatics)</li>
-<li>Viscous drag identification via least-squares regression</li>
+<li>BEM-based linear and weakly-nonlinear hydrodynamic model</li>
+<li>Viscous drag identification</li>
 <li>PI gain identification for PTO control</li>
-<li>Frequency-domain system identification: Vector Fitting with causality sweep, N4SID</li>
-<li>Multi-sine signal generation for broadband excitation</li>
-<li>NRMSE, RMSE, and power-based metrics across sea state grids</li>
-<li>MkDocs documentation served at this site</li>
+<li>Multiple and various data-based model (wave-to-force-to-velocity state-space, system identification for nonlinear dynamic (SINDY), neural network)</li>
+<li>model benchmarking through large metric bank</li>
 </ul>
-<hr />
-<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>HIVE/
-├── code/                  ← all source code (this repo)
-│   ├── source/            ← classes, functions, config
-│   │   ├── classes/       ← Model, SimRun, DataHandle, Plotter, …
-│   │   └── function/      ← sea state utils, error utils, …
-│   ├── script/            ← run_*.py entry points
-│   ├── inputs/            ← JSON config files
-│   └── doc/               ← this documentation
-├── data/                  ← CFD outputs and processed data (not tracked)
-└── models/                ← identified model outputs (not tracked)
-</code></pre></div>
-<hr />
-<h2 id="citing">Citing<a class="headerlink" href="#citing" title="Permanent link">&para;</a></h2>
-<p>If you use HIVE in your research, please cite: <em>(reference to be added)</em></p>
 
 
 

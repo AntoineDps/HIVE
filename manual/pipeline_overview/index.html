@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, system identification and benchmarking.">
+        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, identification and validation.">
       
       
         <meta name="author" content="Antoine Dupuis">
@@ -1071,6 +1071,9 @@ run_identify      →  models/&lt;name&gt;/identification/
 CFD data, for use with the <code>linear_si</code> identification scheme.</p>
 <hr />
 <h2 id="script-roles">Script roles<a class="headerlink" href="#script-roles" title="Permanent link">&para;</a></h2>
+<p>The framework is built around three main scripts — <code>run_handle_data</code>, <code>run_validate</code>,
+and <code>run_identify</code> — each driven by a JSON config file, so no code changes are needed
+to run different cases.</p>
 <table>
 <thead>
 <tr>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, system identification and benchmarking.">
+        <meta name="description" content="Hydrodynamic Identification and Validation Environment — a Python framework for WEC modelling, identification and validation.">
       
       
         <meta name="author" content="Antoine Dupuis">
@@ -466,6 +466,17 @@
     <span class="md-ellipsis">
       
         Test case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project structure
       
     </span>
   </a>
@@ -1068,6 +1079,18 @@ python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span
 </code></pre></div>
 <p>Expected outputs appear in <code>data/handled/example/</code> and <code>models/example_viscous/</code>.</p>
 <hr />
+<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>HIVE/
+├── code/                  ← all source code (this repo)
+│   ├── source/            ← classes, functions, config
+│   │   ├── classes/       ← Model, SimRun, DataHandle, Plotter, …
+│   │   └── function/      ← sea state utils, error utils, …
+│   ├── script/            ← run_*.py entry points
+│   ├── inputs/            ← JSON config files
+│   └── doc/               ← this documentation
+├── data/                  ← CFD outputs and processed data (not tracked)
+└── models/                ← identified model outputs (not tracked)
+</code></pre></div>
 <h2 id="folder-layout-before-running">Folder layout before running<a class="headerlink" href="#folder-layout-before-running" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>code/
 ├── inputs/
