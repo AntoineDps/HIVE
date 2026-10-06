@@ -524,17 +524,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rerun-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rerun options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#data-flow-in-detail" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -585,17 +574,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-a-new-scheme" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding a new scheme
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#project-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -611,6 +589,28 @@
     <span class="md-ellipsis">
       
         Folder layout before running
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pickle-figures-pkl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pickle figures (.pkl)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#naming-conventions-config-stems-and-output-folder-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naming Conventions Config stems and output folder names
       
     </span>
   </a>
@@ -697,118 +697,6 @@
     
   
     run_identify
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run_signals.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    run_signals
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../config_reference/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Input Config Reference
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../naming_conventions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Naming Conventions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../output_files/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Output Files & Folder Structure
   
 
     
@@ -1008,23 +896,8 @@ to run different cases.</p>
 <td>Processed data + base model</td>
 <td>Identified parameters, updated model JSON, plots</td>
 </tr>
-<tr>
-<td><code>run_signals</code></td>
-<td>Config block in script</td>
-<td>Multi-sine CSV files for SI</td>
-</tr>
 </tbody>
 </table>
-<hr />
-<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
-<p>Every script detects an existing output folder and offers a menu:</p>
-<div class="highlight"><pre><span></span><code>[1] erase and redo all
-[2] stop, do nothing
-[3] load saved figures
-[4] remake figures only  (run_handle_data) / run with date suffix (run_identify)
-</code></pre></div>
-<p>Option <code>4</code> lets you regenerate plots without reprocessing data, which is useful when
-tuning plot parameters.</p>
 <hr />
 <h2 id="data-flow-in-detail">Data flow in detail<a class="headerlink" href="#data-flow-in-detail" title="Permanent link">&para;</a></h2>
 <h3 id="1-run_handle_data">1. <code>run_handle_data</code><a class="headerlink" href="#1-run_handle_data" title="Permanent link">&para;</a></h3>
@@ -1041,20 +914,6 @@ against the CFD reference. Results are aggregated into scatter plots over the
 <p>Uses a <strong>scheme module</strong> (e.g. <code>Viscous_drag</code>, <code>Pi_gain</code>, <code>Linear_si</code>) to identify
 model parameters from the CFD data. The scheme module owns the identification logic;
 <code>Optimizer</code> provides the generic simulation and saving infrastructure.</p>
-<hr />
-<h2 id="adding-a-new-scheme">Adding a new scheme<a class="headerlink" href="#adding-a-new-scheme" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Create <code>source/classes/MyScheme.py</code> implementing <code>prep()</code>, <code>run()</code>, <code>save()</code>,
-   <code>log_result()</code>, <code>save_data()</code>, and <code>PLOT_DISPATCH</code>.</li>
-<li>Register it in <code>run_identify.py</code>:
-   <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">source.classes.MyScheme</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_my_scheme</span>
-<span class="n">SCHEME_MODULES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="o">...</span>
-    <span class="s2">&quot;my_scheme&quot;</span><span class="p">:</span> <span class="n">_my_scheme</span><span class="p">,</span>
-<span class="p">}</span>
-</code></pre></div></li>
-<li>Create an <code>inputs/identify_case/my_scheme_example.json</code> config.</li>
-</ol>
 <hr />
 <h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>HIVE/
@@ -1079,6 +938,46 @@ model parameters from the CFD data. The scheme module owns the identification lo
 │       └── r5.pkl      ← BEM HydroSphere file
 └── source/
 </code></pre></div>
+<h2 id="pickle-figures-pkl">Pickle figures (<code>.pkl</code>)<a class="headerlink" href="#pickle-figures-pkl" title="Permanent link">&para;</a></h2>
+<p>Every plot is saved in both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun menu, or directly:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/timeseries_T8_H2.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<hr />
+<hr />
+<h2 id="naming-conventions-config-stems-and-output-folder-names">Naming Conventions Config stems and output folder names<a class="headerlink" href="#naming-conventions-config-stems-and-output-folder-names" title="Permanent link">&para;</a></h2>
+<p>HIVE uses consistent naming throughout config files, output folders, and data columns. This page documents those conventions.</p>
+<p>Every script takes a <code>--case &lt;name&gt;.json</code> argument. The stem of that filename (without <code>.json</code>) becomes the output folder name:</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Config location</th>
+<th>Output location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_handle_data</code></td>
+<td><code>inputs/handle_case/&lt;name&gt;.json</code></td>
+<td><code>data/handled/&lt;name&gt;/</code></td>
+</tr>
+<tr>
+<td><code>run_validate</code></td>
+<td><code>inputs/validate_case/&lt;name&gt;.json</code></td>
+<td><code>out/validated_case/&lt;name&gt;/</code></td>
+</tr>
+<tr>
+<td><code>run_identify</code></td>
+<td><code>inputs/identify_case/&lt;name&gt;.json</code></td>
+<td><code>models/&lt;name&gt;/</code> + <code>models/&lt;name&gt;/identification/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Choose stems that are short, lowercase, and use underscores — e.g. <code>r5_reg</code> for a regular-wave run using BEM model <code>r5</code>.</p>
+<hr />
 
 
 
