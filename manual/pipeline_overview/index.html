@@ -595,6 +595,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#folder-layout-before-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder layout before running
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1033,6 +1055,30 @@ model parameters from the CFD data. The scheme module owns the identification lo
 </code></pre></div></li>
 <li>Create an <code>inputs/identify_case/my_scheme_example.json</code> config.</li>
 </ol>
+<hr />
+<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>HIVE/
+├── code/                  ← all source code (this repo)
+│   ├── source/            ← classes, functions, config
+│   │   ├── classes/       ← Model, SimRun, DataHandle, Plotter, …
+│   │   └── function/      ← sea state utils, error utils, …
+│   ├── script/            ← run_*.py entry points
+│   ├── inputs/            ← JSON config files
+│   └── doc/               ← this documentation
+├── data/                  ← CFD outputs and processed data (not tracked)
+└── models/                ← identified model outputs (not tracked)
+</code></pre></div>
+<h2 id="folder-layout-before-running">Folder layout before running<a class="headerlink" href="#folder-layout-before-running" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>code/
+├── inputs/
+│   ├── handle_case/    ← put your handle JSON here
+│   ├── validate_case/  ← put your validate JSON here
+│   └── identify_case/  ← put your identify JSON here
+├── models/
+│   └── bem/
+│       └── r5.pkl      ← BEM HydroSphere file
+└── source/
+</code></pre></div>
 
 
 

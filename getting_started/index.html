@@ -440,54 +440,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#quick-test-run" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test-case" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test case
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#project-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Project structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#folder-layout-before-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Folder layout before running
+        Quick test run
       
     </span>
   </a>
@@ -923,75 +879,24 @@
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Python 3.10+</li>
-<li>Conda (recommended)</li>
-<li>A HydroSphere BEM pickle file (<code>.pkl</code>) placed under <code>models/bem/</code></li>
+<li>environment <strong>surrogate</strong></li>
+<li>A HydroSphere BEM pickle file (<code>r5.pkl</code> is the project default ) placed under <code>models/bem/</code>.</li>
 </ul>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<p>Clone the repository and create the conda environment:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AntoineDps/HIVE.git
-<span class="nb">cd</span><span class="w"> </span>HIVE/code
-conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
-conda<span class="w"> </span>activate<span class="w"> </span>surrogate
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If no <code>environment.yml</code> is provided yet, install manually:
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>surrogate<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
-conda<span class="w"> </span>activate<span class="w"> </span>surrogate
-pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>control<span class="w"> </span>vectfit<span class="w"> </span>nfoursid<span class="w"> </span>cvxpy<span class="w"> </span>mkdocs-material
-</code></pre></div></p>
-</div>
 <hr />
-<h2 id="quick-run">Quick run<a class="headerlink" href="#quick-run" title="Permanent link">&para;</a></h2>
-<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder:</p>
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>surrogate
-<span class="nb">cd</span><span class="w"> </span>HIVE/code
-
-<span class="c1"># 1 — process CFD data</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>my_cases.json
+<h2 id="quick-test-run">Quick test run<a class="headerlink" href="#quick-test-run" title="Permanent link">&para;</a></h2>
+<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder. A minimal test case is provided.
+Run it with: </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1 — process CFD data</span>
+python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example_cases.json
 
 <span class="c1"># 2 — validate models</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>my_validate.json
+python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>example_validate.json
 
 <span class="c1"># 3 — identify parameters</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>my_identify.json
+python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_identify.json
 </code></pre></div>
-<p>Each <code>--case</code> argument points to a JSON file inside <code>inputs/&lt;script&gt;/</code>.</p>
-<hr />
-<h2 id="test-case">Test case<a class="headerlink" href="#test-case" title="Permanent link">&para;</a></h2>
-<p>A minimal test case is provided under <code>inputs/</code> to verify the installation.
-Run it with:</p>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example.json
-python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>example.json
-python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_viscous.json
-</code></pre></div>
-<p>Expected outputs appear in <code>data/handled/example/</code> and <code>models/example_viscous/</code>.</p>
-<hr />
-<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>HIVE/
-├── code/                  ← all source code (this repo)
-│   ├── source/            ← classes, functions, config
-│   │   ├── classes/       ← Model, SimRun, DataHandle, Plotter, …
-│   │   └── function/      ← sea state utils, error utils, …
-│   ├── script/            ← run_*.py entry points
-│   ├── inputs/            ← JSON config files
-│   └── doc/               ← this documentation
-├── data/                  ← CFD outputs and processed data (not tracked)
-└── models/                ← identified model outputs (not tracked)
-</code></pre></div>
-<h2 id="folder-layout-before-running">Folder layout before running<a class="headerlink" href="#folder-layout-before-running" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>code/
-├── inputs/
-│   ├── handle_case/    ← put your handle JSON here
-│   ├── validate_case/  ← put your validate JSON here
-│   └── identify_case/  ← put your identify JSON here
-├── models/
-│   └── bem/
-│       └── r5.pkl      ← BEM HydroSphere file
-└── source/
-</code></pre></div>
-<p>See <a href="../manual/naming_conventions/">Naming Conventions</a> for label and file naming rules,
-and <a href="../manual/config_reference/">Input Config Reference</a> for all JSON fields.</p>
+<p>Each <code>--case</code> argument points to a JSON file inside <code>inputs/handle_case/</code>, <code>inputs/identify_case/</code>, <code>inputs/read_case/</code> or <code>inputs/validate_case/.
+Expected outputs appear in</code>data/handled/example/<code>and</code>models/example_viscous/`.</p>
 
 
 
