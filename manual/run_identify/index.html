@@ -630,60 +630,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#input-json-config" class="md-nav__link">
+  <a href="#how-multiple-entries-work" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Input JSON config
+        How multiple entries work
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Input JSON config">
+    <nav class="md-nav" aria-label="How multiple entries work">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-viscous_drag" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example — viscous_drag
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-pi_gain" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example — pi_gain
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#top-level-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Top-level fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solver-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        solver fields
-      
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#multiple-waves_train-entries-data-pooling" class="md-nav__link">
@@ -713,10 +669,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#available-schemes" class="md-nav__link">
+  <a href="#input-json-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Available schemes
+        Input JSON config
       
     </span>
   </a>
@@ -736,10 +692,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#waves_train-format" class="md-nav__link">
+  <a href="#full-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        waves_train format
+        Full example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-level-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-level fields
       
     </span>
   </a>
@@ -758,6 +725,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#solver-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solver fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-case-vs-global-identification" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -769,10 +747,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#outputs-resultjson" class="md-nav__link">
+  <a href="#resultjson-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs — result.json
+        result.json structure
       
     </span>
   </a>
@@ -797,10 +775,32 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#waves_train-format_1" class="md-nav__link">
+  <a href="#full-example_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        waves_train format
+        Full example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-level-fields_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-level fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waves_train-entry-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        waves_train entry fields
       
     </span>
   </a>
@@ -819,10 +819,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#outputs-resultjson_1" class="md-nav__link">
+  <a href="#solver-fields_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs — result.json
+        solver fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultjson-structure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        result.json structure
       
     </span>
   </a>
@@ -1082,16 +1093,29 @@
 <li>Saves identified parameters, result JSON, simulation CSVs and plots to <code>source/models/&lt;name&gt;/identification/</code></li>
 </ol>
 <hr />
+<h2 id="how-multiple-entries-work">How multiple entries work<a class="headerlink" href="#how-multiple-entries-work" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-waves_train-entries-data-pooling">Multiple <code>waves_train</code> entries — data pooling<a class="headerlink" href="#multiple-waves_train-entries-data-pooling" title="Permanent link">&para;</a></h3>
+<p>All entries in <code>waves_train</code> are loaded and merged into a single flat pool of wave cases. Identification runs on all of them together — there is no separate pass per entry.</p>
+<p>For <code>viscous_drag</code>, the global <span class="arithmatex">\(c_v\)</span> is optimised over the concatenated signal from all cases at once, and each case also gets its own per-case <span class="arithmatex">\(c_v\)</span>. Adding more entries widens the training distribution.</p>
+<p>For <code>pi_gain</code>, gains are always per sea state — each loaded wave case gets its own optimal <span class="arithmatex">\((B_{pto}, K_{pto})\)</span>. Adding more entries simply extends the set of sea states covered.</p>
+<h3 id="multiple-methods-method-comparison">Multiple methods — method comparison<a class="headerlink" href="#multiple-methods-method-comparison" title="Permanent link">&para;</a></h3>
+<p>Both schemes accept multiple methods simultaneously (a list for <code>pi_gain</code>; lists for <code>type</code> and/or <code>search</code> in <code>viscous_drag</code>). All combinations run in the same execution. <code>result.json</code> stores one block per method so results can be compared.</p>
+<p>For <code>viscous_drag</code>, <code>model.json</code> is automatically written using the method with the <strong>best global metric</strong>. All other method results remain in <code>result.json</code>. For <code>pi_gain</code> there is no automatic <code>model.json</code> — all results are in <code>result.json</code>.</p>
+<hr />
 <h2 id="input-json-config">Input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h2>
-<p>The config format differs between schemes because <code>waves_train</code> has a different structure. Two examples are provided below.</p>
-<h3 id="example-viscous_drag">Example — <code>viscous_drag</code><a class="headerlink" href="#example-viscous_drag" title="Permanent link">&para;</a></h3>
+<p>The structure is common to all schemes except <code>waves_train</code> and <code>scheme_params</code>, which differ per scheme.</p>
+<hr />
+<h2 id="scheme-viscous_drag">Scheme: <code>viscous_drag</code><a class="headerlink" href="#scheme-viscous_drag" title="Permanent link">&para;</a></h2>
+<p>Identifies the quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> in <span class="arithmatex">\(F_{visc} = -c_v |\dot{x}| \dot{x}\)</span>.</p>
+<h3 id="full-example">Full example<a class="headerlink" href="#full-example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example_cases&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example_cases&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;other_cases&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;force&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;opt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;force&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;response&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
@@ -1100,44 +1124,17 @@
 <span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;eta_hs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="example-pi_gain">Example — <code>pi_gain</code><a class="headerlink" href="#example-pi_gain" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_cases&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">120.0</span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;B_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;B_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;K_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;K_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;n_B&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;n_K&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;stability&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;r&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;n_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<hr />
 <h3 id="top-level-fields">Top-level fields<a class="headerlink" href="#top-level-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
+<th>Options / values</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -1145,101 +1142,35 @@
 <tr>
 <td><code>scheme</code></td>
 <td><code>string</code></td>
-<td>Identification scheme to use. See <a href="#available-schemes">Available schemes</a></td>
+<td><code>"viscous_drag"</code></td>
+<td>Selects this scheme</td>
 </tr>
 <tr>
 <td><code>base_model</code></td>
 <td><code>string</code></td>
-<td>Folder name under <code>source/models/</code> for the base physics model (e.g. <code>"linear"</code>). Must contain <code>model.json</code>. Use <code>"none"</code> to disable physics simulation</td>
+<td>folder name under <code>source/models/</code> — currently: <code>"linear"</code> · <code>"none"</code> disables physics</td>
+<td>Base physics model to augment with viscous drag</td>
 </tr>
 <tr>
 <td><code>waves_train</code></td>
-<td><code>list</code></td>
-<td>Training data sources. Format depends on scheme — see per-scheme tables below</td>
+<td><code>list[string]</code></td>
+<td>stems of folders under <code>data/handled/</code></td>
+<td>Training cases. Multiple entries are pooled into one dataset</td>
 </tr>
 <tr>
 <td><code>scheme_params</code></td>
 <td><code>dict</code></td>
-<td>Scheme-specific parameters — see per-scheme tables below</td>
+<td>see table below</td>
+<td>Scheme-specific parameters</td>
 </tr>
 <tr>
 <td><code>solver</code></td>
 <td><code>dict</code></td>
-<td>Solver settings used for forward simulations during identification</td>
+<td>see table below</td>
+<td>Forward simulation settings</td>
 </tr>
 </tbody>
 </table>
-<h3 id="solver-fields"><code>solver</code> fields<a class="headerlink" href="#solver-fields" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>method</code></td>
-<td><code>string</code></td>
-<td>Integration method: <code>"euler"</code> | <code>"rk2"</code> | <code>"rk4"</code> (case-insensitive)</td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td>Simulation timestep (s)</td>
-</tr>
-<tr>
-<td><code>interpolation</code></td>
-<td><code>dict</code></td>
-<td>Per-force-term interpolation flags: <code>{"fe": bool, "fk": bool, "eta_hs": bool}</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="multiple-waves_train-entries-data-pooling">Multiple <code>waves_train</code> entries — data pooling<a class="headerlink" href="#multiple-waves_train-entries-data-pooling" title="Permanent link">&para;</a></h3>
-<p>All entries in <code>waves_train</code> are loaded and merged into a single flat pool of wave cases. Identification runs on all of them together — there is no separate pass per entry.</p>
-<p>For <code>viscous_drag</code>, this means the global <span class="arithmatex">\(c_v\)</span> is optimised over the concatenated signal from all cases at once, and each case also gets its own per-case <span class="arithmatex">\(c_v\)</span>. Adding more entries simply widens the training distribution.</p>
-<p>For <code>pi_gain</code>, gains are always per sea state — each loaded wave case gets its own optimal <span class="arithmatex">\((B_{pto}, K_{pto})\)</span> regardless of how many <code>waves_train</code> entries there are.</p>
-<h3 id="multiple-methods-method-comparison">Multiple methods — method comparison<a class="headerlink" href="#multiple-methods-method-comparison" title="Permanent link">&para;</a></h3>
-<p>Both schemes accept multiple methods simultaneously (a list for <code>pi_gain</code>; lists for <code>type</code> and/or <code>search</code> in <code>viscous_drag</code>). All combinations run in the same execution. <code>result.json</code> stores one block per method so results can be compared.</p>
-<p>For <code>viscous_drag</code>, <code>model.json</code> is automatically written using the method with the <strong>best global metric</strong> across all methods run. All other method results remain in <code>result.json</code> for manual inspection.</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// viscous_drag — run all four type × search combinations in one go</span>
-<span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="s2">&quot;force&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;response&quot;</span><span class="p">],</span>
-<span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">]</span>
-<span class="c1">// → runs: force_opt, force_grid, response_opt, response_grid</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1">// pi_gain — compare analytical, grid, and optimiser</span>
-<span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;analytical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;opt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">]</span>
-</code></pre></div>
-<hr />
-<h2 id="available-schemes">Available schemes<a class="headerlink" href="#available-schemes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th><code>scheme</code></th>
-<th>What it identifies</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>viscous_drag</code></td>
-<td>Quadratic drag coefficient <span class="arithmatex">\(c_v\)</span></td>
-</tr>
-<tr>
-<td><code>pi_gain</code></td>
-<td>Per-sea-state PI controller gains <span class="arithmatex">\(B_{pto}\)</span>, <span class="arithmatex">\(K_{pto}\)</span></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>Note:</strong> <code>linear_si</code> is not yet implemented.</p>
-</blockquote>
-<hr />
-<h2 id="scheme-viscous_drag">Scheme: <code>viscous_drag</code><a class="headerlink" href="#scheme-viscous_drag" title="Permanent link">&para;</a></h2>
-<h3 id="waves_train-format"><code>waves_train</code> format<a class="headerlink" href="#waves_train-format" title="Permanent link">&para;</a></h3>
-<p>A list of strings — each string is the stem of a handled data folder under <code>data/handled/</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example_cases&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;other_cases&quot;</span><span class="p">]</span>
-</code></pre></div>
 <h3 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1247,63 +1178,105 @@
 <th>Field</th>
 <th>Type</th>
 <th>Default</th>
+<th>Options / values</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>type</code></td>
-<td><code>string</code></td>
+<td><code>string</code> or <code>list</code></td>
 <td>—</td>
-<td>Identification type: <code>"force"</code> (match <span class="arithmatex">\(f_{hyd}\)</span>) or <code>"response"</code> (match <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(\dot{x}\)</span>)</td>
+<td><code>"force"</code> · <code>"response"</code> · or both as a list</td>
+<td>Identification type. <code>"force"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(f_{hyd}\)</span>; <code>"response"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(\dot{x}\)</span></td>
 </tr>
 <tr>
 <td><code>search</code></td>
-<td><code>string</code></td>
+<td><code>string</code> or <code>list</code></td>
 <td>—</td>
-<td>Search method: <code>"opt"</code> (scalar optimiser) or <code>"grid"</code> (uniform sweep)</td>
+<td><code>"opt"</code> · <code>"grid"</code> · or both as a list</td>
+<td>Search method. <code>"opt"</code> uses a bounded scalar optimiser; <code>"grid"</code> sweeps a uniform grid over <span class="arithmatex">\([c_{v,min},\ c_{v,max}]\)</span></td>
 </tr>
 <tr>
 <td><code>base_force</code></td>
 <td><code>string</code></td>
 <td><code>"fhyd_lin"</code></td>
-<td>Reference force column used when <code>type = "force"</code></td>
+<td>any column present in the DataHandle dataset</td>
+<td>Reference BEM force column subtracted when <code>type = "force"</code></td>
 </tr>
 <tr>
 <td><code>c_v_min</code></td>
 <td><code>float</code></td>
-<td>—</td>
-<td>Lower bound for <span class="arithmatex">\(c_v\)</span> search [N·s²/m²]</td>
+<td><code>0.0</code></td>
+<td>any non-negative float [N·s²/m²]</td>
+<td>Lower bound of the <span class="arithmatex">\(c_v\)</span> search range</td>
 </tr>
 <tr>
 <td><code>c_v_max</code></td>
 <td><code>float</code></td>
-<td>—</td>
-<td>Upper bound for <span class="arithmatex">\(c_v\)</span> search [N·s²/m²]</td>
+<td><code>5000.0</code></td>
+<td>any positive float [N·s²/m²]</td>
+<td>Upper bound of the <span class="arithmatex">\(c_v\)</span> search range</td>
 </tr>
 <tr>
 <td><code>n_points</code></td>
 <td><code>int</code></td>
-<td>—</td>
-<td>Number of grid points (used when <code>search = "grid"</code>)</td>
+<td><code>100</code></td>
+<td>any positive integer</td>
+<td>Grid resolution — used only when <code>search = "grid"</code></td>
 </tr>
 <tr>
 <td><code>objective</code></td>
 <td><code>string</code> or <code>dict</code></td>
 <td><code>"rmse_x"</code></td>
-<td>Objective metric. See <a href="#objectives">Objectives</a></td>
+<td>see <a href="#objectives">Objectives</a></td>
+<td>Metric used to score <span class="arithmatex">\(c_v\)</span> candidates in <code>"response"</code> methods</td>
 </tr>
 </tbody>
 </table>
-<p>The four method combinations (<code>type</code> × <code>search</code>) are: <code>force_opt</code>, <code>force_grid</code>, <code>response_opt</code>, <code>response_grid</code>.</p>
+<p>The four possible <code>type</code> × <code>search</code> method combinations are: <code>force_opt</code>, <code>force_grid</code>, <code>response_opt</code>, <code>response_grid</code>. Pass lists to run several at once.</p>
+<h3 id="solver-fields"><code>solver</code> fields<a class="headerlink" href="#solver-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td><code>"rk4"</code></td>
+<td><code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> (case-insensitive)</td>
+<td>ODE integration scheme</td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td>—</td>
+<td>any positive float (s)</td>
+<td>Fixed timestep</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td><code>dict</code></td>
+<td><code>{}</code></td>
+<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
+<td>Per-force-term interpolation flags. Empty dict disables all</td>
+</tr>
+</tbody>
+</table>
 <h3 id="per-case-vs-global-identification">Per-case vs global identification<a class="headerlink" href="#per-case-vs-global-identification" title="Permanent link">&para;</a></h3>
 <p>For every method, <code>viscous_drag</code> always produces two <span class="arithmatex">\(c_v\)</span> values:</p>
 <ul>
 <li><strong>per-case</strong> — <span class="arithmatex">\(c_v\)</span> fitted independently to each wave case (captures sea-state variability)</li>
-<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together (what goes into <code>model.json</code>)</li>
+<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → <strong>written to <code>model.json</code></strong></li>
 </ul>
-<p>The global value is what is saved into <code>model.json</code> as the identified coefficient.</p>
-<h3 id="outputs-resultjson">Outputs — <code>result.json</code><a class="headerlink" href="#outputs-resultjson" title="Permanent link">&para;</a></h3>
+<h3 id="resultjson-structure"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
@@ -1322,19 +1295,86 @@
 </code></pre></div>
 <hr />
 <h2 id="scheme-pi_gain">Scheme: <code>pi_gain</code><a class="headerlink" href="#scheme-pi_gain" title="Permanent link">&para;</a></h2>
-<h3 id="waves_train-format_1"><code>waves_train</code> format<a class="headerlink" href="#waves_train-format_1" title="Permanent link">&para;</a></h3>
-<p>A list of dicts. Each entry specifies a wave source:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_cases&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">120.0</span><span class="p">}</span>
-<span class="p">]</span>
+<p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power).</p>
+<h3 id="full-example_1">Full example<a class="headerlink" href="#full-example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_cases&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">120.0</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;analytical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;B_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;B_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_B&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_K&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;stability&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;r&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;n_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p><strong><code>cfd_case</code> entry fields:</strong></p>
+<h3 id="top-level-fields_1">Top-level fields<a class="headerlink" href="#top-level-fields_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scheme</code></td>
+<td><code>string</code></td>
+<td><code>"pi_gain"</code></td>
+<td>Selects this scheme</td>
+</tr>
+<tr>
+<td><code>base_model</code></td>
+<td><code>string</code></td>
+<td>folder name under <code>source/models/</code> — currently: <code>"linear"</code> · <code>"none"</code> disables physics</td>
+<td>Base physics model used for all forward simulations</td>
+</tr>
+<tr>
+<td><code>waves_train</code></td>
+<td><code>list[dict]</code></td>
+<td>see table below</td>
+<td>Wave sources. Multiple entries are pooled; each wave case gets its own identified gains</td>
+</tr>
+<tr>
+<td><code>scheme_params</code></td>
+<td><code>dict</code></td>
+<td>see table below</td>
+<td>Scheme-specific parameters</td>
+</tr>
+<tr>
+<td><code>solver</code></td>
+<td><code>dict</code></td>
+<td>see table below</td>
+<td>Forward simulation settings</td>
+</tr>
+</tbody>
+</table>
+<h3 id="waves_train-entry-fields"><code>waves_train</code> entry fields<a class="headerlink" href="#waves_train-entry-fields" title="Permanent link">&para;</a></h3>
+<p>Each dict in <code>waves_train</code> must have a <code>"type"</code> key:</p>
+<p><strong><code>"type": "cfd_case"</code></strong> — load from a handled CFD folder:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Options / values</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -1343,21 +1383,24 @@
 <td><code>type</code></td>
 <td><code>string</code></td>
 <td><code>"cfd_case"</code></td>
+<td>Source type selector</td>
 </tr>
 <tr>
 <td><code>case_name</code></td>
 <td><code>string</code></td>
-<td>Stem of a handled folder under <code>data/handled/</code></td>
+<td>stem of a folder under <code>data/handled/</code></td>
+<td>Folder to load DataHandle objects from</td>
 </tr>
 </tbody>
 </table>
-<p><strong><code>synthetic</code> entry fields:</strong></p>
+<p><strong><code>"type": "synthetic"</code></strong> — generate a regular wave signal on the fly:</p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
 <th>Default</th>
+<th>Options / values</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -1367,36 +1410,38 @@
 <td><code>string</code></td>
 <td>—</td>
 <td><code>"synthetic"</code></td>
+<td>Source type selector</td>
 </tr>
 <tr>
 <td><code>T</code></td>
 <td><code>float</code></td>
 <td><code>7.0</code></td>
-<td>Wave period (s)</td>
+<td>any positive float (s)</td>
+<td>Wave period</td>
 </tr>
 <tr>
 <td><code>H</code></td>
 <td><code>float</code></td>
 <td><code>2.0</code></td>
-<td>Wave height (m)</td>
+<td>any positive float (m)</td>
+<td>Wave height</td>
 </tr>
 <tr>
 <td><code>duration</code></td>
 <td><code>float</code></td>
 <td><code>120.0</code></td>
-<td>Signal duration (s)</td>
+<td>any positive float (s)</td>
+<td>Signal duration</td>
 </tr>
 <tr>
 <td><code>d</code></td>
 <td><code>float</code></td>
 <td><code>200.0</code></td>
-<td>Water depth (m)</td>
+<td>any positive float (m)</td>
+<td>Water depth</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>Note:</strong> <code>pi_gain</code> uses <code>SELF_LOADING = True</code> — it does not call <code>load_training_data</code> and handles wave loading internally.</p>
-</blockquote>
 <h3 id="scheme_params-fields_1"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1404,6 +1449,7 @@
 <th>Field</th>
 <th>Type</th>
 <th>Default</th>
+<th>Options / values</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -1412,78 +1458,127 @@
 <td><code>method</code></td>
 <td><code>string</code> or <code>list</code></td>
 <td><code>"opt"</code></td>
-<td>Method(s) to run: <code>"analytical"</code> | <code>"opt"</code> | <code>"grid"</code>. Accepts a list to run several methods and compare</td>
+<td><code>"analytical"</code> · <code>"opt"</code> · <code>"grid"</code> · or a list of several</td>
+<td>Identification method(s). Pass a list to run and compare multiple methods in one execution</td>
 </tr>
 <tr>
 <td><code>B_min</code></td>
 <td><code>float</code></td>
 <td><code>0.0</code></td>
-<td>Lower bound for <span class="arithmatex">\(B_{pto}\)</span> [N·s/m]</td>
+<td>any float [N·s/m]</td>
+<td>Lower bound for <span class="arithmatex">\(B_{pto}\)</span> search</td>
 </tr>
 <tr>
 <td><code>B_max</code></td>
 <td><code>float</code></td>
 <td><code>1e6</code></td>
-<td>Upper bound for <span class="arithmatex">\(B_{pto}\)</span> [N·s/m]</td>
+<td>any float [N·s/m]</td>
+<td>Upper bound for <span class="arithmatex">\(B_{pto}\)</span> search</td>
 </tr>
 <tr>
 <td><code>K_min</code></td>
 <td><code>float</code></td>
 <td><code>-1e6</code></td>
-<td>Lower bound for <span class="arithmatex">\(K_{pto}\)</span> [N/m]</td>
+<td>any float [N/m]</td>
+<td>Lower bound for <span class="arithmatex">\(K_{pto}\)</span> search</td>
 </tr>
 <tr>
 <td><code>K_max</code></td>
 <td><code>float</code></td>
 <td><code>1e6</code></td>
-<td>Upper bound for <span class="arithmatex">\(K_{pto}\)</span> [N/m]</td>
+<td>any float [N/m]</td>
+<td>Upper bound for <span class="arithmatex">\(K_{pto}\)</span> search</td>
 </tr>
 <tr>
 <td><code>n_B</code></td>
 <td><code>int</code></td>
 <td><code>20</code></td>
-<td>Grid points along <span class="arithmatex">\(B\)</span> axis (used when <code>method = "grid"</code>)</td>
+<td>any positive integer</td>
+<td>Grid points along <span class="arithmatex">\(B\)</span> axis — used only when <code>method = "grid"</code></td>
 </tr>
 <tr>
 <td><code>n_K</code></td>
 <td><code>int</code></td>
 <td><code>20</code></td>
-<td>Grid points along <span class="arithmatex">\(K\)</span> axis (used when <code>method = "grid"</code>)</td>
+<td>any positive integer</td>
+<td>Grid points along <span class="arithmatex">\(K\)</span> axis — used only when <code>method = "grid"</code></td>
 </tr>
 <tr>
 <td><code>B_init</code></td>
 <td><code>float</code></td>
-<td>midpoint of range</td>
-<td>Initial value for <code>"opt"</code></td>
+<td>midpoint of <code>[B_min, B_max]</code></td>
+<td>any float [N·s/m]</td>
+<td>Initial value for the <code>"opt"</code> optimiser</td>
 </tr>
 <tr>
 <td><code>K_init</code></td>
 <td><code>float</code></td>
-<td>midpoint of range</td>
-<td>Initial value for <code>"opt"</code></td>
+<td>midpoint of <code>[K_min, K_max]</code></td>
+<td>any float [N/m]</td>
+<td>Initial value for the <code>"opt"</code> optimiser</td>
 </tr>
 <tr>
 <td><code>objective</code></td>
 <td><code>string</code> or <code>dict</code></td>
 <td><code>{"name": "mean_P_abs", "direction": "maximize"}</code></td>
-<td>Objective metric. See <a href="#objectives">Objectives</a></td>
+<td>see <a href="#objectives">Objectives</a></td>
+<td>Metric used to score <span class="arithmatex">\((B, K)\)</span> candidates</td>
 </tr>
 <tr>
 <td><code>stability</code></td>
 <td><code>dict</code></td>
 <td><code>{"enabled": false, "r": 5.0}</code></td>
-<td>Early-stop stability check: stops integration if <code>\|x − η\| &gt; r</code>. <code>r</code> defaults to the buoy radius if available</td>
+<td><code>enabled</code>: <code>true</code> / <code>false</code> · <code>r</code>: float (m)</td>
+<td>Early-stop check: aborts integration if <span class="arithmatex">\(\|x - \eta\| &gt; r\)</span>. <code>r</code> defaults to buoy radius if not set</td>
 </tr>
 <tr>
 <td><code>n_jobs</code></td>
 <td><code>int</code></td>
 <td><code>1</code></td>
-<td>Parallel workers for grid search (<code>-1</code> = all CPU cores)</td>
+<td>any integer · <code>-1</code> = all CPU cores</td>
+<td>Parallel workers for <code>"grid"</code> search via joblib</td>
 </tr>
 </tbody>
 </table>
-<p><strong><code>method = "analytical"</code></strong> requires that handled cases carry wave parameters (<code>Te</code>). It uses BEM data to compute complex-conjugate control gains directly — no simulation loop needed for identification.</p>
-<h3 id="outputs-resultjson_1">Outputs — <code>result.json</code><a class="headerlink" href="#outputs-resultjson_1" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><code>"analytical"</code> requires that <code>cfd_case</code> entries carry wave parameters (<code>Te</code>). It derives gains from BEM data directly without running any simulation.</p>
+</blockquote>
+<h3 id="solver-fields_1"><code>solver</code> fields<a class="headerlink" href="#solver-fields_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td><code>"rk4"</code></td>
+<td><code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> (case-insensitive)</td>
+<td>ODE integration scheme</td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td>—</td>
+<td>any positive float (s)</td>
+<td>Fixed timestep</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td><code>dict</code></td>
+<td><code>{}</code></td>
+<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
+<td>Per-force-term interpolation flags. Empty dict disables all</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resultjson-structure_1"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
@@ -1502,9 +1597,8 @@
 </code></pre></div>
 <hr />
 <h2 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">&para;</a></h2>
-<p>The <code>objective</code> field accepts either a string shorthand or a dict with explicit direction.</p>
+<p>The <code>objective</code> field (in <code>scheme_params</code>) accepts a string shorthand or a dict with an explicit direction override:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="nt">&quot;rmse_x&quot;</span>
-
 <span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">}</span>
 </code></pre></div>
 <table>
@@ -1519,38 +1613,38 @@
 <tr>
 <td><code>"rmse_x"</code></td>
 <td>RMSE of displacement <span class="arithmatex">\(x\)</span></td>
-<td>minimize</td>
+<td><code>minimize</code></td>
 </tr>
 <tr>
 <td><code>"rmse_xdot"</code></td>
 <td>RMSE of velocity <span class="arithmatex">\(\dot{x}\)</span></td>
-<td>minimize</td>
+<td><code>minimize</code></td>
 </tr>
 <tr>
 <td><code>"nrmse_x"</code></td>
 <td>Normalised RMSE of <span class="arithmatex">\(x\)</span></td>
-<td>minimize</td>
+<td><code>minimize</code></td>
 </tr>
 <tr>
 <td><code>"nrmse_xdot"</code></td>
 <td>Normalised RMSE of <span class="arithmatex">\(\dot{x}\)</span></td>
-<td>minimize</td>
+<td><code>minimize</code></td>
 </tr>
 <tr>
 <td><code>"mean_P_abs"</code></td>
 <td>Mean absorbed power <span class="arithmatex">\(P_{abs}\)</span></td>
-<td>maximize</td>
+<td><code>maximize</code></td>
 </tr>
 <tr>
 <td><code>"rmse_P_abs"</code></td>
 <td>RMSE of absorbed power</td>
-<td>minimize</td>
+<td><code>minimize</code></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="available-base-models">Available base models<a class="headerlink" href="#available-base-models" title="Permanent link">&para;</a></h2>
-<p>The <code>base_model</code> field is a folder name under <code>source/models/</code>. The folder must contain a <code>model.json</code>. BEM data (HydroSphere pickle) is loaded from <code>source/models/bem/</code> as referenced inside <code>model.json</code>.</p>
+<p>The <code>base_model</code> value is a folder name under <code>source/models/</code>. The folder must contain a <code>model.json</code>. BEM data is loaded from <code>source/models/bem/</code> as referenced inside <code>model.json</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1565,6 +1659,7 @@
 </tr>
 </tbody>
 </table>
+<p>Use <code>"none"</code> to disable physics simulation (identification schemes that do not require a forward model).</p>
 <hr />
 <h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
@@ -1583,10 +1678,9 @@
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The base model must exist at <code>source/models/&lt;base_model&gt;/model.json</code> before running <code>run_identify</code>.</li>
-<li><code>t_warmup</code> and <code>t_causal</code> are computed automatically from the base model IRF lengths and applied as simulation clip margins to all simulated trajectories.</li>
-<li>For <code>viscous_drag</code>, multiple <code>waves_train</code> entries are pooled into one training set. The global <span class="arithmatex">\(c_v\)</span> (fit across all pooled cases) is written to <code>model.json</code>; per-case values are in <code>result.json</code> for inspection.</li>
-<li>For <code>pi_gain</code>, gains are identified <strong>per sea state</strong> — there is no global coefficient. Multiple <code>waves_train</code> entries simply extend the set of sea states covered.</li>
-<li>Running several methods at once produces one result block per method in <code>result.json</code>. For <code>viscous_drag</code>, <code>model.json</code> is automatically written from the <strong>best-performing method</strong> (lowest global metric). For <code>pi_gain</code> there is no automatic <code>model.json</code> — all results are in <code>result.json</code>.</li>
+<li><code>t_warmup</code> and <code>t_causal</code> are computed automatically from the base model IRF lengths and applied as clip margins to all simulated trajectories.</li>
+<li>For <code>viscous_drag</code>, multiple <code>waves_train</code> entries are pooled. The global <span class="arithmatex">\(c_v\)</span> (fit across all pooled cases) is written to <code>model.json</code>; per-case values are in <code>result.json</code>. When multiple methods are run, <code>model.json</code> uses the best-performing one.</li>
+<li>For <code>pi_gain</code>, gains are identified per sea state — there is no global coefficient. Multiple <code>waves_train</code> entries extend the set of sea states. There is no automatic <code>model.json</code> — all results are in <code>result.json</code>.</li>
 </ul>
 
 
