@@ -513,63 +513,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#script-roles" class="md-nav__link">
+  <a href="#roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Script roles
+        Roles
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-flow-in-detail" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data flow in detail
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data flow in detail">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-run_handle_data" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. run_handle_data
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-run_validate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. run_validate
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-run_identify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. run_identify
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -585,32 +535,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#folder-layout-before-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Folder layout before running
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#pickle-figures-pkl" class="md-nav__link">
     <span class="md-ellipsis">
       
         Pickle figures (.pkl)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#naming-conventions-config-stems-and-output-folder-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Naming Conventions Config stems and output folder names
       
     </span>
   </a>
@@ -880,108 +808,14 @@
 
 
 <h1 id="pipeline-overview">Pipeline Overview<a class="headerlink" href="#pipeline-overview" title="Permanent link">&para;</a></h1>
-<p>HIVE is built around three sequential scripts. Each script reads a JSON config file,
-performs its task, and writes outputs to a structured folder.</p>
-<div class="highlight"><pre><span></span><code>CFD data
-    │
-    ▼
-run_handle_data   →  data/handled/&lt;name&gt;/
-    │
-    ▼
-run_validate      →  models/&lt;name&gt;/validation/
-    │
-    ▼
-run_identify      →  models/&lt;name&gt;/identification/
-</code></pre></div>
-<p>Optionally, <code>run_signals</code> generates multi-sine excitation signals independently of
-CFD data, for use with the <code>linear_si</code> identification scheme.</p>
-<hr />
-<h2 id="script-roles">Script roles<a class="headerlink" href="#script-roles" title="Permanent link">&para;</a></h2>
-<p>The framework is built around three main scripts — <code>run_handle_data</code>, <code>run_validate</code>,
-and <code>run_identify</code> — each driven by a JSON config file, so no code changes are needed
-to run different cases.</p>
+<p>HIVE is built around three pipelines ran via scripts, <code>run_handle_data</code>, <code>run_validate</code> and <code>run_identify</code>, each driven by a JSON input file and
+writing outputs to a structured folder. </p>
+<h2 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Script</th>
-<th>Input</th>
-<th>Output</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>run_handle_data</code></td>
-<td>Raw CFD time series</td>
-<td>Processed <code>data.csv</code>, wave parameters, plots</td>
-</tr>
-<tr>
-<td><code>run_validate</code></td>
-<td>Processed data + model JSON</td>
-<td>Metric tables, comparison plots</td>
-</tr>
-<tr>
-<td><code>run_identify</code></td>
-<td>Processed data + base model</td>
-<td>Identified parameters, updated model JSON, plots</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="data-flow-in-detail">Data flow in detail<a class="headerlink" href="#data-flow-in-detail" title="Permanent link">&para;</a></h2>
-<h3 id="1-run_handle_data">1. <code>run_handle_data</code><a class="headerlink" href="#1-run_handle_data" title="Permanent link">&para;</a></h3>
-<p>Reads raw SPH/CFD output files, applies cut times and optional resampling,
-computes wave parameters, and calls <code>DataHandle.processData()</code> to derive
-hydrodynamic quantities (radiation force, hydrostatic force, linear excitation force).
-One <code>DataHandle</code> object is saved per case.</p>
-<h3 id="2-run_validate">2. <code>run_validate</code><a class="headerlink" href="#2-run_validate" title="Permanent link">&para;</a></h3>
-<p>Loads the saved <code>DataHandle</code> objects and a <code>model.json</code>. For each sea state and each
-model variant, it runs a simulation via <code>SimRun.simulate()</code> and computes metrics
-against the CFD reference. Results are aggregated into scatter plots over the
-<span class="arithmatex">\((H_s, T_e)\)</span> parameter space.</p>
-<h3 id="3-run_identify">3. <code>run_identify</code><a class="headerlink" href="#3-run_identify" title="Permanent link">&para;</a></h3>
-<p>Uses a <strong>scheme module</strong> (e.g. <code>Viscous_drag</code>, <code>Pi_gain</code>, <code>Linear_si</code>) to identify
-model parameters from the CFD data. The scheme module owns the identification logic;
-<code>Optimizer</code> provides the generic simulation and saving infrastructure.</p>
-<hr />
-<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>HIVE/
-├── code/                  ← all source code (this repo)
-│   ├── source/            ← classes, functions, config
-│   │   ├── classes/       ← Model, SimRun, DataHandle, Plotter, …
-│   │   └── function/      ← sea state utils, error utils, …
-│   ├── script/            ← run_*.py entry points
-│   ├── inputs/            ← JSON config files
-│   └── doc/               ← this documentation
-├── data/                  ← CFD outputs and processed data (not tracked)
-└── models/                ← identified model outputs (not tracked)
-</code></pre></div>
-<h2 id="folder-layout-before-running">Folder layout before running<a class="headerlink" href="#folder-layout-before-running" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>code/
-├── inputs/
-│   ├── handle_case/    ← put your handle JSON here
-│   ├── validate_case/  ← put your validate JSON here
-│   └── identify_case/  ← put your identify JSON here
-├── models/
-│   └── bem/
-│       └── r5.pkl      ← BEM HydroSphere file
-└── source/
-</code></pre></div>
-<h2 id="pickle-figures-pkl">Pickle figures (<code>.pkl</code>)<a class="headerlink" href="#pickle-figures-pkl" title="Permanent link">&para;</a></h2>
-<p>Every plot is saved in both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun menu, or directly:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/timeseries_T8_H2.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
-<hr />
-<hr />
-<h2 id="naming-conventions-config-stems-and-output-folder-names">Naming Conventions Config stems and output folder names<a class="headerlink" href="#naming-conventions-config-stems-and-output-folder-names" title="Permanent link">&para;</a></h2>
-<p>HIVE uses consistent naming throughout config files, output folders, and data columns. This page documents those conventions.</p>
-<p>Every script takes a <code>--case &lt;name&gt;.json</code> argument. The stem of that filename (without <code>.json</code>) becomes the output folder name:</p>
-<table>
-<thead>
-<tr>
-<th>Script</th>
+<th>What it does</th>
 <th>Config location</th>
 <th>Output location</th>
 </tr>
@@ -989,23 +823,55 @@ model parameters from the CFD data. The scheme module owns the identification lo
 <tbody>
 <tr>
 <td><code>run_handle_data</code></td>
+<td>Reads raw CFD time series, applies cut times and optional resampling, computes wave parameters and hydrodynamic quantities, saves one processed dataset per case</td>
 <td><code>inputs/handle_case/&lt;name&gt;.json</code></td>
 <td><code>data/handled/&lt;name&gt;/</code></td>
 </tr>
 <tr>
 <td><code>run_validate</code></td>
+<td>Loads processed datasets and a <code>model.json</code>, runs forward simulations via <code>SimRun</code>, computes metrics against the CFD reference, produces scatter plots over the <span class="arithmatex">\((H_s, T_e)\)</span> parameter space</td>
 <td><code>inputs/validate_case/&lt;name&gt;.json</code></td>
 <td><code>out/validated_case/&lt;name&gt;/</code></td>
 </tr>
 <tr>
 <td><code>run_identify</code></td>
+<td>Uses a scheme module (<code>viscous_drag</code>, <code>pi_gain</code>, or <code>linear_si</code>) to identify model parameters from CFD data, updates <code>model.json</code> with the result</td>
 <td><code>inputs/identify_case/&lt;name&gt;.json</code></td>
 <td><code>models/&lt;name&gt;/</code> + <code>models/&lt;name&gt;/identification/</code></td>
 </tr>
 </tbody>
 </table>
-<p>Choose stems that are short, lowercase, and use underscores — e.g. <code>r5_reg</code> for a regular-wave run using BEM model <code>r5</code>.</p>
+<p>Each script read the input .json file <code>--case &lt;name&gt;.json</code> argument. The stem of that filename becomes the output folder name — choose stems that are short, lowercase, and use underscores (e.g. <code>r5_reg</code>).</p>
 <hr />
+<h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>code/                      ← repo root
+├── source/                ← classes, functions, config
+│   ├── classes/           ← Model, SimRun, DataHandle, Plotter, …
+│   ├── function/          ← sea state utils, error utils, …
+│   └── models/
+│       └── bem/
+│           └── r5.pkl     ← BEM HydroSphere file
+├── script/                ← run_*.py entry points
+├── inputs/                ← JSON config files
+│   ├── handle_case/
+│   ├── validate_case/
+│   └── identify_case/
+├── data/                  ← CFD outputs and processed data (not tracked)
+│   ├── cfd/
+│   └── handled/
+├── out/                   ← script outputs (not tracked)
+│   └── validated_case/
+└── doc/                   ← this documentation
+</code></pre></div>
+<hr />
+<h2 id="pickle-figures-pkl">Pickle figures (<code>.pkl</code>)<a class="headerlink" href="#pickle-figures-pkl" title="Permanent link">&para;</a></h2>
+<p>Every plot is saved as both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib
+figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun prompt, or directly:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/sea_state.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
 
 
 

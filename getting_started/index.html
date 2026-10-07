@@ -794,16 +794,15 @@
 <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Python 3.10+</li>
 <li>environment <strong>surrogate</strong></li>
-<li>A HydroSphere BEM pickle file (<code>r5.pkl</code> is the project default) placed under <code>source/models/bem/</code></li>
-<li>A reference raw dataset for placed under 'data/cfd/' for handle pipeline</li>
-<li>A reference handled dataset (.csv) for validation and identification placed under 'data/handled/' for handle pipeline</li>
-<li>A model (.json) for validation and/or identification placed under <code>source/models/</code> </li>
+<li>A HydroSphere BEM pickle file (<code>r5.pkl</code> is the project default) placed under <code>source/models/bem/</code> for validation and/or identification  pipeline</li>
+<li>A reference raw dataset folder for placed under 'data/cfd/' for handle pipeline</li>
+<li>A reference handled dataset (<code>.csv</code>) for validation and identification pipeline placed under <code>data/handled/</code></li>
+<li>A model (<code>.json</code>) for validation and/or identification pipeline placed under <code>source/models/</code> </li>
 </ul>
 <hr />
 <h2 id="quick-test-run">Quick test run<a class="headerlink" href="#quick-test-run" title="Permanent link">&para;</a></h2>
-<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder. A minimal test case is provided using <code>r5.pkl</code> as BEM model and 'out_Case_65_20_120000_-430000_example' as raw reference dataset.
+<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder. A minimal test case is provided using <code>r5.pkl</code> as BEM model and <code>out_Case_65_20_120000_-430000_example</code> as raw reference dataset.
 Run it with: </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># 1 — process CFD data</span>
 python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example_cases.json
@@ -814,7 +813,7 @@ python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span
 <span class="c1"># 3 — identify parameters</span>
 python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_identify.json
 </code></pre></div>
-<p>Outputs land in <code>data/handled/example/</code> (handle data), <code>out/validated_case/example/</code> (validate), or <code>models/example/identification/</code> for identification results (identify). When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>.</p>
+<p>Outputs land in <code>data/handled/example_cases/</code> (handle data), <code>out/validated_case/example_validate/</code> (validate), or <code>models/example_identify/identification/</code> for identification results (identify). When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview.md">user manual</a>.</p>
 
 
 

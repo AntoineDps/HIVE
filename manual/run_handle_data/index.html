@@ -541,17 +541,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#rerun-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rerun options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -574,21 +563,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#config-fields" class="md-nav__link">
+  <a href="#outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config fields
+        Outputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-series-columns-_datacsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-series columns (_data.csv)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#wave-parameters-columns-_wavecsv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        Wave parameters columns (_wave.csv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case labels
       
     </span>
   </a>
@@ -607,10 +624,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#handle-config" class="md-nav__link">
+  <a href="#config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Handle config
+        Config
       
     </span>
   </a>
@@ -618,82 +635,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#rerun-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run_handle_data_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        run_handle_data
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="run_handle_data">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#time-series-csv-columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Time-series CSV columns
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#wave-parameters-csv-columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Wave parameters CSV columns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-column-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data column names
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#case-labels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Case labels
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bem-pickle-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        BEM pickle files
+        Rerun options
       
     </span>
   </a>
@@ -936,41 +881,148 @@
 
 <h1 id="run_handle_data">run_handle_data<a class="headerlink" href="#run_handle_data" title="Permanent link">&para;</a></h1>
 <p>Processes raw CFD time series into a standardised format ready for validation and identification.</p>
-<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
-<p>Every script detects an existing output folder and offers a menu:</p>
-<div class="highlight"><pre><span></span><code>[1] erase and redo all
-[2] stop, do nothing
-[3] load saved figures
-[4] remake figures only  (run_handle_data) / run with date suffix (run_identify)
-</code></pre></div>
-<p>Option <code>4</code> lets you regenerate plots without reprocessing data, which is useful when
-tuning plot parameters.</p>
 <hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>&lt;filename&gt;.json
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>&lt;name&gt;.json
 </code></pre></div>
-<p>Config files live in <code>inputs/handle_case/</code>. The filename stem becomes the output folder name under <code>data/handled/</code>.</p>
+<p>Config files ´<name>.json´ live in <code>inputs/handle_case/</code>. The filename stem becomes the output folder name under <code>data/handled/</code>.</p>
+<hr />
 <h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Reads each SPH/CFD case from <code>data/cfd/</code></li>
+<li>Reads each CFD case folder from <code>data/cfd/</code></li>
 <li>Instantiates a <code>DataHandle</code> object per case</li>
 <li>Calls <code>processData()</code> — computes radiation force, hydrostatic force, linear excitation force (<code>fe_lin</code>), and absorbed power</li>
 <li>Optionally resamples to a target <code>dt</code></li>
-<li>Saves processed data to <code>data/handled/&lt;config_stem&gt;/data/</code></li>
-<li>Generates and saves plots to <code>data/handled/&lt;config_stem&gt;/plots/</code></li>
+<li>Saves processed data and wave parameters to <code>data/handled/&lt;name&gt;/data/</code></li>
+<li>Generates and saves plots to <code>data/handled/&lt;name&gt;/plots/</code></li>
 </ol>
-<h2 id="config-fields">Config fields<a class="headerlink" href="#config-fields" title="Permanent link">&para;</a></h2>
-<p>See <a href="config_reference.md#handle-config">Input Config Reference — handle</a>.</p>
+<hr />
 <h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>data/handled/&lt;name&gt;/
-├── &lt;name&gt;.json          ← copy of the config used
+├── &lt;name&gt;.json               ← copy of the config used
 ├── run.log
 ├── data/
-│   ├── &lt;label&gt;.csv      ← one file per case (time series)
-│   └── &lt;label&gt;_wave.csv ← wave parameters
+│   ├── &lt;label&gt;_data.csv      ← full time series per CFD case
+│   └── &lt;label&gt;_wave.csv      ← scalar wave parameters (Hs, Te, J, …)
 └── plots/
-    └── *.png / *.pkl
+    ├── &lt;label&gt;_sea_state.png / .pkl
+    ├── &lt;label&gt;_power.png / .pkl
+    ├── &lt;label&gt;_dynamics.png / .pkl
+    ├── &lt;label&gt;_hydro.png / .pkl
+    └── &lt;label&gt;_&lt;variable&gt;.png / .pkl
 </code></pre></div>
+<h3 id="time-series-columns-_datacsv">Time-series columns (<code>_data.csv</code>)<a class="headerlink" href="#time-series-columns-_datacsv" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>t</code></td>
+<td>s</td>
+<td>Time</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>m</td>
+<td>Displacement</td>
+</tr>
+<tr>
+<td><code>xdot</code></td>
+<td>m/s</td>
+<td>Velocity</td>
+</tr>
+<tr>
+<td><code>eta</code></td>
+<td>m</td>
+<td>Wave elevation</td>
+</tr>
+<tr>
+<td><code>fe_lin</code></td>
+<td>N</td>
+<td>Linear excitation force (BEM convolution)</td>
+</tr>
+<tr>
+<td><code>fr</code></td>
+<td>N</td>
+<td>Radiation force</td>
+</tr>
+<tr>
+<td><code>fhs_lin</code></td>
+<td>N</td>
+<td>Linear hydrostatic force</td>
+</tr>
+<tr>
+<td><code>fpto</code></td>
+<td>N</td>
+<td>Total PTO force</td>
+</tr>
+<tr>
+<td><code>fd_pto</code></td>
+<td>N</td>
+<td>PTO damping component</td>
+</tr>
+<tr>
+<td><code>fs_pto</code></td>
+<td>N</td>
+<td>PTO spring component</td>
+</tr>
+<tr>
+<td><code>Pabs</code></td>
+<td>W</td>
+<td>Instantaneous absorbed power</td>
+</tr>
+<tr>
+<td><code>Pd</code></td>
+<td>W</td>
+<td>Damping power component</td>
+</tr>
+<tr>
+<td><code>Ps</code></td>
+<td>W</td>
+<td>Spring power component</td>
+</tr>
+</tbody>
+</table>
+<h3 id="wave-parameters-columns-_wavecsv">Wave parameters columns (<code>_wave.csv</code>)<a class="headerlink" href="#wave-parameters-columns-_wavecsv" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Hs</code></td>
+<td>Significant wave height [m]</td>
+</tr>
+<tr>
+<td><code>Te</code></td>
+<td>Energy period [s]</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td>Wave energy flux [W/m]</td>
+</tr>
+<tr>
+<td><code>eps</code></td>
+<td>Wave steepness</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="case-labels">Case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h2>
+<p>Each CFD case is assigned a label derived from its parameters. The label is used as the CSV filename stem and as the series label in plots:</p>
+<div class="highlight"><pre><span></span><code>Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}
+</code></pre></div>
+<p>Example: <code>Hs2p0_Te8p0_d120000_k-280000</code></p>
+<p>An optional <code>"tag"</code> field in the case config appends a suffix: <code>Hs2p0_Te8p0_d120000_k-280000_example</code>.</p>
+<hr />
 <h2 id="plot-options">Plot options<a class="headerlink" href="#plot-options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -982,15 +1034,15 @@ tuning plot parameters.</p>
 <tbody>
 <tr>
 <td><code>sea_state</code></td>
-<td>Wave spectrum and elevation</td>
+<td>Wave spectrum and elevation time series</td>
 </tr>
 <tr>
 <td><code>power</code></td>
-<td>Absorbed power time series</td>
+<td>Absorbed power time series and grid</td>
 </tr>
 <tr>
 <td><code>dynamics</code></td>
-<td>Displacement and velocity</td>
+<td>Displacement, velocity, and phase plot</td>
 </tr>
 <tr>
 <td><code>hydro</code></td>
@@ -1002,12 +1054,12 @@ tuning plot parameters.</p>
 </tr>
 <tr>
 <td><code>variable</code></td>
-<td>Any named column — one plot per variable</td>
+<td>Any named column — list of column names, one plot each</td>
 </tr>
 </tbody>
 </table>
-<h2 id="handle-config">Handle config<a class="headerlink" href="#handle-config" title="Permanent link">&para;</a></h2>
-<p>Path: <code>inputs/handle_case/&lt;name&gt;.json</code></p>
+<hr />
+<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
@@ -1033,256 +1085,15 @@ tuning plot parameters.</p>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>wave_type</code></td>
-<td>string</td>
-<td><code>"regular"</code> or <code>"irregular"</code></td>
-</tr>
-<tr>
-<td><code>cut_time</code></td>
-<td>[float, float]</td>
-<td>Seconds to cut from [start, end]</td>
-</tr>
-<tr>
-<td><code>duration</code></td>
-<td>float | null</td>
-<td>If set, truncates to this duration after cut</td>
-</tr>
-<tr>
-<td><code>hydro_sphere_pkl</code></td>
-<td>string</td>
-<td>BEM pickle filename (without <code>.pkl</code>) in <code>models/bem/</code></td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td>float | null</td>
-<td>Resample timestep [s]. Null keeps original</td>
-</tr>
-<tr>
-<td><code>cases</code></td>
-<td>list</td>
-<td>One entry per CFD case</td>
-</tr>
-<tr>
-<td><code>cases[].T</code></td>
-<td>float</td>
-<td>Wave period [s]</td>
-</tr>
-<tr>
-<td><code>cases[].H</code></td>
-<td>float</td>
-<td>Wave height [m]</td>
-</tr>
-<tr>
-<td><code>cases[].damping</code></td>
-<td>float</td>
-<td>PTO damping [N s/m]</td>
-</tr>
-<tr>
-<td><code>cases[].stiffness</code></td>
-<td>float</td>
-<td>PTO stiffness [N/m]</td>
-</tr>
-<tr>
-<td><code>cases[].plot</code></td>
-<td>bool</td>
-<td>Include in plots (default true)</td>
-</tr>
-<tr>
-<td><code>plot_options</code></td>
-<td>dict</td>
-<td>Which plots to generate</td>
-</tr>
-</tbody>
-</table>
 <hr />
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>DataHandle</code> satisfies the same <code>.dataset</code> / <code>.label</code> interface as <code>SimRun</code>, so both can be passed to the same <code>Plotter</code> calls.</li>
-<li>The <code>fe_lin</code> column is the linear excitation force derived from BEM, used as ground truth input by <code>linear_si</code>.</li>
-<li>Saved <code>.pkl</code> figures can be reopened interactively with option <code>[3]</code> at the rerun menu.</li>
-</ul>
-<h2 id="run_handle_data_1">run_handle_data<a class="headerlink" href="#run_handle_data_1" title="Permanent link">&para;</a></h2>
-<p>Output root: <code>data/handled/&lt;config_stem&gt;/</code></p>
-<div class="highlight"><pre><span></span><code>data/handled/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of the config used to produce this dataset
-├── run.log                   ← console output with timing and warnings
-├── data/
-│   ├── &lt;label&gt;.csv           ← full time series per CFD case (see columns below)
-│   └── &lt;label&gt;_wave.csv      ← scalar wave parameters (T, H, Hs, Te, …)
-└── plots/
-    ├── &lt;label&gt;_sea_state.png / .pkl
-    ├── &lt;label&gt;_power.png / .pkl
-    ├── &lt;label&gt;_dynamics.png / .pkl
-    ├── &lt;label&gt;_hydro.png / .pkl
-    └── &lt;label&gt;_&lt;variable&gt;.png / .pkl
+<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
+<p>When the output folder already exists, the script prompts:</p>
+<div class="highlight"><pre><span></span><code>[1] erase and redo all     — reprocess + replot from scratch
+[2] stop, do nothing
+[3] load saved figures     — reopen existing .pkl plots interactively
+[4] remake figures only    — reuse processed CSVs, regenerate plots
 </code></pre></div>
-<h3 id="time-series-csv-columns">Time-series CSV columns<a class="headerlink" href="#time-series-csv-columns" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Units</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>t</code></td>
-<td>s</td>
-<td>Time</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>m</td>
-<td>Displacement</td>
-</tr>
-<tr>
-<td><code>xdot</code></td>
-<td>m/s</td>
-<td>Velocity</td>
-</tr>
-<tr>
-<td><code>eta</code></td>
-<td>m</td>
-<td>Wave elevation</td>
-</tr>
-<tr>
-<td><code>fe</code></td>
-<td>N</td>
-<td>Total excitation force (CFD)</td>
-</tr>
-<tr>
-<td><code>fe_lin</code></td>
-<td>N</td>
-<td>Linear excitation force (BEM)</td>
-</tr>
-<tr>
-<td><code>f_rad</code></td>
-<td>N</td>
-<td>Radiation force</td>
-</tr>
-<tr>
-<td><code>f_hs</code></td>
-<td>N</td>
-<td>Hydrostatic force</td>
-</tr>
-</tbody>
-</table>
-<h3 id="wave-parameters-csv-columns">Wave parameters CSV columns<a class="headerlink" href="#wave-parameters-csv-columns" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>T</code></td>
-<td>Peak/regular wave period [s]</td>
-</tr>
-<tr>
-<td><code>H</code></td>
-<td>Wave height [m]</td>
-</tr>
-<tr>
-<td><code>Hs</code></td>
-<td>Significant wave height [m] (irregular)</td>
-</tr>
-<tr>
-<td><code>Te</code></td>
-<td>Energy period [s] (irregular)</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="data-column-names">Data column names<a class="headerlink" href="#data-column-names" title="Permanent link">&para;</a></h2>
-<p>Processed CSV files (in <code>data/handled/&lt;name&gt;/data/</code>) use standardised column names:</p>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Units</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>t</code></td>
-<td>s</td>
-<td>Time</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>m</td>
-<td>Displacement</td>
-</tr>
-<tr>
-<td><code>xdot</code></td>
-<td>m/s</td>
-<td>Velocity</td>
-</tr>
-<tr>
-<td><code>eta</code></td>
-<td>m</td>
-<td>Wave elevation</td>
-</tr>
-<tr>
-<td><code>fe</code></td>
-<td>N</td>
-<td>Excitation force (CFD-derived)</td>
-</tr>
-<tr>
-<td><code>fe_lin</code></td>
-<td>N</td>
-<td>Linear excitation force (from BEM)</td>
-</tr>
-<tr>
-<td><code>f_rad</code></td>
-<td>N</td>
-<td>Radiation force</td>
-</tr>
-<tr>
-<td><code>f_hs</code></td>
-<td>N</td>
-<td>Hydrostatic (restoring) force</td>
-</tr>
-<tr>
-<td><code>f_pto</code></td>
-<td>N</td>
-<td>PTO force</td>
-</tr>
-<tr>
-<td><code>P_abs</code></td>
-<td>W</td>
-<td>Instantaneous absorbed power</td>
-</tr>
-</tbody>
-</table>
-<p>SimRun output CSVs use the same column names so that both can be passed to the same plotter calls.</p>
-<h2 id="case-labels">Case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h2>
-<p>Within a handled dataset, each CFD case is assigned a <strong>label</strong> derived from its wave parameters. The label appears as the CSV filename and as the series label in plots:</p>
-<div class="highlight"><pre><span></span><code>Hs2p0_Te8p0_d120000_k-280000
-</code></pre></div>
-<p>Labels are constructed automatically from <code>cases[].T</code> and <code>cases[].H</code> in the handle config.
-Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}</p>
-<hr />
-<h2 id="bem-pickle-files">BEM pickle files<a class="headerlink" href="#bem-pickle-files" title="Permanent link">&para;</a></h2>
-<p>BEM (boundary element method) results are stored as <code>.pkl</code> files under <code>models/bem/</code>. The field <code>hydro_sphere_pkl</code> in the handle config gives the filename stem (without <code>.pkl</code>):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5&quot;</span>
-</code></pre></div>
-<p>This loads <code>models/bem/r5.pkl</code>.</p>
-<hr />
+<p>Option <code>[4]</code> is useful when tuning plot parameters without reprocessing data.</p>
 
 
 
