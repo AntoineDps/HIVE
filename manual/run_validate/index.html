@@ -718,6 +718,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#available-base-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available base models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available base models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modeljson-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model.json structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#body-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        body fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#force_terms-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        force_terms fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identified-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        identified fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-margins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time margins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1431,6 +1503,147 @@
 </tbody>
 </table>
 <p>See <a href="../theory/metrics.md">Metrics</a> for definitions.</p>
+<hr />
+<h2 id="available-base-models">Available base models<a class="headerlink" href="#available-base-models" title="Permanent link">&para;</a></h2>
+<p>The <code>base_model</code> value is a folder name under <code>source/models/</code>. The folder must contain a <code>model.json</code>. BEM data (HydroSphere pickle) is loaded from <code>source/models/bem/</code> as referenced inside <code>model.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>linear</code></td>
+<td>Linear potential-flow model with state-space radiation and linear excitation</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>"none"</code> to disable physics simulation.</p>
+<h3 id="modeljson-structure"><code>model.json</code> structure<a class="headerlink" href="#modeljson-structure" title="Permanent link">&para;</a></h3>
+<p>The <code>model.json</code> file defines the physics assembled at simulation time. The key section is <code>force_terms</code>, which selects which force classes are combined into the equation of motion.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;rho&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1025</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;g&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.81</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;force_terms&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;radiation&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;state_space&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_conv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;drag&quot;</span><span class="p">:</span><span class="w">       </span><span class="s2">&quot;viscous&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;identified&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;c_v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1850.0</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="body-fields"><code>body</code> fields<a class="headerlink" href="#body-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rho</code></td>
+<td><code>float</code></td>
+<td><code>1025</code></td>
+<td>Water density [kg/m³]</td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td><code>float</code></td>
+<td><code>9.81</code></td>
+<td>Gravitational acceleration [m/s²]</td>
+</tr>
+<tr>
+<td><code>hydro_sphere_pkl</code></td>
+<td><code>string</code></td>
+<td>—</td>
+<td>Stem of the HydroSphere pickle under <code>source/models/bem/</code> (e.g. <code>"r5"</code> → <code>bem/r5.pkl</code>). Provides mass, stiffness, radiation state-space, excitation IRF, mesh panels</td>
+</tr>
+</tbody>
+</table>
+<h3 id="force_terms-fields"><code>force_terms</code> fields<a class="headerlink" href="#force_terms-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>restoring</code></td>
+<td><code>"linear"</code> · <code>"nonlinear"</code> · <code>"nonlinear_eta"</code></td>
+<td>Hydrostatic restoring force. <code>"linear"</code>: <span class="arithmatex">\(F = -S \cdot x\)</span>. <code>"nonlinear"</code>: exact buoyancy <span class="arithmatex">\(V_s(\eta{=}0)\rho g - mg\)</span>. <code>"nonlinear_eta"</code>: same with instantaneous free-surface elevation <span class="arithmatex">\(\eta(t)\)</span></td>
+</tr>
+<tr>
+<td><code>radiation</code></td>
+<td><code>"state_space"</code> · <em>(omit to disable)</em></td>
+<td>Radiation force via BEM state-space model. Adds radiation states to the ODE. <code>t_warmup</code> is set to 30 s automatically</td>
+</tr>
+<tr>
+<td><code>excitation</code></td>
+<td><code>"linear_conv"</code> · <code>"fk_nonlinear"</code> · <em>(omit to disable)</em></td>
+<td>Wave excitation force. <code>"linear_conv"</code>: linear convolution of the excitation IRF with <span class="arithmatex">\(\eta(t)\)</span>. <code>"fk_nonlinear"</code>: nonlinear Froude-Krylov — integrates incident wave pressure over the instantaneous wetted sphere surface (requires mesh panels in HydroSphere)</td>
+</tr>
+<tr>
+<td><code>drag</code></td>
+<td><code>"viscous"</code> · <em>(omit to disable)</em></td>
+<td>Morison-type quadratic drag <span class="arithmatex">\(F = -c_v \|\dot{x}\|\dot{x}\)</span>. Requires <code>identified.c_v</code> to be set (populated by <code>run_identify</code> with scheme <code>viscous_drag</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="identified-fields"><code>identified</code> fields<a class="headerlink" href="#identified-fields" title="Permanent link">&para;</a></h3>
+<p>Populated automatically by <code>run_identify</code>. Do not set manually.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Set by</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>c_v</code></td>
+<td><code>viscous_drag</code> scheme</td>
+<td>Identified drag coefficient [N·s²/m²]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="time-margins">Time margins<a class="headerlink" href="#time-margins" title="Permanent link">&para;</a></h3>
+<p>Some force terms introduce transients or boundary effects that make the start or end of a simulation physically invalid. These margins are computed automatically from the model and applied as clip windows to all simulated trajectories.</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th><code>t_warmup</code> (clip start)</th>
+<th><code>t_causal</code> (clip end)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>radiation: "state_space"</code></td>
+<td>30 s (state initialised at zero)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>excitation: "linear_conv"</code> or <code>"fk_nonlinear"</code></td>
+<td><span class="arithmatex">\(t_{IRF}^{+}\)</span> (positive IRF tail)</td>
+<td><span class="arithmatex">\(\|t_{IRF}^{-}\|\)</span> (negative IRF tail — convolution cannot see future <span class="arithmatex">\(\eta\)</span>)</td>
+</tr>
+</tbody>
+</table>
 <hr />
 
 

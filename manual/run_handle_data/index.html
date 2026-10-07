@@ -541,16 +541,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#run" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Run
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage">
+    <nav class="md-nav" aria-label="Run">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        first run
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#rerun-options" class="md-nav__link">
@@ -916,11 +927,11 @@
 <h1 id="run_handle_data">run_handle_data<a class="headerlink" href="#run_handle_data" title="Permanent link">&para;</a></h1>
 <p>Processes raw CFD time series into a standardised format ready for validation and identification.</p>
 <hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<h2 id="run">Run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h2>
+<h3 id="first-run">first run<a class="headerlink" href="#first-run" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>&lt;name&gt;.json
 </code></pre></div>
 <p>Config files ´<name>.json´ live in <code>inputs/handle_case/</code>. The filename stem becomes the output folder name under <code>data/handled/</code>.</p>
-<hr />
 <h3 id="rerun-options">rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h3>
 <p>When the output folder already exists, the script prompts:</p>
 <div class="highlight"><pre><span></span><code>[1] erase and redo all     — reprocess + replot from scratch
@@ -929,7 +940,6 @@
 [4] remake figures only    — reuse processed CSVs, regenerate plots
 </code></pre></div>
 <p>Option <code>[4]</code> is useful when tuning plot parameters without reprocessing data.</p>
-<hr />
 <h3 id="what-it-does">what it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Reads each CFD case folder from <code>data/cfd/</code></li>

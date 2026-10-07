@@ -839,6 +839,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -912,6 +923,10 @@
 <h3 id="6-debug-verify-raw-data">6. debug, verify raw data<a class="headerlink" href="#6-debug-verify-raw-data" title="Permanent link">&para;</a></h3>
 <h3 id="7-immplement-quick-run-exmaple-case">7. immplement quick run exmaple case<a class="headerlink" href="#7-immplement-quick-run-exmaple-case" title="Permanent link">&para;</a></h3>
 <h3 id="8-add-wave-length-to-the-wave-processed-file">8. add wave length to the wave processed file<a class="headerlink" href="#8-add-wave-length-to-the-wave-processed-file" title="Permanent link">&para;</a></h3>
+<h3 id="9">9.<a class="headerlink" href="#9" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>⚠️ <strong>Known mismatch:</strong> <code>Pi_gain._load_synthetic</code> currently passes <code>wave_type</code>, <code>duration</code>, and <code>d</code> to <code>Wave</code>, but <code>Wave.__init__</code> expects <code>type</code>, <code>t_end</code>, and has no <code>d</code> parameter. The two files are out of sync — this source type will raise a <code>TypeError</code> until one is updated to match the other.</p>
+</blockquote>
 <hr />
 <h2 id="technical-matters">Technical matters<a class="headerlink" href="#technical-matters" title="Permanent link">&para;</a></h2>
 <h3 id="1-no-passivity-enforcement">1. No passivity enforcement<a class="headerlink" href="#1-no-passivity-enforcement" title="Permanent link">&para;</a></h3>
