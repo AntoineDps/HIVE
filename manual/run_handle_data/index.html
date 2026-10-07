@@ -614,10 +614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cases-fields" class="md-nav__link">
+  <a href="#case-labels" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cases fields
+        case labels
       
     </span>
   </a>
@@ -629,17 +629,6 @@
     <span class="md-ellipsis">
       
         plot_options fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#case-labels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        case labels
       
     </span>
   </a>
@@ -742,6 +731,34 @@
     
   
     run_identify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    models
   
 
     
@@ -1024,56 +1041,12 @@
 </tr>
 </tbody>
 </table>
-<h3 id="cases-fields"><code>cases</code> fields<a class="headerlink" href="#cases-fields" title="Permanent link">&para;</a></h3>
-<p>Each entry in <code>cases</code> corresponds to one CFD run.</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>T</code></td>
-<td><code>float</code></td>
-<td>✓</td>
-<td>Wave period (s) — must match the CFD folder name</td>
-</tr>
-<tr>
-<td><code>H</code></td>
-<td><code>float</code></td>
-<td>✓</td>
-<td>Wave height (m) — must match the CFD folder name</td>
-</tr>
-<tr>
-<td><code>damping</code></td>
-<td><code>int</code></td>
-<td>✓</td>
-<td>PTO damping coefficient (N·s/m)</td>
-</tr>
-<tr>
-<td><code>stiffness</code></td>
-<td><code>int</code></td>
-<td>✓</td>
-<td>PTO stiffness coefficient (N/m), negative values allowed</td>
-</tr>
-<tr>
-<td><code>tag</code></td>
-<td><code>string</code></td>
-<td>—</td>
-<td>Optional suffix to distinguish runs with identical parameters. Appended to the case label and output filenames</td>
-</tr>
-<tr>
-<td><code>plot</code></td>
-<td><code>bool</code></td>
-<td>—</td>
-<td>Include this case in plots (default: <code>true</code>)</td>
-</tr>
-</tbody>
-</table>
+<h3 id="case-labels">case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h3>
+<p>Each CFD case is assigned a label derived from its parameters. The label is used as the CSV filename stem and as the series label in plots:</p>
+<div class="highlight"><pre><span></span><code>Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}
+</code></pre></div>
+<p>Example: <code>Hs2p0_Te8p0_d120000_k-280000</code></p>
+<p>An optional <code>"tag"</code> field in the case config appends a suffix: <code>Hs2p0_Te8p0_d120000_k-280000_example</code>.</p>
 <h3 id="plot_options-fields"><code>plot_options</code> fields<a class="headerlink" href="#plot_options-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1116,12 +1089,6 @@
 </tr>
 </tbody>
 </table>
-<h3 id="case-labels">case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h3>
-<p>Each CFD case is assigned a label derived from its parameters. The label is used as the CSV filename stem and as the series label in plots:</p>
-<div class="highlight"><pre><span></span><code>Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}
-</code></pre></div>
-<p>Example: <code>Hs2p0_Te8p0_d120000_k-280000</code></p>
-<p>An optional <code>"tag"</code> field in the case config appends a suffix: <code>Hs2p0_Te8p0_d120000_k-280000_example</code>.</p>
 <hr />
 <h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>data/handled/&lt;name&gt;/

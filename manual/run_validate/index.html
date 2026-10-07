@@ -642,55 +642,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#top-level-fields" class="md-nav__link">
+  <a href="#config-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Top-level fields
+        Config fields
       
     </span>
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#models-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        models fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#wave_sources-entry-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        wave_sources entry fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solvers-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        solvers fields
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="solvers fields">
+    <nav class="md-nav" aria-label="Config fields">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#interpolation-flags" class="md-nav__link">
+  <a href="#solversinterpolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        interpolation flags
+        solvers.interpolation
       
     </span>
   </a>
@@ -699,28 +666,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#eta_inputs-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        eta_inputs fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#simulation-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        simulation fields
-      
-    </span>
-  </a>
   
 </li>
         
@@ -763,24 +708,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#json-output" class="md-nav__link">
+  <a href="#outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        JSON output
+        Outputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-resultjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON (result.json)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#output-structure" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#time-series-_simruncsv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Output structure
+        time-series (_simrun.csv)
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -808,6 +770,34 @@
     
   
     run_identify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    models
   
 
     
@@ -1043,7 +1033,7 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="top-level-fields">Top-level fields<a class="headerlink" href="#top-level-fields" title="Permanent link">&para;</a></h3>
+<h3 id="config-fields">Config fields<a class="headerlink" href="#config-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1057,203 +1047,66 @@
 <tr>
 <td><code>models</code></td>
 <td><code>list[dict]</code></td>
-<td>see <a href="#models-fields"><code>models</code> fields</a></td>
-<td>Models to validate. Multiple entries run all models in one execution</td>
+<td><code>name</code>: folder under <code>source/models/</code></td>
+<td>Models to validate. Each entry must contain <code>model.json</code></td>
 </tr>
 <tr>
 <td><code>wave_sources</code></td>
 <td><code>list[dict]</code></td>
-<td>see <a href="#wave_sources-entry-fields"><code>wave_sources</code> entry fields</a></td>
-<td>Wave data sources. Multiple entries run each source against all models</td>
+<td><code>type</code>: <code>"cfd_case"</code> · <code>case_name</code>: stem under <code>data/handled/</code></td>
+<td>Wave data sources</td>
 </tr>
 <tr>
 <td><code>solvers</code></td>
 <td><code>list[dict]</code></td>
-<td>see <a href="#solvers-fields"><code>solvers</code> fields</a></td>
-<td>Solver configurations. Multiple entries run each solver configuration against all combinations</td>
+<td><code>method</code>: <code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> · <code>dt</code>: float (s) · <code>interpolation</code>: see below</td>
+<td>Solver configurations</td>
 </tr>
 <tr>
 <td><code>eta_inputs</code></td>
 <td><code>list[dict]</code></td>
-<td>see <a href="#eta_inputs-fields"><code>eta_inputs</code> fields</a></td>
-<td>Wave elevation input type for the simulation</td>
+<td><code>type</code>: <code>"true"</code> (measured CFD elevation <span class="arithmatex">\(\eta(t)\)</span>)</td>
+<td>Wave elevation input</td>
 </tr>
 <tr>
 <td><code>simulation</code></td>
 <td><code>list[dict]</code></td>
-<td>see <a href="#simulation-fields"><code>simulation</code> fields</a></td>
+<td><code>type</code>: <code>"closed_loop"</code> (PTO feedback included)</td>
 <td>Simulation mode</td>
 </tr>
 <tr>
 <td><code>plot_options</code></td>
 <td><code>dict</code></td>
-<td>see <a href="#plot_options-fields"><code>plot_options</code> fields</a></td>
+<td><code>states</code>: bool · <code>forces</code>: bool</td>
 <td>Controls which plots are generated</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h3 id="models-fields"><code>models</code> fields<a class="headerlink" href="#models-fields" title="Permanent link">&para;</a></h3>
-<p>Each entry in <code>models</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>folder name under <code>source/models/</code> — currently: <code>"linear"</code> · <code>"linear_viscous"</code></td>
-<td>Model to simulate. Must contain <code>model.json</code>. See <a href="../run_identify/#available-base-models">Base model reference</a> for the <code>model.json</code> structure</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="wave_sources-entry-fields"><code>wave_sources</code> entry fields<a class="headerlink" href="#wave_sources-entry-fields" title="Permanent link">&para;</a></h3>
-<p>Each dict in <code>wave_sources</code> must have a <code>"type"</code> key:</p>
-<p><strong><code>"type": "cfd_case"</code></strong> — load from a handled CFD folder:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td><code>"cfd_case"</code></td>
-<td>Source type selector</td>
-</tr>
-<tr>
-<td><code>case_name</code></td>
-<td><code>string</code></td>
-<td>stem of a folder under <code>data/handled/</code></td>
-<td>Handled case folder to load</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="solvers-fields"><code>solvers</code> fields<a class="headerlink" href="#solvers-fields" title="Permanent link">&para;</a></h3>
-<p>Each entry in <code>solvers</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Default</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>method</code></td>
-<td><code>string</code></td>
-<td><code>"rk4"</code></td>
-<td><code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> (case-insensitive)</td>
-<td>ODE integration scheme</td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td>—</td>
-<td>any positive float (s)</td>
-<td>Fixed timestep</td>
-</tr>
-<tr>
-<td><code>interpolation</code></td>
-<td><code>dict</code></td>
-<td><code>{}</code></td>
-<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
-<td>Per-force-term interpolation flags. Empty dict enables interpolation for all terms</td>
-</tr>
-</tbody>
-</table>
-<h4 id="interpolation-flags"><code>interpolation</code> flags<a class="headerlink" href="#interpolation-flags" title="Permanent link">&para;</a></h4>
-<p>The precomputed force signals (<span class="arithmatex">\(f_e^{lin}\)</span>, nonlinear FK force, wave elevation) are evaluated on the handled data grid. At ODE sub-stages, evaluations may fall between grid points. Each flag controls whether that term is re-evaluated at every sub-stage or frozen to the step-start value (zero-order hold).</p>
+<h4 id="solversinterpolation"><code>solvers.interpolation</code><a class="headerlink" href="#solversinterpolation" title="Permanent link">&para;</a></h4>
+<p>Per-force-term flags — <code>true</code> re-evaluates at each RK sub-stage, <code>false</code> freezes to step-start (ZOH):</p>
 <table>
 <thead>
 <tr>
 <th>Key</th>
 <th>Force term</th>
-<th>Effect when <code>true</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>"fe"</code></td>
 <td>Linear excitation force <span class="arithmatex">\(f_e^{lin}\)</span></td>
-<td>Re-evaluated at each RK sub-stage</td>
 </tr>
 <tr>
 <td><code>"fk"</code></td>
 <td>Nonlinear Froude–Krylov force</td>
-<td>Re-evaluated at each RK sub-stage</td>
 </tr>
 <tr>
 <td><code>"eta_hs"</code></td>
 <td>Wave elevation for nonlinear hydrostatic</td>
-<td>Re-evaluated at each RK sub-stage</td>
 </tr>
 </tbody>
 </table>
-<p>Setting a flag to <code>false</code> freezes that term within each timestep (ZOH), which is cheaper but reduces effective accuracy for that term. An empty dict <code>{}</code> enables interpolation for all terms and is recommended for <code>rk4</code> and <code>rk2</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">                          </span><span class="c1">// all terms interpolated (recommended)</span>
-<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span><span class="w">               </span><span class="c1">// freeze excitation, interpolate rest</span>
-<span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span><span class="w">  </span><span class="c1">// freeze both, interpolate eta_hs only</span>
-</code></pre></div>
-<hr />
-<h3 id="eta_inputs-fields"><code>eta_inputs</code> fields<a class="headerlink" href="#eta_inputs-fields" title="Permanent link">&para;</a></h3>
-<p>Each entry in <code>eta_inputs</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td><code>"true"</code></td>
-<td>Wave elevation source. <code>"true"</code> uses the measured CFD wave elevation <span class="arithmatex">\(\eta(t)\)</span></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="simulation-fields"><code>simulation</code> fields<a class="headerlink" href="#simulation-fields" title="Permanent link">&para;</a></h3>
-<p>Each entry in <code>simulation</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td><code>"closed_loop"</code></td>
-<td>Simulation mode. <code>"closed_loop"</code> includes PTO feedback with the damping and stiffness from the wave case</td>
-</tr>
-</tbody>
-</table>
-<hr />
+<p>Empty dict <code>{}</code> enables all terms (recommended for <code>rk4</code> / <code>rk2</code>).</p>
 <h3 id="plot_options-fields"><code>plot_options</code> fields<a class="headerlink" href="#plot_options-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1359,7 +1212,18 @@
 </tbody>
 </table>
 <hr />
-<h2 id="json-output">JSON output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h2>
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>out/validated_case/&lt;name&gt;/
+├── &lt;name&gt;.json               ← copy of the config used
+├── run.log
+├── result.json               ← metric summary for all models and sea states
+├── data/
+│   └── &lt;label&gt;_simrun.csv    ← simulated time series per case per model
+└── plots/
+    ├── scatter_&lt;metric&gt;.png / .pkl
+    └── timeseries_&lt;label&gt;.png / .pkl
+</code></pre></div>
+<h3 id="json-resultjson">JSON (<code>result.json</code>)<a class="headerlink" href="#json-resultjson" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;t_warmup&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;t_causal&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.2</span><span class="p">,</span>
@@ -1374,18 +1238,7 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<hr />
-<h2 id="output-structure">Output structure<a class="headerlink" href="#output-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>out/validated_case/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of the config used
-├── run.log
-├── result.json               ← metric summary for all models and sea states
-├── data/
-│   └── &lt;label&gt;_simrun.csv    ← simulated time series per case per model
-└── plots/
-    ├── scatter_&lt;metric&gt;.png / .pkl
-    └── timeseries_&lt;label&gt;.png / .pkl
-</code></pre></div>
+<h3 id="time-series-_simruncsv">time-series (<code>_simrun.csv</code>)<a class="headerlink" href="#time-series-_simruncsv" title="Permanent link">&para;</a></h3>
 
 
 
