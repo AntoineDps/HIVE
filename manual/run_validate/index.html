@@ -735,12 +735,7 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#multiple-entries" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -750,8 +745,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#metrics" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -761,32 +756,31 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#json-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Outputs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#resultjson-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        result.json structure
+        JSON output
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#output-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output structure
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1289,7 +1283,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="multiple-entries">Multiple entries<a class="headerlink" href="#multiple-entries" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-entries">Multiple entries<a class="headerlink" href="#multiple-entries" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1328,7 +1322,7 @@
 </table>
 <p>All combinations are run in a single execution. <code>result.json</code> stores metrics keyed by model name and case label, covering every combination.</p>
 <hr />
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
+<h3 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h3>
 <p>Metrics are computed for each simulated trajectory against the CFD reference:</p>
 <table>
 <thead>
@@ -1365,18 +1359,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>out/validated_case/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of the config used
-├── run.log
-├── result.json               ← metric summary for all models and sea states
-├── data/
-│   └── &lt;label&gt;_simrun.csv    ← simulated time series per case per model
-└── plots/
-    ├── scatter_&lt;metric&gt;.png / .pkl
-    └── timeseries_&lt;label&gt;.png / .pkl
-</code></pre></div>
-<h3 id="resultjson-structure"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure" title="Permanent link">&para;</a></h3>
+<h2 id="json-output">JSON output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;t_warmup&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;t_causal&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.2</span><span class="p">,</span>
@@ -1390,6 +1373,18 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="output-structure">Output structure<a class="headerlink" href="#output-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>out/validated_case/&lt;name&gt;/
+├── &lt;name&gt;.json               ← copy of the config used
+├── run.log
+├── result.json               ← metric summary for all models and sea states
+├── data/
+│   └── &lt;label&gt;_simrun.csv    ← simulated time series per case per model
+└── plots/
+    ├── scatter_&lt;metric&gt;.png / .pkl
+    └── timeseries_&lt;label&gt;.png / .pkl
 </code></pre></div>
 
 
