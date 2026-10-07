@@ -605,6 +605,84 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rerun-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rerun options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        what it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-json-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input JSON config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input JSON config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#top-level-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        top-level fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solver-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solver fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_options-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_options fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -616,84 +694,7 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-it-does" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What it does
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#config-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Config fields
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rerun-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rerun options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Outputs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scheme-contract" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scheme contract
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#self_loading-false-true-if-scheme-loads-its-own-data-eg-linear_si-plot_dispatch-name-fndata-simruns-result-grids-plots_dir-def-prepfeed-ddfeed-def-runopt-optimizer-feed-ddfeed-config-tuple-def-saveopt-optimizer-result-dict-output_name-str-def-log_resultresult-dict-def-save_dataresult-simruns-grids-feed-data_dir" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        SELF_LOADING = False # True if scheme loads its own data (e.g. linear_si) PLOT_DISPATCH = {...} # {name: fn(data, simruns, result, grids, plots_dir)} def prep(feed: DDFeed): ... def run(opt: Optimizer, feed: DDFeed, config) -&gt; tuple: ... def save(opt: Optimizer, result: dict, output_name: str): ... def log_result(result: dict): ... def save_data(result, simruns, grids, feed, data_dir): ...
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#identify-config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Identify config
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Identify config">
+    <nav class="md-nav" aria-label="Available schemes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -724,33 +725,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
+        Outputs
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run_identify_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        run_identify
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="run_identify">
+    <nav class="md-nav" aria-label="Outputs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#resultjson-structure-viscous_drag-example" class="md-nav__link">
+  <a href="#resultjson-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        result.json structure (viscous_drag example)
+        result.json structure
       
     </span>
   </a>
@@ -759,6 +749,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
   
 </li>
       
@@ -941,108 +942,40 @@
 
 
 <h1 id="run_identify">run_identify<a class="headerlink" href="#run_identify" title="Permanent link">&para;</a></h1>
-<p>Identifies model parameters or data-driven surrogates from CFD reference data using
-a pluggable scheme system.</p>
+<p>Identifies model parameters or data-driven surrogates from CFD reference data using a pluggable scheme system.</p>
+<hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>&lt;filename&gt;.json
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>&lt;name&gt;.json
 </code></pre></div>
-<p>Config files live in <code>inputs/identify_case/</code>. The filename stem becomes the output
-folder name under <code>models/</code>.</p>
-<h2 id="available-schemes">Available schemes<a class="headerlink" href="#available-schemes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Scheme key</th>
-<th>Module</th>
-<th>What it identifies</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>viscous_drag</code></td>
-<td><code>Viscous_drag.py</code></td>
-<td>Quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> via least-squares</td>
-</tr>
-<tr>
-<td><code>pi_gain</code></td>
-<td><code>Pi_gain.py</code></td>
-<td>PI controller gains <span class="arithmatex">\(K_p\)</span>, <span class="arithmatex">\(K_i\)</span></td>
-</tr>
-<tr>
-<td><code>linear_si</code></td>
-<td><code>Linear_si.py</code></td>
-<td><span class="arithmatex">\(\eta \to f_e\)</span> and <span class="arithmatex">\(f_e \to \dot{x}\)</span> state-space models via VF or N4SID</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
+<p>Config files <code>&lt;name&gt;.json</code> live in <code>inputs/identify_case/</code>. The filename stem becomes the output folder name under <code>source/models/</code>.</p>
+<hr />
+<h3 id="rerun-options">rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h3>
+<p>When the output folder already exists, the script prompts:</p>
+<div class="highlight"><pre><span></span><code>[1] erase and redo
+[2] stop, do nothing
+[3] load saved figures     — reopen existing .pkl plots interactively
+[4] save with date suffix  — run and save under &lt;name&gt;_YYYYMMDD (keeps existing folder)
+</code></pre></div>
+<p>Option <code>[4]</code> is useful to keep previous identification results while running a new one.</p>
+<hr />
+<h3 id="what-it-does">what it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
 <ol>
-<li>Loads the base model definition from <code>models/&lt;base_model&gt;/model.json</code></li>
+<li>Loads the base model definition from <code>source/models/&lt;base_model&gt;/model.json</code></li>
 <li>Creates a <code>DDFeed</code> — loads training <code>DataHandle</code> objects and runs <code>scheme.prep()</code></li>
 <li>Creates an <code>Optimizer</code> — owns simulation helpers and delegates to <code>scheme.run()</code></li>
-<li>Saves identified parameters, result JSON, simulation CSVs and plots</li>
+<li>Computes time margins (<code>t_warmup</code>, <code>t_causal</code>) from the base model and BEM data</li>
+<li>Saves identified parameters, result JSON, simulation CSVs and plots to <code>source/models/&lt;name&gt;/identification/</code></li>
 </ol>
-<h2 id="config-fields">Config fields<a class="headerlink" href="#config-fields" title="Permanent link">&para;</a></h2>
-<p>See <a href="config_reference.md#identify-config">Input Config Reference — identify</a>.</p>
-<h2 id="rerun-options">Rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[1]</code></td>
-<td>Erase and redo</td>
-</tr>
-<tr>
-<td><code>[2]</code></td>
-<td>Stop</td>
-</tr>
-<tr>
-<td><code>[3]</code></td>
-<td>Reload saved figures</td>
-</tr>
-<tr>
-<td><code>[4]</code></td>
-<td>Save results with today's date suffix (keeps existing folder)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>models/&lt;name&gt;/
-├── model.json          ← updated with identified parameters
-├── run.log
-└── identification/
-    ├── result.json
-    ├── data/
-    │   └── *.csv
-    └── plots/
-        └── *.png / *.pkl
-</code></pre></div>
-<h2 id="scheme-contract">Scheme contract<a class="headerlink" href="#scheme-contract" title="Permanent link">&para;</a></h2>
-<p>Every scheme module must implement:</p>
-<h2 id="self_loading-false-true-if-scheme-loads-its-own-data-eg-linear_si-plot_dispatch-name-fndata-simruns-result-grids-plots_dir-def-prepfeed-ddfeed-def-runopt-optimizer-feed-ddfeed-config-tuple-def-saveopt-optimizer-result-dict-output_name-str-def-log_resultresult-dict-def-save_dataresult-simruns-grids-feed-data_dir"><div class="highlight"><pre><span></span><code><span class="n">SELF_LOADING</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># True if scheme loads its own data (e.g. linear_si)</span>
-<span class="n">PLOT_DISPATCH</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>  <span class="c1"># {name: fn(data, simruns, result, grids, plots_dir)}</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">prep</span><span class="p">(</span><span class="n">feed</span><span class="p">:</span> <span class="n">DDFeed</span><span class="p">):</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">opt</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">feed</span><span class="p">:</span> <span class="n">DDFeed</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">opt</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">log_result</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">simruns</span><span class="p">,</span> <span class="n">grids</span><span class="p">,</span> <span class="n">feed</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">):</span> <span class="o">...</span>
-</code></pre></div><a class="headerlink" href="#self_loading-false-true-if-scheme-loads-its-own-data-eg-linear_si-plot_dispatch-name-fndata-simruns-result-grids-plots_dir-def-prepfeed-ddfeed-def-runopt-optimizer-feed-ddfeed-config-tuple-def-saveopt-optimizer-result-dict-output_name-str-def-log_resultresult-dict-def-save_dataresult-simruns-grids-feed-data_dir" title="Permanent link">&para;</a></h2>
-<h2 id="identify-config">Identify config<a class="headerlink" href="#identify-config" title="Permanent link">&para;</a></h2>
-<p>Path: <code>inputs/identify_case/&lt;name&gt;.json</code></p>
+<hr />
+<h2 id="input-json-config">Input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example_cases&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;c_v_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5000</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nrmse_x&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
@@ -1055,6 +988,7 @@ folder name under <code>models/</code>.</p>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="top-level-fields">top-level fields<a class="headerlink" href="#top-level-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1066,28 +1000,106 @@ folder name under <code>models/</code>.</p>
 <tbody>
 <tr>
 <td><code>scheme</code></td>
-<td>string</td>
-<td>Identification scheme (<code>viscous_drag</code>, <code>pi_gain</code>, <code>linear_si</code>)</td>
+<td><code>string</code></td>
+<td>Identification scheme to use (see available schemes below)</td>
 </tr>
 <tr>
 <td><code>base_model</code></td>
-<td>string</td>
-<td>Folder name under <code>models/</code> for the base physics model. Use <code>"none"</code> for <code>linear_si</code>.</td>
+<td><code>string</code></td>
+<td>Folder name under <code>source/models/</code> for the base physics model. Use <code>"none"</code> for <code>linear_si</code></td>
 </tr>
 <tr>
 <td><code>waves_train</code></td>
-<td>list[str]</td>
-<td>Handle config stems to use as training data</td>
+<td><code>list[string]</code></td>
+<td>Handle config stems whose processed data are used as training cases. e.g. <code>["example_cases"]</code> loads <code>data/handled/example_cases/</code></td>
 </tr>
 <tr>
 <td><code>scheme_params</code></td>
-<td>dict</td>
-<td>Scheme-specific parameters (see below)</td>
+<td><code>dict</code></td>
+<td>Scheme-specific parameters (see per-scheme tables below)</td>
 </tr>
 <tr>
 <td><code>solver</code></td>
-<td>dict</td>
-<td>Same as validate config — see <code>solver.interpolation</code> above</td>
+<td><code>dict</code></td>
+<td>Solver settings used for forward simulations during identification</td>
+</tr>
+<tr>
+<td><code>plot_options</code></td>
+<td><code>dict</code></td>
+<td>Controls which plots are generated (see below)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="solver-fields"><code>solver</code> fields<a class="headerlink" href="#solver-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>"RK4"</code></td>
+<td>Integration method</td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td>Simulation timestep (s)</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td><code>dict</code></td>
+<td>Per-force-term interpolation flags: <code>{"fe": bool, "fk": bool, "eta_hs": bool}</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="plot_options-fields"><code>plot_options</code> fields<a class="headerlink" href="#plot_options-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>grid</code></td>
+<td><code>bool</code></td>
+<td>Objective function grid plot (viscous_drag / pi_gain only)</td>
+</tr>
+<tr>
+<td><code>timeseries</code></td>
+<td><code>bool</code></td>
+<td>Simulated vs CFD time series at best parameter values</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="available-schemes">Available schemes<a class="headerlink" href="#available-schemes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th><code>scheme</code> key</th>
+<th>What it identifies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>viscous_drag</code></td>
+<td>Quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> via grid search</td>
+</tr>
+<tr>
+<td><code>pi_gain</code></td>
+<td>PI controller gains <span class="arithmatex">\(K_p\)</span>, <span class="arithmatex">\(K_i\)</span> via 2D grid search</td>
+</tr>
+<tr>
+<td><code>linear_si</code></td>
+<td><span class="arithmatex">\(\eta \to f_e\)</span> and <span class="arithmatex">\(f_e \to \dot{x}\)</span> state-space models via VF or N4SID</td>
 </tr>
 </tbody>
 </table>
@@ -1096,21 +1108,25 @@ folder name under <code>models/</code>.</p>
 <thead>
 <tr>
 <th>Field</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>c_v_range</code></td>
-<td>[min, max] search range for <span class="arithmatex">\(c_v\)</span> [N s²/m²]</td>
+<td><code>[float, float]</code></td>
+<td>Search range <code>[min, max]</code> for <span class="arithmatex">\(c_v\)</span> [N·s²/m²]</td>
 </tr>
 <tr>
 <td><code>n_points</code></td>
+<td><code>int</code></td>
 <td>Number of grid points</td>
 </tr>
 <tr>
 <td><code>objective</code></td>
-<td>Objective name (default <code>"nrmse_x"</code>)</td>
+<td><code>string</code></td>
+<td>Objective metric (default: <code>"nrmse_x"</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -1119,47 +1135,43 @@ folder name under <code>models/</code>.</p>
 <thead>
 <tr>
 <th>Field</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>Kp_range</code></td>
-<td>[min, max] for proportional gain</td>
+<td><code>[float, float]</code></td>
+<td>Search range <code>[min, max]</code> for proportional gain</td>
 </tr>
 <tr>
 <td><code>Ki_range</code></td>
-<td>[min, max] for integral gain</td>
+<td><code>[float, float]</code></td>
+<td>Search range <code>[min, max]</code> for integral gain</td>
 </tr>
 <tr>
 <td><code>n_points</code></td>
+<td><code>int</code></td>
 <td>Grid resolution per dimension</td>
 </tr>
 </tbody>
 </table>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>The base model must exist at <code>models/&lt;base_model&gt;/model.json</code> before running.</li>
-<li><code>t_warmup</code> and <code>t_causal</code> are computed from the base model and applied to all
-  simulation clips automatically.</li>
-<li>For <code>linear_si</code>, the scheme loads its own signal data (<code>SELF_LOADING = True</code>) and
-  does not use CFD <code>DataHandle</code> objects.</li>
-</ul>
-<h2 id="run_identify_1">run_identify<a class="headerlink" href="#run_identify_1" title="Permanent link">&para;</a></h2>
-<p>Output root: <code>models/&lt;config_stem&gt;/</code></p>
-<div class="highlight"><pre><span></span><code>models/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of the identify config
+<hr />
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
+├── &lt;name&gt;.json               ← copy of the config used
 ├── model.json                ← model definition updated with identified parameters
 ├── run.log
 └── identification/
-    ├── result.json           ← scheme output (identified parameters + objective value)
+    ├── result.json           ← identified parameters and objective value
     ├── data/
     │   └── *.csv             ← simulated time series at best parameter values
     └── plots/
-        ├── grid_*.png / .pkl     ← viscous_drag / pi_gain: objective over grid
+        ├── grid_*.png / .pkl
         └── timeseries_*.png / .pkl
 </code></pre></div>
-<h3 id="resultjson-structure-viscous_drag-example">result.json structure (viscous_drag example)<a class="headerlink" href="#resultjson-structure-viscous_drag-example" title="Permanent link">&para;</a></h3>
+<h3 id="resultjson-structure"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;c_v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1850.0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nrmse_x&quot;</span><span class="p">,</span>
@@ -1167,6 +1179,13 @@ folder name under <code>models/</code>.</p>
 <span class="w">  </span><span class="nt">&quot;t_warmup&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span>
 <span class="p">}</span>
 </code></pre></div>
+<hr />
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The base model must exist at <code>source/models/&lt;base_model&gt;/model.json</code> before running.</li>
+<li><code>t_warmup</code> and <code>t_causal</code> are computed automatically from the base model and applied to all simulation clips.</li>
+<li>For <code>linear_si</code>, the scheme loads its own signal data (<code>SELF_LOADING = True</code>) and does not use CFD <code>DataHandle</code> objects — <code>waves_train</code> is unused.</li>
+</ul>
 
 
 
