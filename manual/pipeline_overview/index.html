@@ -535,10 +535,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pickle-figures-pkl" class="md-nav__link">
+  <a href="#output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pickle figures (.pkl)
+        Output
       
     </span>
   </a>
@@ -848,23 +848,38 @@ writing outputs to a structured folder. </p>
 ├── source/                ← classes, functions, config
 │   ├── classes/           ← Model, SimRun, DataHandle, Plotter, …
 │   ├── function/          ← sea state utils, error utils, …
-│   └── models/
-│       └── bem/
-│           └── r5.pkl     ← BEM HydroSphere file
+│   └── models/            ← .pkl based BEM model and other physics based models and identified models
+│       ├── bem/
+│       │   └── r5.pkl     ← base BEM HydroSphere file
+│       └── 🔴 example_identify/     ← run_identify output
+│           ├── model.json
+│           └── identification/
 ├── script/                ← run_*.py entry points
 ├── inputs/                ← JSON config files
 │   ├── handle_case/
+│   │   └── 🔵 example_cases.json
 │   ├── validate_case/
+│   │   └── 🔵 example_validate.json
 │   └── identify_case/
-├── data/                  ← CFD outputs and processed data (not tracked)
-│   ├── cfd/
-│   └── handled/
-├── out/                   ← script outputs (not tracked)
+│       └── 🔵 example_identify.json
+├── data/
+│   ├── bem/               ← raw BEM files to be converted to .pkl
+│   ├── cfd/               ← raw CFD case folders
+│   │   └── out_Case_8p0_2p0_120000_-280000/
+│   └── handled/           ← processed time series and figures
+│       └── 🔴 example_cases/
+│           ├── data/
+│           └── plots/
+├── out/                   ← validation outputs
 │   └── validated_case/
+│       └── 🔴 example_validate/
 └── doc/                   ← this documentation
 </code></pre></div>
+<blockquote>
+<p>🔵 input config files &nbsp;&nbsp; 🔴 outputs written by the <code>run_*</code> scripts</p>
+</blockquote>
 <hr />
-<h2 id="pickle-figures-pkl">Pickle figures (<code>.pkl</code>)<a class="headerlink" href="#pickle-figures-pkl" title="Permanent link">&para;</a></h2>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
 <p>Every plot is saved as both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib
 figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun prompt, or directly:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
