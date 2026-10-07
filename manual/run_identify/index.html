@@ -692,10 +692,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#resultjson-structure" class="md-nav__link">
+  <a href="#json-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        result.json structure
+        JSON output
       
     </span>
   </a>
@@ -753,10 +753,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#resultjson-structure_1" class="md-nav__link">
+  <a href="#json-output_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        result.json structure
+        JSON output
       
     </span>
   </a>
@@ -802,10 +802,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#outputs-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        Outputs structure
       
     </span>
   </a>
@@ -1156,7 +1156,7 @@
 <li><strong>per-case</strong> — <span class="arithmatex">\(c_v\)</span> fitted independently to each wave case (captures sea-state variability)</li>
 <li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → <strong>written to <code>model.json</code></strong></li>
 </ul>
-<h3 id="resultjson-structure"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure" title="Permanent link">&para;</a></h3>
+<h3 id="json-output">JSON output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
@@ -1430,8 +1430,7 @@
 </tr>
 </tbody>
 </table>
-<hr />
-<h3 id="resultjson-structure_1"><code>result.json</code> structure<a class="headerlink" href="#resultjson-structure_1" title="Permanent link">&para;</a></h3>
+<h3 id="json-output_1">JSON output<a class="headerlink" href="#json-output_1" title="Permanent link">&para;</a></h3>
 <h2 id="scheme-pi_gain-base_model-linear-objective-name-mean_p_abs-direction-maximize-stability-enabled-true-r-50-n_cases-12-results-grid-b_per_case-case_label-420000-k_per_case-case_label-150000-metric_per_case-case_label-12503-metric_label-mean-p_abs-w"><div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
@@ -1563,7 +1562,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<h2 id="outputs-structure">Outputs structure<a class="headerlink" href="#outputs-structure" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
 ├── &lt;name&gt;.json               ← copy of the config used
 ├── model.json                ← model definition updated with identified parameters
