@@ -603,10 +603,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#top-level-fields" class="md-nav__link">
+  <a href="#cases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        top-level fields
+        cases
       
     </span>
   </a>
@@ -614,21 +614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#case-labels" class="md-nav__link">
+  <a href="#plot_options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        case labels
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#plot_options-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plot_options fields
+        plot_options
       
     </span>
   </a>
@@ -969,85 +958,148 @@
 <hr />
 <h2 id="input-json-config">Input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-280000</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-430000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">140000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-400000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;sea_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;power&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;dynamics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;hydro&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;3d&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hydro&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;3d&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="top-level-fields">top-level fields<a class="headerlink" href="#top-level-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>wave_type</code></td>
-<td><code>"regular"</code> | <code>"irregular"</code></td>
-<td>Type of wave used in the CFD simulation</td>
+<td><code>"irr"</code> | <code>"reg"</code></td>
+<td>yes</td>
+<td>Wave type used in the CFD simulation</td>
 </tr>
 <tr>
 <td><code>cut_time</code></td>
 <td><code>[float, float]</code></td>
+<td>yes</td>
 <td>Seconds to discard from <code>[start, end]</code> of the raw signal. Use <code>0</code> to keep to the edge</td>
 </tr>
 <tr>
 <td><code>duration</code></td>
 <td><code>float</code> | <code>null</code></td>
+<td>no</td>
 <td>Maximum duration (s) to retain after the start cut. <code>null</code> keeps all remaining data</td>
 </tr>
 <tr>
 <td><code>hydro_sphere_pkl</code></td>
 <td><code>string</code></td>
+<td>yes</td>
 <td>Stem of the BEM <code>.pkl</code> file in <code>source/models/bem/</code>. e.g. <code>"r5"</code> loads <code>r5.pkl</code></td>
 </tr>
 <tr>
 <td><code>dt</code></td>
 <td><code>float</code> | <code>null</code></td>
+<td>no</td>
 <td>Target resampling timestep (s). <code>null</code> keeps the original CFD timestep</td>
 </tr>
 <tr>
 <td><code>cases</code></td>
-<td><code>list</code></td>
-<td>List of CFD cases to process (see below)</td>
+<td><code>list[dict]</code></td>
+<td>yes</td>
+<td>List of CFD cases to process (see <a href="#cases-fields"><code>cases</code></a>)</td>
 </tr>
 <tr>
 <td><code>plot_options</code></td>
 <td><code>dict</code></td>
-<td>Controls which plots are generated (see below)</td>
+<td>no</td>
+<td>Controls which plots are generated (see <a href="#plot_options-fields"><code>plot_options</code></a>)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="case-labels">case labels<a class="headerlink" href="#case-labels" title="Permanent link">&para;</a></h3>
-<p>Each CFD case is assigned a label derived from its parameters. The label is used as the CSV filename stem and as the series label in plots:</p>
-<div class="highlight"><pre><span></span><code>Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}
+<h4 id="cases"><code>cases</code><a class="headerlink" href="#cases" title="Permanent link">&para;</a></h4>
+<p>Each entry in <code>cases</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T</code></td>
+<td><code>float</code></td>
+<td>yes</td>
+<td>Wave period from the CFD folder name (s)</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>float</code></td>
+<td>yes</td>
+<td>Wave height from the CFD folder name (m)</td>
+</tr>
+<tr>
+<td><code>damping</code></td>
+<td><code>int</code></td>
+<td>yes</td>
+<td>PTO damping coefficient (N·s/m)</td>
+</tr>
+<tr>
+<td><code>stiffness</code></td>
+<td><code>int</code></td>
+<td>yes</td>
+<td>PTO stiffness coefficient (N/m). Use negative for spring-like reactive control</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td><code>string</code> | <code>null</code></td>
+<td>no</td>
+<td>Optional suffix appended to the CFD folder name and output label</td>
+</tr>
+<tr>
+<td><code>plot</code></td>
+<td><code>bool</code></td>
+<td>no</td>
+<td>Whether to include this case in plots. Default: <code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each CFD case is assigned a label derived from the CDF folder case name which contain parameters. An optional <code>"tag"</code> field in the case config appends a suffix. The label is used as the CSV filename stem and as the series label in plots:</p>
+<div class="highlight"><pre><span></span><code>Hs{H}p{dec}_Te{T}p{dec}_d{damping}_k{stiffness}_{tag}
 </code></pre></div>
-<p>Example: <code>Hs2p0_Te8p0_d120000_k-280000</code></p>
-<p>An optional <code>"tag"</code> field in the case config appends a suffix: <code>Hs2p0_Te8p0_d120000_k-280000_example</code>.</p>
-<h3 id="plot_options-fields"><code>plot_options</code> fields<a class="headerlink" href="#plot_options-fields" title="Permanent link">&para;</a></h3>
+<p>Example: <code>Hs2p0_Te8p0_d120000_k-280000_example</code></p>
+<h4 id="plot_options"><code>plot_options</code><a class="headerlink" href="#plot_options" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
@@ -1135,24 +1187,9 @@
 <td>Wave elevation</td>
 </tr>
 <tr>
-<td><code>fe_lin</code></td>
+<td><code>fhyd_cfd</code></td>
 <td>N</td>
-<td>Linear excitation force (BEM convolution)</td>
-</tr>
-<tr>
-<td><code>fr</code></td>
-<td>N</td>
-<td>Radiation force</td>
-</tr>
-<tr>
-<td><code>fhs_lin</code></td>
-<td>N</td>
-<td>Linear hydrostatic force</td>
-</tr>
-<tr>
-<td><code>fpto</code></td>
-<td>N</td>
-<td>Total PTO force</td>
+<td>Total nonlinear fluid force from CFD</td>
 </tr>
 <tr>
 <td><code>fd_pto</code></td>
@@ -1165,9 +1202,9 @@
 <td>PTO spring component</td>
 </tr>
 <tr>
-<td><code>Pabs</code></td>
-<td>W</td>
-<td>Instantaneous absorbed power</td>
+<td><code>fpto</code></td>
+<td>N</td>
+<td>Total PTO force (<code>fd_pto + fs_pto</code>)</td>
 </tr>
 <tr>
 <td><code>Pd</code></td>
@@ -1177,7 +1214,172 @@
 <tr>
 <td><code>Ps</code></td>
 <td>W</td>
-<td>Spring power component</td>
+<td>Spring (reactive) power component</td>
+</tr>
+<tr>
+<td><code>Pabs</code></td>
+<td>W</td>
+<td>Instantaneous absorbed power (<code>Pd + Ps</code>)</td>
+</tr>
+<tr>
+<td><code>Pabs_mean</code></td>
+<td>W</td>
+<td>Mean absorbed power (scalar, repeated)</td>
+</tr>
+<tr>
+<td><code>Pd_mean</code></td>
+<td>W</td>
+<td>Mean damping power (scalar, repeated)</td>
+</tr>
+<tr>
+<td><code>Ps_mean</code></td>
+<td>W</td>
+<td>Mean spring power (scalar, repeated)</td>
+</tr>
+<tr>
+<td><code>Eabs_accum</code></td>
+<td>J</td>
+<td>Accumulated absorbed energy</td>
+</tr>
+<tr>
+<td><code>Ed_accum</code></td>
+<td>J</td>
+<td>Accumulated damping energy</td>
+</tr>
+<tr>
+<td><code>Es_accum</code></td>
+<td>J</td>
+<td>Accumulated spring energy</td>
+</tr>
+<tr>
+<td><code>CWRabs</code></td>
+<td>—</td>
+<td>Capture width ratio</td>
+</tr>
+<tr>
+<td><code>etadot</code></td>
+<td>m/s</td>
+<td>Wave elevation time derivative</td>
+</tr>
+<tr>
+<td><code>xddot</code></td>
+<td>m/s²</td>
+<td>Acceleration</td>
+</tr>
+<tr>
+<td><code>fg</code></td>
+<td>N</td>
+<td>Gravity force on sphere</td>
+</tr>
+<tr>
+<td><code>fi</code></td>
+<td>N</td>
+<td>Inertia force</td>
+</tr>
+<tr>
+<td><code>Sw</code></td>
+<td>m²</td>
+<td>Wetted surface area (no η)</td>
+</tr>
+<tr>
+<td><code>Vs</code></td>
+<td>m³</td>
+<td>Submerged volume (no η)</td>
+</tr>
+<tr>
+<td><code>fhs_nl</code></td>
+<td>N</td>
+<td>Nonlinear hydrostatic force (no η)</td>
+</tr>
+<tr>
+<td><code>fb_nl</code></td>
+<td>N</td>
+<td>Nonlinear buoyancy including gravity (no η)</td>
+</tr>
+<tr>
+<td><code>Sw_eta</code></td>
+<td>m²</td>
+<td>Wetted surface area (with η)</td>
+</tr>
+<tr>
+<td><code>Vs_eta</code></td>
+<td>m³</td>
+<td>Submerged volume (with η)</td>
+</tr>
+<tr>
+<td><code>fhs_nl_eta</code></td>
+<td>N</td>
+<td>Nonlinear hydrostatic force (with η)</td>
+</tr>
+<tr>
+<td><code>fb_nl_eta</code></td>
+<td>N</td>
+<td>Nonlinear buoyancy including gravity (with η)</td>
+</tr>
+<tr>
+<td><code>fb_lin</code></td>
+<td>N</td>
+<td>Linear buoyancy including gravity</td>
+</tr>
+<tr>
+<td><code>fhs_lin</code></td>
+<td>N</td>
+<td>Linear hydrostatic force</td>
+</tr>
+<tr>
+<td><code>fe_lin</code></td>
+<td>N</td>
+<td>Linear excitation force (IRF convolution)</td>
+</tr>
+<tr>
+<td><code>fr</code></td>
+<td>N</td>
+<td>Radiation force (state-space)</td>
+</tr>
+<tr>
+<td><code>fhd_lin_comp</code></td>
+<td>N</td>
+<td>Linear hydrodynamic composite (<code>fe_lin + fr</code>)</td>
+</tr>
+<tr>
+<td><code>fhyd_lin</code></td>
+<td>N</td>
+<td>Total linear fluid force (<code>fhd_lin_comp + fhs_lin</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_lin</code></td>
+<td>N</td>
+<td>Deduced linear hydrodynamic force (<code>fhyd_cfd − fb_lin</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_nl</code></td>
+<td>N</td>
+<td>Deduced nonlinear hydrodynamic force (<code>fhyd_cfd − fb_nl</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_nl_eta</code></td>
+<td>N</td>
+<td>Deduced nonlinear hydrodynamic force with η (<code>fhyd_cfd − fb_nl_eta</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_lin_r</code></td>
+<td>N</td>
+<td>Deduced linear hydrodynamic excl. radiation (<code>fhyd_cfd − fb_lin − fr</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_nl_r</code></td>
+<td>N</td>
+<td>Deduced nonlinear hydrodynamic excl. radiation (<code>fhyd_cfd − fb_nl − fr</code>)</td>
+</tr>
+<tr>
+<td><code>fhd_nl_eta_r</code></td>
+<td>N</td>
+<td>Deduced nonlinear hydrodynamic with η excl. radiation (<code>fhyd_cfd − fb_nl_eta − fr</code>)</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>m</td>
+<td>Active draft</td>
 </tr>
 </tbody>
 </table>
@@ -1186,25 +1388,65 @@
 <thead>
 <tr>
 <th>Column</th>
+<th>Units</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Hs</code></td>
-<td>Significant wave height [m]</td>
+<td><code>f</code> or <code>w</code></td>
+<td>Hz or rad/s</td>
+<td>Frequency axis (depends on <code>freq</code> setting)</td>
+</tr>
+<tr>
+<td><code>S_fft</code></td>
+<td>m²/Hz or m²·s</td>
+<td>Raw FFT spectral density</td>
+</tr>
+<tr>
+<td><code>S_fft_filt</code></td>
+<td>m²/Hz or m²·s</td>
+<td>Smoothed FFT spectral density (5-point moving average)</td>
+</tr>
+<tr>
+<td><code>S_welch</code></td>
+<td>m²/Hz or m²·s</td>
+<td>Welch spectral density (interpolated onto FFT grid)</td>
+</tr>
+<tr>
+<td><code>S_th</code></td>
+<td>m²/Hz or m²·s</td>
+<td>Theoretical JONSWAP spectrum</td>
 </tr>
 <tr>
 <td><code>Te</code></td>
-<td>Energy period [s]</td>
+<td>s</td>
+<td>Energy period (from <code>S_fft_filt</code> moments)</td>
+</tr>
+<tr>
+<td><code>Hs</code></td>
+<td>m</td>
+<td>Significant wave height (from <code>S_fft_filt</code> moments)</td>
 </tr>
 <tr>
 <td><code>J</code></td>
-<td>Wave energy flux [W/m]</td>
+<td>W/m</td>
+<td>Wave energy flux</td>
 </tr>
 <tr>
 <td><code>eps</code></td>
+<td>—</td>
 <td>Wave steepness</td>
+</tr>
+<tr>
+<td><code>S_type</code></td>
+<td>—</td>
+<td>Spectrum type label (e.g. <code>"JONSWAP"</code>)</td>
+</tr>
+<tr>
+<td><code>gamma</code></td>
+<td>—</td>
+<td>JONSWAP peak enhancement factor</td>
 </tr>
 </tbody>
 </table>
