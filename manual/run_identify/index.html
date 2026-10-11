@@ -756,13 +756,25 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="input JSON config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#top-level-entries_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        top-level entries
+      
+    </span>
+  </a>
+  
 </li>
         
           <li class="md-nav__item">
-  <a href="#waves_train-entry-fields" class="md-nav__link">
+  <a href="#waves_train-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
-        waves_train entry fields
+        waves_train fields
       
     </span>
   </a>
@@ -774,29 +786,6 @@
     <span class="md-ellipsis">
       
         scheme_params fields
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="scheme_params fields">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#base_model" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        base_model
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        solver
       
     </span>
   </a>
@@ -932,6 +921,34 @@
     
   
     solver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    metric
   
 
     
@@ -1221,7 +1238,7 @@
 <td><code>string</code></td>
 <td>model folder name under <code>source/models/</code></td>
 <td>No</td>
-<td>Physics-bases model to augment with viscous drag. See <a href="#model"><code>model</code></a></td>
+<td>Physics-bases model to augment with viscous drag. See <a href="#model">Model</a></td>
 </tr>
 <tr>
 <td><code>scheme_params</code></td>
@@ -1233,14 +1250,13 @@
 <tr>
 <td><code>solver</code></td>
 <td><code>dict</code></td>
-<td>see <a href="#solver"><code>solver</code></a></td>
+<td>see <a href="#solver">Solver</a></td>
 <td>No</td>
 <td>Simulation solver settings</td>
 </tr>
 </tbody>
 </table>
 <h4 id="scheme_params"><code>scheme_params</code><a class="headerlink" href="#scheme_params" title="Permanent link">&para;</a></h4>
-<p>scheme_params (different with schemes)</p>
 <table>
 <thead>
 <tr>
@@ -1296,9 +1312,9 @@
 </tr>
 <tr>
 <td><code>objective</code></td>
-<td><code>string</code> or <code>dict</code></td>
+<td><code>string</code></td>
 <td><code>"rmse_x"</code></td>
-<td>see <a href="#objectives">Objectives</a></td>
+<td>see <a href="#metric">Metric</a></td>
 <td>Metric used to score <span class="arithmatex">\(c_v\)</span> candidates in <code>"response"</code> methods</td>
 </tr>
 </tbody>
@@ -1357,7 +1373,7 @@
 <p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
 <hr />
 <h2 id="scheme-pi_gain">Scheme: <code>pi_gain</code><a class="headerlink" href="#scheme-pi_gain" title="Permanent link">&para;</a></h2>
-<p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power). For <code>pi_gain</code>, gains are always per sea state — each loaded wave case gets its own optimal <span class="arithmatex">\((B_{pto}, K_{pto})\)</span>. Adding more entries simply extends the set of sea states covered.</p>
+<p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power). </p>
 <h3 id="input-json-config_1">input JSON config<a class="headerlink" href="#input-json-config_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
@@ -1385,7 +1401,50 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="waves_train-entry-fields"><code>waves_train</code> entry fields<a class="headerlink" href="#waves_train-entry-fields" title="Permanent link">&para;</a></h3>
+<h4 id="top-level-entries_1">top-level entries<a class="headerlink" href="#top-level-entries_1" title="Permanent link">&para;</a></h4>
+<p>. Identification runs on all of them together — there is no separate pass per entry.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Options / values</th>
+<th>Multiple entry (list)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>waves_train</code></td>
+<td><code>dict</code></td>
+<td>See <a href="#waves_train"><code>waves_train</code></a></td>
+<td>Yes. All entries are loaded and merged into a single flat pool of wave cases</td>
+<td>Sea states, synthetic or CFD based, to run the identification over</td>
+</tr>
+<tr>
+<td><code>base_model</code></td>
+<td><code>string</code></td>
+<td>model folder name under <code>source/models/</code></td>
+<td>No</td>
+<td>Physics-bases model to augment with viscous drag. See <a href="#model">Model</a></td>
+</tr>
+<tr>
+<td><code>scheme_params</code></td>
+<td><code>dict</code></td>
+<td>see <a href="#scheme_params"><code>scheme_params</code></a> below</td>
+<td>No</td>
+<td>Scheme-specific parameters</td>
+</tr>
+<tr>
+<td><code>solver</code></td>
+<td><code>dict</code></td>
+<td>see <a href="#solver">Solver</a></td>
+<td>No</td>
+<td>Simulation solver settings</td>
+</tr>
+</tbody>
+</table>
+<h4 id="waves_train-fields"><code>waves_train</code> fields<a class="headerlink" href="#waves_train-fields" title="Permanent link">&para;</a></h4>
 <p>Each dict in <code>waves_train</code> must have a <code>"type"</code> key:</p>
 <p><strong><code>"type": "cfd_case"</code></strong> — load from a handled CFD folder</p>
 <p><strong><code>"type": "synthetic"</code></strong> — generate a synthetic wave signal on the fly:</p>
@@ -1466,7 +1525,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h3>
+<h4 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h4>
+<p>!! add multiple entry instead of list for all scheme</p>
 <table>
 <thead>
 <tr>
@@ -1482,7 +1542,7 @@
 <td><code>method</code></td>
 <td><code>string</code> or <code>list</code></td>
 <td><code>"opt"</code></td>
-<td><code>"analytical"</code> · <code>"opt"</code> · <code>"grid"</code> · or a list of several</td>
+<td><code>"analytical"</code> (from BEM theory)· <code>"opt"</code> using an optimizer· <code>"grid"</code> doing a grid-search· or a list of several</td>
 <td>Identification method(s). Pass a list to run and compare multiple methods in one execution</td>
 </tr>
 <tr>
@@ -1612,10 +1672,6 @@
 </tr>
 </tbody>
 </table>
-<h4 id="base_model"><code>base_model</code><a class="headerlink" href="#base_model" title="Permanent link">&para;</a></h4>
-<p>model (single in identify, multiple in validate)</p>
-<h4 id="solver"><code>solver</code><a class="headerlink" href="#solver" title="Permanent link">&para;</a></h4>
-<p>solver (single in identify, multiple in validate)</p>
 <h3 id="output_1">Output<a class="headerlink" href="#output_1" title="Permanent link">&para;</a></h3>
 <p>The output structure is described below.</p>
 <div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
@@ -1650,6 +1706,16 @@
 <h4 id="identification-data-identificationdata_1">identification data (identification/data/)<a class="headerlink" href="#identification-data-identificationdata_1" title="Permanent link">&para;</a></h4>
 <p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
 <hr />
+<ol>
+<li>test viscous drag</li>
+<li>verify and update doc</li>
+<li>update doc pi gain</li>
+<li>test pi gain</li>
+<li>verify and update doc</li>
+<li>model</li>
+<li>solver</li>
+<li>run_validate</li>
+</ol>
 
 
 
