@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../run_identify/">
+        <link rel="prev" href="../model/">
       
       
         <link rel="next" href="../documentation/">
@@ -27,7 +27,7 @@
     
     
       
-        <title>models - HIVE</title>
+        <title>solver - HIVE</title>
       
     
     
@@ -105,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              models
+              solver
             
           </span>
         </div>
@@ -557,6 +557,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -574,7 +602,7 @@
   <span class="md-ellipsis">
     
   
-    models
+    solver
   
 
     
@@ -758,7 +786,49 @@
   
 
 
-  <h1>models</h1>
+  <h1>solver</h1>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td><code>"rk4"</code></td>
+<td><code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> (case-insensitive)</td>
+<td>ODE integration scheme</td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td>—</td>
+<td>any positive float (s)</td>
+<td>Fixed timestep</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td><code>dict</code></td>
+<td><code>{}</code></td>
+<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
+<td>Per-force-term interpolation flags. Empty dict disables all</td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -766,7 +836,8 @@
 
 
 
-
+  
+  
 
 
 

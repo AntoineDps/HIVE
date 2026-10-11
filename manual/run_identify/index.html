@@ -16,7 +16,7 @@
         <link rel="prev" href="../run_validate/">
       
       
-        <link rel="next" href="../models/">
+        <link rel="next" href="../model/">
       
       
         
@@ -631,6 +631,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#available-schemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        available schemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#what-it-does" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -667,13 +678,14 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="input JSON config">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scheme_params-fields" class="md-nav__link">
+  <a href="#top-level-entries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        scheme_params fields
+        top-level entries
       
     </span>
   </a>
@@ -681,10 +693,38 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-case-vs-global-identification" class="md-nav__link">
+  <a href="#scheme_params" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Per-case vs global identification
+        scheme_params
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identified-model-modeljson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        identified model (´model.json´)
       
     </span>
   </a>
@@ -692,13 +732,29 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#json-output" class="md-nav__link">
+  <a href="#viscous-drag-and-metrics-resultjson" class="md-nav__link">
     <span class="md-ellipsis">
       
-        JSON output
+        viscous drag and metrics (´result.json´)
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identification-data-identificationdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        identification data (´identification/data/´)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -742,7 +798,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#scheme_params-fields_1" class="md-nav__link">
+  <a href="#scheme_params-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
         scheme_params fields
@@ -750,13 +806,25 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="scheme_params fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base_model
+      
+    </span>
+  </a>
+  
 </li>
         
           <li class="md-nav__item">
-  <a href="#json-output_1" class="md-nav__link">
+  <a href="#solver" class="md-nav__link">
     <span class="md-ellipsis">
       
-        JSON output
+        solver
       
     </span>
   </a>
@@ -767,37 +835,48 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#multiple-entries" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#output_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Multiple entries
+        Output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viscous-drag-and-metrics-resultjson_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        viscous drag and metrics (´result.json´)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#other-keys" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#identification-data-identificationdata_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Other keys
+        identification data (´identification/data/´)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#output-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output structure
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -817,14 +896,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../models/" class="md-nav__link">
+      <a href="../model/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    models
+    Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    solver
   
 
     
@@ -1025,7 +1132,30 @@
 </code></pre></div>
 <p>Option <code>[4]</code> is useful to keep previous identification results while running a new one.</p>
 <hr />
+<h3 id="available-schemes">available schemes<a class="headerlink" href="#available-schemes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scheme</th>
+<th>Description</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"viscous_drag"</code></td>
+<td>identify a viscous drag coefficient given a base model to fit CFD reference data</td>
+<td>see <a href="#Scheme:viscous_drag">Scheme: <code>viscous_drag</code></a></td>
+</tr>
+<tr>
+<td><code>"pi_gain"</code></td>
+<td>find optimal PI gain (stiffness and damping coefficient) to maximize or minimize an objective, absorbed power for instance</td>
+<td>see <a href="#Scheme:pi_gain">Scheme: <code>pi_gain</code></a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="what-it-does">what it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
+<p>Run an optimization depending on the chosen identification scheme and based on a chosen model. More explicitely:</p>
 <ol>
 <li>Loads the base model definition from <code>source/models/&lt;base_model&gt;/model.json</code></li>
 <li>Creates a <code>DDFeed</code> — loads training data and runs <code>scheme.prep()</code></li>
@@ -1035,29 +1165,82 @@
 </ol>
 <hr />
 <h2 id="scheme-viscous_drag">Scheme: <code>viscous_drag</code><a class="headerlink" href="#scheme-viscous_drag" title="Permanent link">&para;</a></h2>
-<p>Identifies the quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> in <span class="arithmatex">\(F_{visc} = -c_v |\dot{x}| \dot{x}\)</span>.</p>
+<p>Identifies the quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> in <span class="arithmatex">\(F_{visc} = -c_v |\dot{x}| \dot{x}\)</span> for:</p>
+<ul>
+<li><strong>per-case</strong> — <span class="arithmatex">\(c_v\)</span> fitted independently to each wave case</li>
+<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → corresponds to the output <strong>written to <code>model.json</code></strong></li>
+</ul>
 <h3 id="input-json-config">input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;example_cases&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;other_cases&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;example_cases&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;force&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;response&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;eta_hs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;eta_hs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h3>
+<h4 id="top-level-entries">top-level entries<a class="headerlink" href="#top-level-entries" title="Permanent link">&para;</a></h4>
+<p>. Identification runs on all of them together — there is no separate pass per entry.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Options / values</th>
+<th>Multiple entry (list)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>waves_train</code></td>
+<td><code>string</code></td>
+<td>Handled data folder under <code>data/handled/</code></td>
+<td>Yes. All entries are loaded and merged into a single flat pool of wave cases</td>
+<td>Training cases. Multiple entries are pooled into one dataset</td>
+</tr>
+<tr>
+<td><code>base_model</code></td>
+<td><code>string</code></td>
+<td>model folder name under <code>source/models/</code></td>
+<td>No</td>
+<td>Physics-bases model to augment with viscous drag. See <a href="#model"><code>model</code></a></td>
+</tr>
+<tr>
+<td><code>scheme_params</code></td>
+<td><code>dict</code></td>
+<td>see <a href="#scheme_params"><code>scheme_params</code></a> below</td>
+<td>No</td>
+<td>Scheme-specific parameters</td>
+</tr>
+<tr>
+<td><code>solver</code></td>
+<td><code>dict</code></td>
+<td>see <a href="#solver"><code>solver</code></a></td>
+<td>No</td>
+<td>Simulation solver settings</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scheme_params"><code>scheme_params</code><a class="headerlink" href="#scheme_params" title="Permanent link">&para;</a></h4>
+<p>scheme_params (different with schemes)</p>
 <table>
 <thead>
 <tr>
@@ -1121,59 +1304,22 @@
 </tbody>
 </table>
 <p>The four possible <code>type</code> × <code>search</code> method combinations are: <code>force_opt</code>, <code>force_grid</code>, <code>response_opt</code>, <code>response_grid</code>. Pass lists to run several at once.</p>
-<p>The <code>objective</code> field  accepts a string shorthand or a dict with an explicit direction override:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="nt">&quot;rmse_x&quot;</span>
-<span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">}</span>
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-<th>Default direction</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"rmse_x"</code></td>
-<td>RMSE of displacement <span class="arithmatex">\(x\)</span></td>
-<td><code>minimize</code></td>
-</tr>
-<tr>
-<td><code>"rmse_xdot"</code></td>
-<td>RMSE of velocity <span class="arithmatex">\(\dot{x}\)</span></td>
-<td><code>minimize</code></td>
-</tr>
-<tr>
-<td><code>"nrmse_x"</code></td>
-<td>Normalised RMSE of <span class="arithmatex">\(x\)</span></td>
-<td><code>minimize</code></td>
-</tr>
-<tr>
-<td><code>"nrmse_xdot"</code></td>
-<td>Normalised RMSE of <span class="arithmatex">\(\dot{x}\)</span></td>
-<td><code>minimize</code></td>
-</tr>
-<tr>
-<td><code>"mean_P_abs"</code></td>
-<td>Mean absorbed power <span class="arithmatex">\(P_{abs}\)</span></td>
-<td><code>maximize</code></td>
-</tr>
-<tr>
-<td><code>"rmse_P_abs"</code></td>
-<td>RMSE of absorbed power</td>
-<td><code>minimize</code></td>
-</tr>
-</tbody>
-</table>
 <hr />
-<h3 id="per-case-vs-global-identification">Per-case vs global identification<a class="headerlink" href="#per-case-vs-global-identification" title="Permanent link">&para;</a></h3>
-<p>For every method, <code>viscous_drag</code> always produces two <span class="arithmatex">\(c_v\)</span> values:</p>
-<ul>
-<li><strong>per-case</strong> — <span class="arithmatex">\(c_v\)</span> fitted independently to each wave case (captures sea-state variability)</li>
-<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → <strong>written to <code>model.json</code></strong></li>
-</ul>
-<h3 id="json-output">JSON output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h3>
+<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h3>
+<p>The output structure is described below.</p>
+<div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
+├── &lt;name&gt;.json               ← copy of the config used
+├── model.json                ← model definition updated with identified parameters
+├── run.log
+└── identification/
+    ├── result.json           ← identified parameters and objective value per method
+    ├── data/
+    │   └── *.csv             ← simulated time series at best parameter values
+    └── plots/
+        ├── *.png
+        └── *.pkl             ← interactive figure snapshots
+</code></pre></div>
+<h4 id="identified-model-modeljson">identified model (´model.json´)<a class="headerlink" href="#identified-model-modeljson" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
@@ -1190,9 +1336,28 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h4 id="viscous-drag-and-metrics-resultjson">viscous drag and metrics (´result.json´)<a class="headerlink" href="#viscous-drag-and-metrics-resultjson" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;force_opt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1850.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1700.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1950.0</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.11</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1825.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="identification-data-identificationdata">identification data (´identification/data/´)<a class="headerlink" href="#identification-data-identificationdata" title="Permanent link">&para;</a></h4>
+<p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
 <hr />
 <h2 id="scheme-pi_gain">Scheme: <code>pi_gain</code><a class="headerlink" href="#scheme-pi_gain" title="Permanent link">&para;</a></h2>
-<p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power).</p>
+<p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power). For <code>pi_gain</code>, gains are always per sea state — each loaded wave case gets its own optimal <span class="arithmatex">\((B_{pto}, K_{pto})\)</span>. Adding more entries simply extends the set of sea states covered.</p>
 <h3 id="input-json-config_1">input JSON config<a class="headerlink" href="#input-json-config_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
@@ -1301,7 +1466,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="scheme_params-fields_1"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields_1" title="Permanent link">&para;</a></h3>
+<h3 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1447,7 +1612,25 @@
 </tr>
 </tbody>
 </table>
-<h3 id="json-output_1">JSON output<a class="headerlink" href="#json-output_1" title="Permanent link">&para;</a></h3>
+<h4 id="base_model"><code>base_model</code><a class="headerlink" href="#base_model" title="Permanent link">&para;</a></h4>
+<p>model (single in identify, multiple in validate)</p>
+<h4 id="solver"><code>solver</code><a class="headerlink" href="#solver" title="Permanent link">&para;</a></h4>
+<p>solver (single in identify, multiple in validate)</p>
+<h3 id="output_1">Output<a class="headerlink" href="#output_1" title="Permanent link">&para;</a></h3>
+<p>The output structure is described below.</p>
+<div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
+├── &lt;name&gt;.json               ← copy of the config used
+├── model.json                ← model definition updated with identified parameters
+├── run.log
+└── identification/
+    ├── result.json           ← identified parameters and objective value per method
+    ├── data/
+    │   └── *.csv             ← simulated time series at best parameter values
+    └── plots/
+        ├── *.png
+        └── *.pkl             ← interactive figure snapshots
+</code></pre></div>
+<h4 id="viscous-drag-and-metrics-resultjson_1">viscous drag and metrics (´result.json´)<a class="headerlink" href="#viscous-drag-and-metrics-resultjson_1" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
@@ -1464,135 +1647,9 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h4 id="identification-data-identificationdata_1">identification data (´identification/data/´)<a class="headerlink" href="#identification-data-identificationdata_1" title="Permanent link">&para;</a></h4>
+<p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
 <hr />
-<h2 id="multiple-entries">Multiple entries<a class="headerlink" href="#multiple-entries" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Accepts list?</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>waves_train</code></td>
-<td>yes (all schemes)</td>
-<td>entries pooled into one training dataset</td>
-</tr>
-<tr>
-<td><code>type</code> + <code>search</code></td>
-<td>yes (<code>viscous_drag</code>)</td>
-<td>cartesian product → one pass per combination</td>
-</tr>
-<tr>
-<td><code>method</code></td>
-<td>yes (<code>pi_gain</code>)</td>
-<td>one pass per value</td>
-</tr>
-<tr>
-<td><code>solver</code></td>
-<td><strong>no</strong></td>
-<td>single solver shared across all passes — run separate config files to compare solvers</td>
-</tr>
-</tbody>
-</table>
-<p>All entries in <code>waves_train</code> are loaded and merged into a single flat pool of wave cases. Identification runs on all of them together — there is no separate pass per entry.</p>
-<p>For <code>viscous_drag</code>, the global <span class="arithmatex">\(c_v\)</span> is optimised over the concatenated signal from all cases at once, and each case also gets its own per-case <span class="arithmatex">\(c_v\)</span>. Adding more entries widens the training distribution.</p>
-<p>For <code>pi_gain</code>, gains are always per sea state — each loaded wave case gets its own optimal <span class="arithmatex">\((B_{pto}, K_{pto})\)</span>. Adding more entries simply extends the set of sea states covered.</p>
-<hr />
-<h2 id="other-keys">Other keys<a class="headerlink" href="#other-keys" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>base_model</code></td>
-<td><code>string</code></td>
-<td>folder name under <code>source/models/</code> — currently: <code>"linear"</code> · <code>"none"</code> disables physics</td>
-<td>Base physics model to augment with viscous drag</td>
-</tr>
-<tr>
-<td><code>waves_train</code></td>
-<td><code>list[string]</code></td>
-<td>stems of folders under <code>data/handled/</code></td>
-<td>Training cases. Multiple entries are pooled into one dataset</td>
-</tr>
-<tr>
-<td><code>scheme_params</code></td>
-<td><code>dict</code></td>
-<td>see table below</td>
-<td>Scheme-specific parameters</td>
-</tr>
-<tr>
-<td><code>solver</code></td>
-<td><code>dict</code></td>
-<td>see table below</td>
-<td>Forward simulation settings</td>
-</tr>
-</tbody>
-</table>
-<p>solver:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Default</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>method</code></td>
-<td><code>string</code></td>
-<td><code>"rk4"</code></td>
-<td><code>"euler"</code> · <code>"rk2"</code> · <code>"rk4"</code> (case-insensitive)</td>
-<td>ODE integration scheme</td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td>—</td>
-<td>any positive float (s)</td>
-<td>Fixed timestep</td>
-</tr>
-<tr>
-<td><code>interpolation</code></td>
-<td><code>dict</code></td>
-<td><code>{}</code></td>
-<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
-<td>Per-force-term interpolation flags. Empty dict disables all</td>
-</tr>
-<tr>
-<td>---</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="output-structure">Output structure<a class="headerlink" href="#output-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>source/models/&lt;name&gt;/
-├── &lt;name&gt;.json               ← copy of the config used
-├── model.json                ← model definition updated with identified parameters
-├── run.log
-└── identification/
-    ├── result.json           ← identified parameters and objective value per method
-    ├── data/
-    │   └── *.csv             ← simulated time series at best parameter values
-    └── plots/
-        ├── *.png
-        └── *.pkl             ← interactive figure snapshots
-</code></pre></div>
 
 
 
