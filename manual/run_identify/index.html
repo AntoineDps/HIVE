@@ -1147,7 +1147,7 @@
 [3] load saved figures     — reopen existing .pkl plots interactively
 [4] save with date suffix  — run and save under &lt;name&gt;_YYYYMMDD (keeps existing folder)
 </code></pre></div>
-<p>Option <code>[4]</code> is useful to keep previous identification results while running a new one.</p>
+<p>Option <code>[4]</code> is useful to keep previous identification results while running a new one with same JSON input.</p>
 <hr />
 <h3 id="available-schemes">available schemes<a class="headerlink" href="#available-schemes" title="Permanent link">&para;</a></h3>
 <table>
@@ -1185,7 +1185,7 @@
 <p>Identifies the quadratic drag coefficient <span class="arithmatex">\(c_v\)</span> in <span class="arithmatex">\(F_{visc} = -c_v |\dot{x}| \dot{x}\)</span> for:</p>
 <ul>
 <li><strong>per-case</strong> — <span class="arithmatex">\(c_v\)</span> fitted independently to each wave case</li>
-<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → corresponds to the output <strong>written to <code>model.json</code></strong></li>
+<li><strong>global</strong> — single <span class="arithmatex">\(c_v\)</span> fitted across all cases pooled together → corresponds to the model output <strong>written to <code>model.json</code></strong></li>
 </ul>
 <h3 id="input-json-config">input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -1214,7 +1214,6 @@
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="top-level-entries">top-level entries<a class="headerlink" href="#top-level-entries" title="Permanent link">&para;</a></h4>
-<p>. Identification runs on all of them together — there is no separate pass per entry.</p>
 <table>
 <thead>
 <tr>
@@ -1231,7 +1230,7 @@
 <td><code>string</code></td>
 <td>Handled data folder under <code>data/handled/</code></td>
 <td>Yes. All entries are loaded and merged into a single flat pool of wave cases</td>
-<td>Training cases. Multiple entries are pooled into one dataset</td>
+<td>Identification data</td>
 </tr>
 <tr>
 <td><code>base_model</code></td>
@@ -1257,15 +1256,76 @@
 </tbody>
 </table>
 <h4 id="scheme_params"><code>scheme_params</code><a class="headerlink" href="#scheme_params" title="Permanent link">&para;</a></h4>
-<p>| Field | Type | Default | Options / values | Multiple entry (list) | Description |
-|---|---|---|---|---|
-| <code>type</code> | <code>string</code> | — | <code>"force"</code> · <code>"response"</code> · or both as a list | Yes | Identification type. <code>"force"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(f_{hyd}\)</span>; <code>"response"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(\dot{x}\)</span> |
-| <code>search</code> | <code>string</code> | — | <code>"opt"</code> · <code>"grid"</code> · or both as a list | Yes | Search method. <code>"opt"</code> uses a bounded scalar optimiser; <code>"grid"</code> sweeps a uniform grid over <span class="arithmatex">\([c_{v,min},\ c_{v,max}]\)</span> |
-| <code>base_force</code> | <code>string</code> | <code>"fhyd_lin"</code> | any column present in the DataHandle dataset | No | Reference BEM force column subtracted when <code>type = "force"</code> |
-| <code>c_v_min</code> | <code>float</code> | <code>0.0</code> | any non-negative float [N·s²/m²] | No | Lower bound of the <span class="arithmatex">\(c_v\)</span> search range |
-| <code>c_v_max</code> | <code>float</code> | <code>5000.0</code> | any positive float [N·s²/m²] | No | Upper bound of the <span class="arithmatex">\(c_v\)</span> search range |
-| <code>n_points</code> | <code>int</code> | <code>100</code> | any positive integer | No | Grid resolution — used only when <code>search = "grid"</code> |
-| <code>objective</code> | <code>string</code> | <code>"rmse_x"</code> | see <a href="#Metric">Metric</a> | No | Metric used to score <span class="arithmatex">\(c_v\)</span> candidates in <code>"response"</code> methods |</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Multiple entry (list)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>—</td>
+<td><code>"force"</code> · <code>"response"</code> · or both as a list</td>
+<td>Yes</td>
+<td>Identification type. <code>"force"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(f_{hyd}\)</span>; <code>"response"</code> fits <span class="arithmatex">\(c_v\)</span> to match <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(\dot{x}\)</span></td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td><code>string</code></td>
+<td>—</td>
+<td><code>"opt"</code> · <code>"grid"</code> · or both as a list</td>
+<td>Yes</td>
+<td>Search method. <code>"opt"</code> uses a bounded scalar optimiser; <code>"grid"</code> sweeps a uniform grid over <span class="arithmatex">\([c_{v,min},\ c_{v,max}]\)</span></td>
+</tr>
+<tr>
+<td><code>base_force</code></td>
+<td><code>string</code></td>
+<td><code>"fhyd_lin"</code></td>
+<td>any column present in the DataHandle dataset</td>
+<td>No</td>
+<td>Reference BEM force column subtracted when <code>type = "force"</code></td>
+</tr>
+<tr>
+<td><code>c_v_min</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>any non-negative float [N·s²/m²]</td>
+<td>No</td>
+<td>Lower bound of the <span class="arithmatex">\(c_v\)</span> search range</td>
+</tr>
+<tr>
+<td><code>c_v_max</code></td>
+<td><code>float</code></td>
+<td><code>5000.0</code></td>
+<td>any positive float [N·s²/m²]</td>
+<td>No</td>
+<td>Upper bound of the <span class="arithmatex">\(c_v\)</span> search range</td>
+</tr>
+<tr>
+<td><code>n_points</code></td>
+<td><code>int</code></td>
+<td><code>100</code></td>
+<td>any positive integer</td>
+<td>No</td>
+<td>Grid resolution — used only when <code>search = "grid"</code></td>
+</tr>
+<tr>
+<td><code>objective</code></td>
+<td><code>string</code></td>
+<td><code>"rmse_x"</code></td>
+<td>see <a href="#Metric">Metric</a></td>
+<td>No</td>
+<td>Metric used to score <span class="arithmatex">\(c_v\)</span> candidates in <code>"response"</code> methods</td>
+</tr>
+</tbody>
+</table>
 <p>The four possible <code>type</code> × <code>search</code> method combinations are: <code>force_opt</code>, <code>force_grid</code>, <code>response_opt</code>, <code>response_grid</code>. Pass lists to run several at once.</p>
 <hr />
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h3>
@@ -1473,20 +1533,116 @@
 </tbody>
 </table>
 <h4 id="scheme_params-fields"><code>scheme_params</code> fields<a class="headerlink" href="#scheme_params-fields" title="Permanent link">&para;</a></h4>
-<p>| Field | Type | Default | Options / values | Multiple entry (list) | Description |
-|---|---|---|---|---|
-| <code>method</code> | <code>string</code> | <code>"opt"</code> | <code>"analytical"</code> (from BEM theory)· <code>"opt"</code> using an optimizer· <code>"grid"</code> doing a grid-search· or a list of several | Yes | Identification method(s). Pass a list to run and compare multiple methods in one execution |
-| <code>B_min</code> | <code>float</code> | <code>0.0</code> | any float [N·s/m] | No | Lower bound for <span class="arithmatex">\(B_{pto}\)</span> search |
-| <code>B_max</code> | <code>float</code> | <code>1e6</code> | any float [N·s/m] | No | Upper bound for <span class="arithmatex">\(B_{pto}\)</span> search |
-| <code>K_min</code> | <code>float</code> | <code>-1e6</code> | any float [N/m] | No | Lower bound for <span class="arithmatex">\(K_{pto}\)</span> search |
-| <code>K_max</code> | <code>float</code> | <code>1e6</code> | any float [N/m] | No | Upper bound for <span class="arithmatex">\(K_{pto}\)</span> search |
-| <code>n_B</code> | <code>int</code> | <code>20</code> | any positive integer | No | Grid points along <span class="arithmatex">\(B\)</span> axis — used only when <code>method = "grid"</code> |
-| <code>n_K</code> | <code>int</code> | <code>20</code> | any positive integer | No | Grid points along <span class="arithmatex">\(K\)</span> axis — used only when <code>method = "grid"</code> |
-| <code>B_init</code> | <code>float</code> | midpoint of <code>[B_min, B_max]</code> | any float [N·s/m] | No | Initial value for the <code>"opt"</code> optimiser |
-| <code>K_init</code> | <code>float</code> | midpoint of <code>[K_min, K_max]</code> | any float [N/m] | No | Initial value for the <code>"opt"</code> optimiser |
-| <code>objective</code> | <code>string</code> or <code>dict</code> | <code>{"name": "mean_P_abs", "direction": "maximize"}</code> | see <a href="#objectives">Objectives</a> | No | Metric used to score <span class="arithmatex">\((B, K)\)</span> candidates |
-| <code>stability</code> | <code>dict</code> | <code>{"enabled": false, "r": 5.0}</code> | <code>enabled</code>: <code>true</code> / <code>false</code> · <code>r</code>: float (m) | No | Early-stop check: aborts integration if <span class="arithmatex">\(\|x - \eta\| &gt; r\)</span>. <code>r</code> defaults to buoy radius if not set |
-| <code>n_jobs</code> | <code>int</code> | <code>1</code> | any integer · <code>-1</code> = all CPU cores | No | Parallel workers for <code>"grid"</code> search via joblib |</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Multiple entry (list)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td><code>"opt"</code></td>
+<td><code>"analytical"</code> (from BEM theory)· <code>"opt"</code> using an optimizer· <code>"grid"</code> doing a grid-search· or a list of several</td>
+<td>Yes</td>
+<td>Identification method(s). Pass a list to run and compare multiple methods in one execution</td>
+</tr>
+<tr>
+<td><code>B_min</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>any float [N·s/m]</td>
+<td>No</td>
+<td>Lower bound for <span class="arithmatex">\(B_{pto}\)</span> search</td>
+</tr>
+<tr>
+<td><code>B_max</code></td>
+<td><code>float</code></td>
+<td><code>1e6</code></td>
+<td>any float [N·s/m]</td>
+<td>No</td>
+<td>Upper bound for <span class="arithmatex">\(B_{pto}\)</span> search</td>
+</tr>
+<tr>
+<td><code>K_min</code></td>
+<td><code>float</code></td>
+<td><code>-1e6</code></td>
+<td>any float [N/m]</td>
+<td>No</td>
+<td>Lower bound for <span class="arithmatex">\(K_{pto}\)</span> search</td>
+</tr>
+<tr>
+<td><code>K_max</code></td>
+<td><code>float</code></td>
+<td><code>1e6</code></td>
+<td>any float [N/m]</td>
+<td>No</td>
+<td>Upper bound for <span class="arithmatex">\(K_{pto}\)</span> search</td>
+</tr>
+<tr>
+<td><code>n_B</code></td>
+<td><code>int</code></td>
+<td><code>20</code></td>
+<td>any positive integer</td>
+<td>No</td>
+<td>Grid points along <span class="arithmatex">\(B\)</span> axis — used only when <code>method = "grid"</code></td>
+</tr>
+<tr>
+<td><code>n_K</code></td>
+<td><code>int</code></td>
+<td><code>20</code></td>
+<td>any positive integer</td>
+<td>No</td>
+<td>Grid points along <span class="arithmatex">\(K\)</span> axis — used only when <code>method = "grid"</code></td>
+</tr>
+<tr>
+<td><code>B_init</code></td>
+<td><code>float</code></td>
+<td>midpoint of <code>[B_min, B_max]</code></td>
+<td>any float [N·s/m]</td>
+<td>No</td>
+<td>Initial value for the <code>"opt"</code> optimiser</td>
+</tr>
+<tr>
+<td><code>K_init</code></td>
+<td><code>float</code></td>
+<td>midpoint of <code>[K_min, K_max]</code></td>
+<td>any float [N/m]</td>
+<td>No</td>
+<td>Initial value for the <code>"opt"</code> optimiser</td>
+</tr>
+<tr>
+<td><code>objective</code></td>
+<td><code>string</code> or <code>dict</code></td>
+<td><code>{"name": "mean_P_abs", "direction": "maximize"}</code></td>
+<td>see <a href="#objectives">Objectives</a></td>
+<td>No</td>
+<td>Metric used to score <span class="arithmatex">\((B, K)\)</span> candidates</td>
+</tr>
+<tr>
+<td><code>stability</code></td>
+<td><code>dict</code></td>
+<td><code>{"enabled": false, "r": 5.0}</code></td>
+<td><code>enabled</code>: <code>true</code> / <code>false</code> · <code>r</code>: float (m)</td>
+<td>No</td>
+<td>Early-stop check: aborts integration if <span class="arithmatex">\(\|x - \eta\| &gt; r\)</span>. <code>r</code> defaults to buoy radius if not set</td>
+</tr>
+<tr>
+<td><code>n_jobs</code></td>
+<td><code>int</code></td>
+<td><code>1</code></td>
+<td>any integer · <code>-1</code> = all CPU cores</td>
+<td>No</td>
+<td>Parallel workers for <code>"grid"</code> search via joblib</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p><code>"analytical"</code> requires that <code>cfd_case</code> entries carry wave parameters (<code>Te</code>). It derives gains from BEM data directly without running any simulation.</p>
 </blockquote>
@@ -1571,8 +1727,9 @@
 <hr />
 <ol>
 <li>test viscous drag</li>
+<li>verify and update doc</li>
 <li>
-<p>verify and update doc</p>
+<p>links</p>
 </li>
 <li>
 <p>update doc pi gain</p>
