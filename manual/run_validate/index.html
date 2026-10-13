@@ -16,7 +16,7 @@
         <link rel="prev" href="../run_identify/">
       
       
-        <link rel="next" href="../model/">
+        <link rel="next" href="../run_plot/">
       
       
         
@@ -698,10 +698,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#blabla-_datacsv" class="md-nav__link">
+  <a href="#time-series-data_csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        blabla (_data.csv)
+        time series (data/_.csv)
       
     </span>
   </a>
@@ -709,10 +709,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#blabla-_datacsv_1" class="md-nav__link">
+  <a href="#metric-metric_csv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        blabla (_data.csv)
+        metric (metric/_.csv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plots-plotspkl-png" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plots (plots/.pkl .png)
       
     </span>
   </a>
@@ -728,6 +739,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_plot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_plot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1039,8 +1078,8 @@
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x_dot&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;xdot&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1211,14 +1250,82 @@
     ├── *.png
     └── *.pkl             ← interactive figure snapshots
 </code></pre></div>
-<p>The <code>data/</code> CSV naming follows the pattern <code>&lt;wave_group&gt;_&lt;model&gt;_&lt;method&gt;_dt&lt;dt&gt;.csv</code>. The <code>metric/</code> folder contains one CSV per metric, with one row per model.</p>
-<h3 id="blabla-_datacsv">blabla (_data.csv)<a class="headerlink" href="#blabla-_datacsv" title="Permanent link">&para;</a></h3>
-<h3 id="blabla-_datacsv_1">blabla (_data.csv)<a class="headerlink" href="#blabla-_datacsv_1" title="Permanent link">&para;</a></h3>
+<h3 id="time-series-data_csv">time series (data/_.csv)<a class="headerlink" href="#time-series-data_csv" title="Permanent link">&para;</a></h3>
+<p>This contains the time series vector for each model, wave and solver. Hence, the dimension is <code>model</code> × <code>solvers</code> × <code>waves</code>. The naming follows the pattern <code>&lt;wave_group&gt;_&lt;model&gt;_&lt;method&gt;_dt&lt;dt&gt;.csv</code>.</p>
+<p>fb_lin,fr,fe_lin,fs_pto,fd_pto,fpto,Pabs</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>t</code></td>
+<td>s</td>
+<td>Time</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>m</td>
+<td>Displacement</td>
+</tr>
+<tr>
+<td><code>xdot</code></td>
+<td>m/s</td>
+<td>Velocity</td>
+</tr>
+<tr>
+<td><code>eta</code></td>
+<td>m</td>
+<td>Wave elevation</td>
+</tr>
+<tr>
+<td><code>fd_pto</code></td>
+<td>N</td>
+<td>PTO damping component</td>
+</tr>
+<tr>
+<td><code>fs_pto</code></td>
+<td>N</td>
+<td>PTO spring component</td>
+</tr>
+<tr>
+<td><code>fpto</code></td>
+<td>N</td>
+<td>Total PTO force (<code>fd_pto + fs_pto</code>)</td>
+</tr>
+<tr>
+<td><code>Pabs</code></td>
+<td>W</td>
+<td>Instantaneous absorbed power (<code>Pd + Ps</code>)</td>
+</tr>
+<tr>
+<td><code>fb_lin</code></td>
+<td>N</td>
+<td>Linear buoyancy including gravity</td>
+</tr>
+<tr>
+<td><code>fe_lin</code></td>
+<td>N</td>
+<td>Linear excitation force (IRF convolution)</td>
+</tr>
+<tr>
+<td><code>fr</code></td>
+<td>N</td>
+<td>Radiation force (state-space)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="metric-metric_csv">metric (metric/_.csv)<a class="headerlink" href="#metric-metric_csv" title="Permanent link">&para;</a></h3>
+<p>This contains different .csv file organized by metric type (cross_correlation, instantaneous phase, scalar and statistical over the different wave cases). As such, all files contain metric for all validated models and solvers. The naming follows the pattern <code>&lt;metric_type&gt;_&lt;wave_group&gt;.csv</code>.</p>
+<h3 id="plots-plotspkl-png">plots (plots/<em>.pkl </em>.png)<a class="headerlink" href="#plots-plotspkl-png" title="Permanent link">&para;</a></h3>
+<p>Contains the figures associated with the validation in .png and .pkl python loadable format.</p>
 <ol>
 <li>
 <p>run_validate
-doc
-debug
 example</p>
 </li>
 <li>
