@@ -681,49 +681,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#entry" class="md-nav__link">
+  <a href="#input-json-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Entry
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fields
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Fields">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#interpolation-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        interpolation keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Methods
+        input JSON config
       
     </span>
   </a>
@@ -947,10 +908,10 @@
   
 
 
-<h1 id="solver">solver<a class="headerlink" href="#solver" title="Permanent link">&para;</a></h1>
+<h1 id="solver">Solver<a class="headerlink" href="#solver" title="Permanent link">&para;</a></h1>
 <p>Documents the solver entry used in <code>run_identify</code> and <code>run_validate</code> configs.</p>
 <hr />
-<h2 id="entry">Entry<a class="headerlink" href="#entry" title="Permanent link">&para;</a></h2>
+<h2 id="input-json-config">input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
@@ -975,8 +936,8 @@
 <tr>
 <td><code>method</code></td>
 <td><code>string</code></td>
-<td><code>"RK4"</code></td>
-<td><code>"RK4"</code></td>
+<td><code>"rk4"</code></td>
+<td><code>"euler"</code>, <code>"rk2"</code>, <code>"rk4"</code></td>
 <td>Integration method</td>
 </tr>
 <tr>
@@ -995,106 +956,7 @@
 </tr>
 </tbody>
 </table>
-<p>In <code>run_validate</code>, solvers are a list — every combination of <code>(model × wave_source × solver)</code> is run:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;euler&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">}</span>
-<span class="p">]</span>
-</code></pre></div>
-<hr />
-<h2 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>method</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Integration scheme. One of <code>"euler"</code>, <code>"rk2"</code>, <code>"rk4"</code></td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td>Yes</td>
-<td>Fixed time step [s]</td>
-</tr>
-<tr>
-<td><code>interpolation</code></td>
-<td><code>dict</code></td>
-<td>No</td>
-<td>Per-signal interpolation switches — see below. All default to <code>true</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="interpolation-keys"><code>interpolation</code> keys<a class="headerlink" href="#interpolation-keys" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Applies to</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>eta_hs</code></td>
-<td>always</td>
-<td>Interpolate <code>η(t)</code> from CFD/synthetic grid onto solver steps</td>
-</tr>
-<tr>
-<td><code>fe</code></td>
-<td><code>excitation: "linear_conv"</code></td>
-<td>Interpolate excitation convolution signal</td>
-</tr>
-<tr>
-<td><code>fk</code></td>
-<td><code>excitation: "fk_nonlinear"</code></td>
-<td>Interpolate FK pressure components</td>
-</tr>
-</tbody>
-</table>
-<p>Set a key to <code>false</code> to use nearest-sample lookup instead. Only useful when <code>dt</code> exactly matches the CFD output timestep and interpolation overhead matters.</p>
-<hr />
-<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Order</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"euler"</code></td>
-<td>1</td>
-<td>Forward Euler. Fast, conditionally stable. Only for coarse screening</td>
-</tr>
-<tr>
-<td><code>"rk2"</code></td>
-<td>2</td>
-<td>Heun's method (explicit trapezoidal). Intermediate cost and accuracy</td>
-</tr>
-<tr>
-<td><code>"rk4"</code></td>
-<td>4</td>
-<td>Classic 4th-order Runge-Kutta. Recommended default</td>
-</tr>
-</tbody>
-</table>
-<p>RK4 evaluates each force term four times per step. For cheap terms (linear, state-space) the overhead is negligible. For <code>fk_nonlinear</code>, panel pressure is re-evaluated at each sub-stage — accuracy improves meaningfully over lower-order solvers.</p>
-<hr />
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<p><strong>Choosing <code>dt</code></strong>: match or finer than the CFD output timestep to avoid interpolation error in the wave signal. A mismatch triggers a warning at run time. Typical values: <code>0.05 s</code> for regular wave CFD at <code>dt = 0.05 s</code>.</p>
-<p><strong><code>fk_nonlinear</code> cost</strong>: FK force is <code>O(n_panels × n_components)</code> per sub-stage. With RK4 that is 4 evaluations per step. Keep <code>n_components</code> (top-50 default) and panel count in mind when choosing <code>dt</code> — a larger step is faster but reduces accuracy for the nonlinear terms.</p>
-<p><strong>Stability</strong>: explicit solvers are conditionally stable. If the simulation diverges, halve <code>dt</code> before changing the physics model.</p>
 <p><strong>dt mismatch</strong> — if a solver <code>dt</code> differs from the CFD reference <code>dt</code> by more than 1 %, the script warns and asks to continue. Metrics are still computed via resampling, but accuracy may be reduced.</p>
 
 
