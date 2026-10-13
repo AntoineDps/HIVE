@@ -440,13 +440,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-test-run" class="md-nav__link">
+  <a href="#quick-start-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick test run
+        Quick start example
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Quick start example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#process-raw-cfd-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process raw CFD data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viscous-drag-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Viscous drag identification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -885,19 +924,28 @@
 <li>A model folder with model definition (<code>.json</code>) for validation and/or identification pipeline placed under <code>source/models/</code> </li>
 </ul>
 <hr />
-<h2 id="quick-test-run">Quick test run<a class="headerlink" href="#quick-test-run" title="Permanent link">&para;</a></h2>
-<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder. A minimal test case is provided using <code>r5.pkl</code> as BEM model and <code>out_Case_65_20_120000_-430000_example</code> as raw reference dataset.
-Run it with: </p>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1 — process CFD data</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example_cases.json
-
-<span class="c1"># 2 — validate models</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>example_validate.json
-
-<span class="c1"># 3 — identify parameters</span>
-python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_identify.json
+<h2 id="quick-start-example">Quick start example<a class="headerlink" href="#quick-start-example" title="Permanent link">&para;</a></h2>
+<p>All scripts are run as <strong>modules</strong> from inside the <code>code/</code> folder. A minimal test case is provided using <code>r5.pkl</code> as BEM model and <code>out_Case_65_20_120000_-430000_example</code> as raw reference dataset. When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
+<h3 id="process-raw-cfd-data">Process raw CFD data<a class="headerlink" href="#process-raw-cfd-data" title="Permanent link">&para;</a></h3>
+<p>Run it with: </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_handle_data<span class="w"> </span>--case<span class="w"> </span>example_cases.json
 </code></pre></div>
-<p>Outputs land in <code>data/handled/example_cases/</code> (handle data), <code>out/validated_case/example_validate/</code> (validate), or <code>models/example_identify/identification/</code> for identification results (identify). When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
+<p>Outputs land in <code>data/handled/example_cases/</code>. When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
+<p>The accumulated absorbed energy time serie is shown below: 
+<img alt="Accumulated energy" src="../figures/viscous_id_timeseries.png" /></p>
+<h3 id="viscous-drag-identification">Viscous drag identification<a class="headerlink" href="#viscous-drag-identification" title="Permanent link">&para;</a></h3>
+<p>Run it with: </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>example_identify.json
+</code></pre></div>
+<p>Outputs land in <code>source/models/example_identify/</code> for identification results. When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
+<p>One response time serie is shown below: 
+<img alt="Response timeseries" src="../figures/viscous_id_timeseries.png" /></p>
+<h3 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<p>Run it with: </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>example_validate.json
+</code></pre></div>
+<p>Outputs land in <code>out/validated_case/example_validate/</code>. </p>
+<p>!!</p>
 
 
 
