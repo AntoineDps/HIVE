@@ -994,14 +994,12 @@
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_plot<span class="w"> </span>--case<span class="w"> </span>&lt;name&gt;.json
 </code></pre></div>
 <p>Config files <code>&lt;name&gt;.json</code> live in <code>inputs/read_case/</code>. The <code>output_name</code> field in the config becomes the output folder name under <code>outputs/read_case/</code>.</p>
-<hr />
 <h3 id="rerun-options">rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h3>
 <p>When the output folder already exists, the script prompts:</p>
 <div class="highlight"><pre><span></span><code>[1] erase and redo
 [2] stop, do nothing
 [3] load saved figures     — reopen existing .pkl plots interactively
 </code></pre></div>
-<hr />
 <h3 id="what-it-does">what it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
 <ol>
 <li>For each entry in <code>runs</code>, globs CSVs from <code>outputs/validate_case/&lt;folder&gt;/data/</code> using an optional filter pattern</li>
@@ -1049,7 +1047,6 @@
 </tr>
 </tbody>
 </table>
-<hr />
 <h3 id="runs-fields"><code>runs</code> fields<a class="headerlink" href="#runs-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1082,7 +1079,6 @@
 </tbody>
 </table>
 <p>All matched CSVs across all entries are plotted together on the same figure.</p>
-<hr />
 <h3 id="plot_options"><code>plot_options</code><a class="headerlink" href="#plot_options" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
