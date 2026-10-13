@@ -704,10 +704,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#viscous-drag-and-metrics-resultjson" class="md-nav__link">
+  <a href="#viscous-drag-and-metrics-identificationresultjson" class="md-nav__link">
     <span class="md-ellipsis">
       
-        viscous drag and metrics (result.json)
+        viscous drag and metrics (identification/result.json)
       
     </span>
   </a>
@@ -715,10 +715,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#identification-data-identificationdata" class="md-nav__link">
+  <a href="#identification-data-and-plot-identificationdata-identificationplots" class="md-nav__link">
     <span class="md-ellipsis">
       
-        identification data (identification/data/)
+        identification data and plot (identification/data &amp; identification/plots)
       
     </span>
   </a>
@@ -810,7 +810,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#viscous-drag-and-metrics-resultjson_1" class="md-nav__link">
+  <a href="#viscous-drag-and-metrics-resultjson" class="md-nav__link">
     <span class="md-ellipsis">
       
         viscous drag and metrics (result.json)
@@ -821,7 +821,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#identification-data-identificationdata_1" class="md-nav__link">
+  <a href="#identification-data-identificationdata" class="md-nav__link">
     <span class="md-ellipsis">
       
         identification data (identification/data/)
@@ -1195,7 +1195,7 @@
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;force&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;response&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
@@ -1290,7 +1290,7 @@
 <td><code>"fhyd_lin"</code></td>
 <td>any column present in the DataHandle dataset</td>
 <td>No</td>
-<td>Force column (<span class="arithmatex">\(f_{col}\)</span>) subtracted to <span class="arithmatex">\(f_{hyd}\)</span> <code>type = "force"</code>, such as <span class="arithmatex">\(f_{hyd} = f_{col} - f_{visc}\)</span></td>
+<td>Force column (<span class="arithmatex">\(f_{col}\)</span>) subtracted to reference force <span class="arithmatex">\(f_{hyd}\)</span> <code>type = "force"</code>, such as <span class="arithmatex">\(f_{hyd} = f_{col} + f_{visc}\)</span></td>
 </tr>
 <tr>
 <td><code>c_v_min</code></td>
@@ -1320,7 +1320,7 @@
 <td><code>objective</code></td>
 <td><code>string</code></td>
 <td><code>"rmse_x"</code></td>
-<td>Any avilable metric. see <a href="#Metric">Metric</a></td>
+<td>Any available metric. see <a href="#Metric">Metric</a></td>
 <td>No</td>
 <td>Metric used to score <span class="arithmatex">\(c_v\)</span> candidates</td>
 </tr>
@@ -1344,41 +1344,156 @@
 </code></pre></div>
 <h4 id="identified-model-modeljson">identified model (model.json)<a class="headerlink" href="#identified-model-modeljson" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;force_opt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1850.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1700.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1950.0</span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.11</span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1825.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.0</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;physics&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rho&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1025</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;g&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.81</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;force_terms&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;radiation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;state_space&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_conv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;drag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;identified&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;c_v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">27912.70413531857</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;response_opt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;metric_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8683165495298928</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;identified_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Users\\antdu953\\OneDrive - Uppsala universitet (1)\\wec_modeling_benchmark\\code\\source\\models\\example_identify&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="viscous-drag-and-metrics-resultjson">viscous drag and metrics (result.json)<a class="headerlink" href="#viscous-drag-and-metrics-resultjson" title="Permanent link">&para;</a></h4>
+<h4 id="viscous-drag-and-metrics-identificationresultjson">viscous drag and metrics (identification/result.json)<a class="headerlink" href="#viscous-drag-and-metrics-identificationresultjson" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;base_force_col&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minimize&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;n_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;force_opt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1850.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.09</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">89350.24245763735</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9087237268362021</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1700.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1950.0</span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;case_label_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_label_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.11</span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1825.0</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.0</span>
+<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">86693.84448236835</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">90456.4491478247</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8429283227275154</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9734788210873649</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">88575.14681509652</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1881.3023327281699</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;identification_elapsed_s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0007916000031400472</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.000155999994603917</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0009543999913148582</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;force_grid&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">83333.33333333334</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9034987049342647</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">83333.33333333334</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">83333.33333333334</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8402649142902302</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.966732495578299</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">83333.33333333334</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;identification_elapsed_s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.00022139999782666564</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0002175999979954213</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.00033140002051368356</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;response_opt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">27912.70413531857</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8683165495298928</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">17216.383316458712</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">34385.499400309076</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7981862383749134</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9347538215451596</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25800.941358383894</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8584.558041925182</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;identification_elapsed_s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">20.088151899981312</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.800515199982328</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">35.38644669999485</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;response_grid&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;c_v_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">33333.333333333336</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8689971470620658</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metric_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">16666.666666666668</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">33333.333333333336</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metric_per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7981942993645711</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9347838204674712</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;c_v_mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25000.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;c_v_std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8333.333333333334</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;identification_elapsed_s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;per_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Hs2p0_Te7p4_d120000_k-430000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.383758099982515</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;Hs3p0_Te7p0_d140000_k-400000_example&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.492755999992369</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;global&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.921929300006013</span>
+<span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;t_warmup&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;t_causal&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="identification-data-identificationdata">identification data (identification/data/)<a class="headerlink" href="#identification-data-identificationdata" title="Permanent link">&para;</a></h4>
-<p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
-<p>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<h4 id="identification-data-and-plot-identificationdata-identificationplots">identification data and plot (identification/data &amp; identification/plots)<a class="headerlink" href="#identification-data-and-plot-identificationdata-identificationplots" title="Permanent link">&para;</a></h4>
+<p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format. The time serie response plot is shown below: </p>
+<p><img alt="Response timeseries" src="figures/viscous_id_timeseries.png" /></p>
+<ol>
+<li>verify and update doc, especially output</li>
+<li>
+<p>links</p>
+</li>
+<li>
+<p>update doc pi gain</p>
+</li>
+<li>test pi gain</li>
+<li>
+<p>verify and update doc</p>
+</li>
+<li>
+<p>run_validate</p>
+</li>
+<li>
+<p>model</p>
+</li>
+<li>
+<p>solver</p>
+</li>
+</ol>
 <hr />
 <h2 id="scheme-pi_gain">Scheme: <code>pi_gain</code><a class="headerlink" href="#scheme-pi_gain" title="Permanent link">&para;</a></h2>
 <p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power). </p>
@@ -1706,7 +1821,7 @@
         ├── *.png
         └── *.pkl             ← interactive figure snapshots
 </code></pre></div>
-<h4 id="viscous-drag-and-metrics-resultjson_1">viscous drag and metrics (result.json)<a class="headerlink" href="#viscous-drag-and-metrics-resultjson_1" title="Permanent link">&para;</a></h4>
+<h4 id="viscous-drag-and-metrics-resultjson">viscous drag and metrics (result.json)<a class="headerlink" href="#viscous-drag-and-metrics-resultjson" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
@@ -1723,32 +1838,9 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="identification-data-identificationdata_1">identification data (identification/data/)<a class="headerlink" href="#identification-data-identificationdata_1" title="Permanent link">&para;</a></h4>
+<h4 id="identification-data-identificationdata">identification data (identification/data/)<a class="headerlink" href="#identification-data-identificationdata" title="Permanent link">&para;</a></h4>
 <p>Contains the data used to generate the figure associated with the identification. A mix of matrix and time series in ´.csv´ format.</p>
 <hr />
-<ol>
-<li>test viscous drag</li>
-<li>verify and update doc</li>
-<li>
-<p>links</p>
-</li>
-<li>
-<p>update doc pi gain</p>
-</li>
-<li>test pi gain</li>
-<li>
-<p>verify and update doc</p>
-</li>
-<li>
-<p>run_validate</p>
-</li>
-<li>
-<p>model</p>
-</li>
-<li>
-<p>solver</p>
-</li>
-</ol>
 
 
 
