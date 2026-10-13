@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#metric" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -650,6 +655,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metric
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -667,6 +692,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalar metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-metric-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default metric set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statistical-summary-model_statscsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistical summary (model_stats.csv)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1d-outputs-per-sea-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1D outputs per sea state
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -842,49 +941,186 @@
   
 
 
-  <h1>Metric</h1>
-
+<h1 id="metric">Metric<a class="headerlink" href="#metric" title="Permanent link">&para;</a></h1>
+<p>All scalar metrics computed per model per sea state by <code>Metric.compute</code>.</p>
+<p>Signals compared: <code>x</code> (displacement), <code>xdot</code> (velocity), <code>f_pto</code> (PTO force), <code>P_abs</code> (absorbed power).</p>
+<hr />
+<h2 id="scalar-metrics">Scalar metrics<a class="headerlink" href="#scalar-metrics" title="Permanent link">&para;</a></h2>
+<p><code>{tag}</code> is one of <code>x</code>, <code>xdot</code>, <code>f_pto</code>, <code>P_abs</code> unless noted.</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Description</th>
-<th>Default direction</th>
+<th>Metric key</th>
+<th>Applies to</th>
+<th>Formula / Definition</th>
+<th>Unit</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>"rmse_x"</code></td>
-<td>RMSE of displacement <span class="arithmatex">\(x\)</span></td>
-<td><code>minimize</code></td>
+<td><code>nrmse_range_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td>NRMSE normalised by signal range: <code>RMSE / (max−min)</code> of reference</td>
+<td>—</td>
 </tr>
 <tr>
-<td><code>"rmse_xdot"</code></td>
-<td>RMSE of velocity <span class="arithmatex">\(\dot{x}\)</span></td>
-<td><code>minimize</code></td>
+<td><code>nrmse_true_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td>NRMSE normalised by RMS of reference: <code>RMSE / RMS(ref)</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><code>"nrmse_x"</code></td>
-<td>Normalised RMSE of <span class="arithmatex">\(x\)</span></td>
-<td><code>minimize</code></td>
+<td><code>rel_error_mean_P_abs</code></td>
+<td>P_abs</td>
+<td><code>(mean|P_sim| − mean|P_ref|) / mean|P_ref|</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><code>"nrmse_xdot"</code></td>
-<td>Normalised RMSE of <span class="arithmatex">\(\dot{x}\)</span></td>
-<td><code>minimize</code></td>
+<td><code>error_min_{tag}</code></td>
+<td>f_pto, P_abs</td>
+<td><code>min(sim) − min(ref)</code></td>
+<td>same as signal</td>
 </tr>
 <tr>
-<td><code>"mean_P_abs"</code></td>
-<td>Mean absorbed power <span class="arithmatex">\(P_{abs}\)</span></td>
-<td><code>maximize</code></td>
+<td><code>error_max_{tag}</code></td>
+<td>f_pto, P_abs</td>
+<td><code>max(sim) − max(ref)</code></td>
+<td>same as signal</td>
 </tr>
 <tr>
-<td><code>"rmse_P_abs"</code></td>
-<td>RMSE of absorbed power</td>
-<td><code>minimize</code></td>
+<td><code>peak_error_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td>Mean positive-peak value of sim minus mean positive-peak value of ref</td>
+<td>same as signal</td>
+</tr>
+<tr>
+<td><code>dist_mean_error_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td><code>mean(sim − ref)</code> — signed bias</td>
+<td>same as signal</td>
+</tr>
+<tr>
+<td><code>dist_mae_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td><code>mean(|sim − ref|)</code> — mean absolute error</td>
+<td>same as signal</td>
+</tr>
+<tr>
+<td><code>dist_std_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td><code>std(sim − ref)</code> — error standard deviation</td>
+<td>same as signal</td>
+</tr>
+<tr>
+<td><code>dist_var_{tag}</code></td>
+<td>x, xdot, f_pto, P_abs</td>
+<td><code>var(sim − ref)</code> — error variance</td>
+<td>same as signal²</td>
+</tr>
+<tr>
+<td><code>phase_lag_s_{tag}</code></td>
+<td>x, xdot</td>
+<td>Lag [s] at peak of cross-correlation between sim and ref</td>
+<td>s</td>
+</tr>
+<tr>
+<td><code>corr_peak_{tag}</code></td>
+<td>x, xdot</td>
+<td>Peak cross-correlation coefficient (−1 to 1)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>phase_mean_deg_{tag}</code></td>
+<td>x, xdot</td>
+<td>Mean instantaneous phase difference (Hilbert-based)</td>
+<td>deg</td>
+</tr>
+<tr>
+<td><code>phase_std_deg_{tag}</code></td>
+<td>x, xdot</td>
+<td>Std of instantaneous phase difference</td>
+<td>deg</td>
+</tr>
+<tr>
+<td><code>time_ratio</code></td>
+<td>—</td>
+<td><code>physical_duration / wall_clock_time</code> — solver speed relative to real time</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="default-metric-set">Default metric set<a class="headerlink" href="#default-metric-set" title="Permanent link">&para;</a></h2>
+<p>Used by <code>"metrics": true</code> in <code>plot_options</code>:</p>
+<div class="highlight"><pre><span></span><code>nrmse_range_x
+nrmse_range_xdot
+nrmse_range_f_pto
+nrmse_range_P_abs
+rel_error_mean_P_abs
+time_ratio
+</code></pre></div>
+<hr />
+<h2 id="statistical-summary-model_statscsv">Statistical summary (<code>model_stats.csv</code>)<a class="headerlink" href="#statistical-summary-model_statscsv" title="Permanent link">&para;</a></h2>
+<p>After all sea states are computed, every scalar metric above is aggregated across sea states per model. Four summary columns are written for each metric key:</p>
+<table>
+<thead>
+<tr>
+<th>Suffix</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{metric}_mean</code></td>
+<td>Mean across sea states</td>
+</tr>
+<tr>
+<td><code>{metric}_std</code></td>
+<td>Standard deviation across sea states</td>
+</tr>
+<tr>
+<td><code>{metric}_min</code></td>
+<td>Minimum across sea states</td>
+</tr>
+<tr>
+<td><code>{metric}_max</code></td>
+<td>Maximum across sea states</td>
+</tr>
+</tbody>
+</table>
+<p>Example columns: <code>nrmse_range_x_mean</code>, <code>nrmse_range_x_std</code>, <code>rel_error_mean_P_abs_mean</code>, <code>time_ratio_mean</code>, …</p>
+<p>Rows = models. Saved to <code>metric_dir/model_stats.csv</code>.</p>
+<hr />
+<h2 id="1d-outputs-per-sea-state">1D outputs per sea state<a class="headerlink" href="#1d-outputs-per-sea-state" title="Permanent link">&para;</a></h2>
+<p>These are not scalar metrics but are saved alongside them for plotting.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cross_corr_{group}.csv</code></td>
+<td><code>lag_s</code>, <code>ref_x</code>, <code>ref_xdot</code>, <code>{model}_x</code>, <code>{model}_xdot</code></td>
+<td>Normalised cross-correlation vs lag for each model</td>
+</tr>
+<tr>
+<td><code>inst_phase_{group}.csv</code></td>
+<td><code>t</code>, <code>{model}_x_deg</code>, <code>{model}_xdot_deg</code></td>
+<td>Instantaneous phase difference [deg] vs time</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<p><strong><code>nrmse_range</code> vs <code>nrmse_true</code></strong>: range-normalised NRMSE is the default because it is bounded and insensitive to DC offset. True-normalised collapses when the reference RMS is small (near-zero mean signals) — avoid it for <code>P_abs</code>.</p>
+<p><strong><code>time_ratio</code></strong>: values &gt; 1 mean the solver runs faster than real time. Not available when a SimRun is reloaded from CSV (no wall-clock data); reported as <code>NaN</code> in that case.</p>
+<p><strong><code>peak_error</code></strong>: uses <code>scipy.find_peaks</code> on the raw (un-smoothed) signal. Unreliable for irregular wave cases with many small peaks — treat as indicative only.</p>
+<p><strong><code>phase_lag_s</code> / <code>corr_peak</code></strong>: computed from normalised cross-correlation over the full clipped window. Phase lag is positive when the model leads the reference.</p>
+<p><strong><code>phase_mean_deg</code> / <code>phase_std_deg</code></strong>: Hilbert-transform-based instantaneous phase difference. Meaningful only for near-monochromatic signals (regular waves); interpret with caution for irregular seas.</p>
 
 
 
