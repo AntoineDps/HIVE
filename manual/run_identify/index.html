@@ -1471,13 +1471,9 @@
 </code></pre></div>
 <h4 id="identification-data-and-plot-identificationdata-identificationplots">identification data and plot (identification/data &amp; identification/plots)<a class="headerlink" href="#identification-data-and-plot-identificationdata-identificationplots" title="Permanent link">&para;</a></h4>
 <p>Contains the data used to generate the figures associated with the identification. A mix of matrix and time series in ´.csv´ format, and figure in .png and .pkl python loadable format. </p>
+<hr />
 <ol>
-<li>
-<p>update rounded result.json</p>
-</li>
-<li>
-<p>update doc pi gain</p>
-</li>
+<li>update doc pi gain</li>
 <li>test pi gain</li>
 <li>
 <p>verify and update doc</p>
@@ -1495,25 +1491,26 @@
 <p>solver</p>
 </li>
 </ol>
-<hr />
 <h2 id="scheme-pi_gain">Scheme: <code>pi_gain</code><a class="headerlink" href="#scheme-pi_gain" title="Permanent link">&para;</a></h2>
 <p>Identifies per-sea-state PI controller gains <span class="arithmatex">\((B_{pto},\ K_{pto})\)</span> that maximise an objective (default: mean absorbed power). </p>
 <h3 id="input-json-config_1">input JSON config<a class="headerlink" href="#input-json-config_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_cases&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">120.0</span><span class="p">}</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type_wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">120.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.3</span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;analytical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;analytical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;opt&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;B_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;B_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;K_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;K_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;n_B&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;n_K&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;B_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-200000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_B&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_K&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;B_init&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_init&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-100000</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;stability&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;r&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;n_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span>
@@ -1521,7 +1518,7 @@
 <span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;eta_hs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1543,14 +1540,14 @@
 <td><code>dict</code></td>
 <td>See <a href="#waves_train"><code>waves_train</code></a></td>
 <td>Yes. All entries are loaded and merged into a single flat pool of wave cases</td>
-<td>Sea states, synthetic or CFD based, to run the identification over</td>
+<td>Sea states profile, synthetic or CFD based, on which is based the PTO gain identification</td>
 </tr>
 <tr>
 <td><code>base_model</code></td>
 <td><code>string</code></td>
-<td>model folder name under <code>source/models/</code></td>
+<td>model folder name under <code>source/models/</code>. See <a href="#Model">Model</a></td>
 <td>No</td>
-<td>Physics-bases model to augment with viscous drag. See <a href="#Model">Model</a></td>
+<td>Model on which is based the PTO gain identification</td>
 </tr>
 <tr>
 <td><code>scheme_params</code></td>
@@ -1571,8 +1568,7 @@
 <h4 id="waves_train-fields"><code>waves_train</code> fields<a class="headerlink" href="#waves_train-fields" title="Permanent link">&para;</a></h4>
 <p>Each dict in <code>waves_train</code> must have a <code>"type"</code> key:</p>
 <p><strong><code>"type": "cfd_case"</code></strong> — load from a handled CFD folder</p>
-<p><strong><code>"type": "synthetic"</code></strong> — generate a synthetic wave signal on the fly:</p>
-<p><code>Wave</code> supports the following fields:</p>
+<p><strong><code>"type": "synthetic"</code></strong> — generate a synthetic wave signal on the fly</p>
 <table>
 <thead>
 <tr>
@@ -1588,64 +1584,43 @@
 <td><code>type</code></td>
 <td><code>string</code></td>
 <td>—</td>
-<td><code>"synthetic"</code></td>
-<td>Source type selector</td>
+<td><code>"synthetic"</code> for wave generated by addition of regular wave components. <code>"cfd_case"</code> for wave elevation from CFD based data</td>
+<td>Wave elevation source</td>
 </tr>
 <tr>
-<td><code>wave_type</code> <em>(→ <code>Wave.type</code>)</em></td>
+<td><code>wave_type</code></td>
 <td><code>string</code></td>
 <td><code>"reg"</code></td>
 <td><code>"reg"</code> (regular sinusoid) · <code>"irr"</code> (irregular JONSWAP)</td>
-<td>Wave type</td>
+<td>Wave type. Only when <code>type = "synthetic"</code></td>
 </tr>
 <tr>
 <td><code>T</code></td>
 <td><code>float</code></td>
 <td>—</td>
 <td>any positive float (s)</td>
-<td>Wave period (regular) or peak period (irregular)</td>
+<td>Wave period (regular) or peak period (irregular). Only when <code>type = "synthetic"</code></td>
 </tr>
 <tr>
 <td><code>H</code></td>
 <td><code>float</code></td>
 <td>—</td>
 <td>any positive float (m)</td>
-<td>Wave height (regular) or significant wave height (irregular)</td>
+<td>Wave height (regular) or significant wave height (irregular). Only when <code>type = "synthetic"</code></td>
 </tr>
 <tr>
 <td><code>gamma</code></td>
 <td><code>float</code></td>
 <td><code>None</code></td>
 <td>any positive float</td>
-<td>JONSWAP peak enhancement factor — used only when <code>wave_type = "irr"</code></td>
+<td>JONSWAP peak enhancement factor<code>wave_type = "irr"</code>. Only Only when <code>type = "synthetic"</code> and <code>wave_type = "irr"</code></td>
 </tr>
 <tr>
-<td><code>t_end</code> <em>(→ <code>duration</code>)</em></td>
+<td><code>t_end</code></td>
 <td><code>float</code></td>
 <td><code>100.0</code></td>
 <td>any positive float (s)</td>
-<td>Signal duration</td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td><code>0.01</code></td>
-<td>any positive float (s)</td>
-<td>Time step — taken from <code>solver.dt</code></td>
-</tr>
-<tr>
-<td><code>w_end</code></td>
-<td><code>float</code></td>
-<td><code>8.0</code></td>
-<td>any positive float (rad/s)</td>
-<td>Upper limit of frequency axis</td>
-</tr>
-<tr>
-<td><code>dw</code></td>
-<td><code>float</code></td>
-<td><code>0.01</code></td>
-<td>any positive float (rad/s)</td>
-<td>Frequency resolution</td>
+<td>Signal duration. Only when <code>type = "synthetic"</code></td>
 </tr>
 </tbody>
 </table>
@@ -1666,7 +1641,7 @@
 <td><code>method</code></td>
 <td><code>string</code></td>
 <td><code>"opt"</code></td>
-<td><code>"analytical"</code> (from BEM theory)· <code>"opt"</code> using an optimizer· <code>"grid"</code> doing a grid-search· or a list of several</td>
+<td><code>"analytical"</code> (from BEM theory, does not consider bounds values)· <code>"opt"</code> using an optimizer· <code>"grid"</code> doing a grid-search· or a list of several</td>
 <td>Yes</td>
 <td>Identification method(s). Pass a list to run and compare multiple methods in one execution</td>
 </tr>
