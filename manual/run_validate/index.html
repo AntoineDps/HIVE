@@ -659,21 +659,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wave_sources-fields" class="md-nav__link">
+  <a href="#wave_sources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        wave_sources fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#solvers-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        solvers fields
+        wave_sources
       
     </span>
   </a>
@@ -705,16 +694,33 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#blabla-_datacsv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
+        blabla (_data.csv)
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blabla-_datacsv_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        blabla (_data.csv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1013,7 +1019,7 @@
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_viscous_r5&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_identify&quot;</span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example_cases&quot;</span><span class="p">},</span>
@@ -1076,110 +1082,7 @@
 </tbody>
 </table>
 <p>All <code>models</code> × <code>wave_sources</code> × <code>solvers</code> combinations are run automatically. Pass lists to any of the three fields to expand the matrix.</p>
-<h3 id="wave_sources-fields"><code>wave_sources</code> fields<a class="headerlink" href="#wave_sources-fields" title="Permanent link">&para;</a></h3>
-<p>Each dict in <code>wave_sources</code> must have a <code>"type"</code> key.</p>
-<p><strong><code>"type": "cfd_case"</code></strong> — load wave elevation and reference data from a handled CFD folder</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td><code>"cfd_case"</code></td>
-</tr>
-<tr>
-<td><code>case_name</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Handled data folder name under <code>data/handled/</code>. All wave cases in the folder are loaded and run individually</td>
-</tr>
-<tr>
-<td><code>n_wave_components</code></td>
-<td><code>int</code></td>
-<td>No (default <code>50</code>)</td>
-<td>Number of components used for FK nonlinear excitation decomposition</td>
-</tr>
-</tbody>
-</table>
-<p><strong><code>"type": "synthetic"</code></strong> — generate a wave signal on the fly</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Options / values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td><code>"synthetic"</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>wave_type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td><code>"reg"</code> (regular sinusoid) · <code>"irr"</code> (irregular JONSWAP)</td>
-<td>Wave type</td>
-</tr>
-<tr>
-<td><code>T</code></td>
-<td><code>float</code></td>
-<td>Yes</td>
-<td>any positive float (s)</td>
-<td>Wave period (regular) or energy period Te (irregular)</td>
-</tr>
-<tr>
-<td><code>H</code></td>
-<td><code>float</code></td>
-<td>Yes</td>
-<td>any positive float (m)</td>
-<td>Wave height (regular) or significant wave height Hs (irregular)</td>
-</tr>
-<tr>
-<td><code>gamma</code></td>
-<td><code>float</code></td>
-<td>No</td>
-<td>any positive float</td>
-<td>JONSWAP peak enhancement factor. Only when <code>wave_type = "irr"</code></td>
-</tr>
-<tr>
-<td><code>duration</code></td>
-<td><code>float</code></td>
-<td>Yes</td>
-<td>any positive float (s)</td>
-<td>Signal duration</td>
-</tr>
-<tr>
-<td><code>dt</code></td>
-<td><code>float</code></td>
-<td>Yes</td>
-<td>any positive float (s)</td>
-<td>Signal time step</td>
-</tr>
-<tr>
-<td><code>pto</code></td>
-<td><code>dict</code></td>
-<td>Yes</td>
-<td><code>{"damping": float, "stiffness": float}</code></td>
-<td>PTO parameters applied to the simulation. Required for synthetic sources — no CFD reference to read them from</td>
-</tr>
-</tbody>
-</table>
-<h3 id="solvers-fields"><code>solvers</code> fields<a class="headerlink" href="#solvers-fields" title="Permanent link">&para;</a></h3>
+<h3 id="wave_sources"><code>wave_sources</code><a class="headerlink" href="#wave_sources" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1192,25 +1095,74 @@
 </thead>
 <tbody>
 <tr>
-<td><code>method</code></td>
+<td><code>type</code></td>
 <td><code>string</code></td>
-<td><code>"RK4"</code></td>
-<td><code>"RK4"</code></td>
-<td>Integration method</td>
+<td>—</td>
+<td><code>"synthetic"</code> for wave generated by addition of regular wave components. <code>"cfd_case"</code> for wave elevation from CFD based data</td>
+<td>Wave elevation and reference data source. For <code>"synthetic"</code> wave sources, no reference data is loaded and only model response outputs is provided</td>
+</tr>
+<tr>
+<td><code>case_name</code></td>
+<td><code>string</code></td>
+<td>—</td>
+<td>handled data folder case name under <code>data/handled/</code></td>
+<td>handled data folder case name. Only when <code>type = "cfd_case"</code></td>
+</tr>
+<tr>
+<td><code>wave_type</code></td>
+<td><code>string</code></td>
+<td><code>"reg"</code></td>
+<td><code>"reg"</code> (regular sinusoid) · <code>"irr"</code> (irregular JONSWAP)</td>
+<td>Wave type. Only when <code>type = "synthetic"</code></td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><code>float</code></td>
+<td>—</td>
+<td>any positive float (s)</td>
+<td>Wave period (regular) or energy period (irregular). Only when <code>type = "synthetic"</code></td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>float</code></td>
+<td>—</td>
+<td>any positive float (m)</td>
+<td>Wave height (regular) or significant wave height (irregular). Only when <code>type = "synthetic"</code></td>
+</tr>
+<tr>
+<td><code>gamma</code></td>
+<td><code>float</code></td>
+<td><code>None</code></td>
+<td>any positive float</td>
+<td>JONSWAP peak enhancement factor<code>wave_type = "irr"</code>. Only Only when <code>type = "synthetic"</code> and <code>wave_type = "irr"</code></td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td><code>float</code></td>
+<td><code>100.0</code></td>
+<td>any positive float (s)</td>
+<td>Signal duration. Only when <code>type = "synthetic"</code></td>
 </tr>
 <tr>
 <td><code>dt</code></td>
 <td><code>float</code></td>
-<td><code>0.05</code></td>
+<td>—</td>
 <td>any positive float (s)</td>
-<td>Time step</td>
+<td>Signal time step</td>
 </tr>
 <tr>
-<td><code>interpolation</code></td>
+<td><code>pto</code></td>
 <td><code>dict</code></td>
-<td><code>{}</code></td>
-<td><code>{"fe": true, "eta_hs": true}</code></td>
-<td>Sub-step interpolation flags passed to the model. <code>"fe"</code> interpolates the excitation force; <code>"eta_hs"</code> interpolates the wave elevation for hydrostatic correction</td>
+<td>—</td>
+<td><code>{"damping": float, "stiffness": float}</code></td>
+<td>PTO parameters applied to the simulation. nly when <code>type = "synthetic"</code></td>
+</tr>
+<tr>
+<td><code>n_wave_components</code></td>
+<td><code>int</code></td>
+<td>No (default <code>50</code>)</td>
+<td>any integer</td>
+<td>Number of components used for FK nonlinear excitation decomposition. To move as model.json input?</td>
 </tr>
 </tbody>
 </table>
@@ -1260,11 +1212,21 @@
     └── *.pkl             ← interactive figure snapshots
 </code></pre></div>
 <p>The <code>data/</code> CSV naming follows the pattern <code>&lt;wave_group&gt;_&lt;model&gt;_&lt;method&gt;_dt&lt;dt&gt;.csv</code>. The <code>metric/</code> folder contains one CSV per metric, with one row per model.</p>
-<hr />
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<p><strong>Time margins</strong> — <code>t_warmup</code> and <code>t_causal</code> are derived automatically from the BEM IRF data of each loaded model and are <strong>not</strong> JSON inputs. The most conservative values across all models are applied uniformly to clip every simulation before metric computation.</p>
-<p><strong>dt mismatch</strong> — if a solver <code>dt</code> differs from the CFD reference <code>dt</code> by more than 1 %, the script warns and asks to continue. Metrics are still computed via resampling, but accuracy may be reduced.</p>
-<p><strong>No CFD reference</strong> — for <code>"synthetic"</code> wave sources, no reference data is loaded. Time series plots show only model outputs; metric plots omit the reference column.</p>
+<h3 id="blabla-_datacsv">blabla (_data.csv)<a class="headerlink" href="#blabla-_datacsv" title="Permanent link">&para;</a></h3>
+<h3 id="blabla-_datacsv_1">blabla (_data.csv)<a class="headerlink" href="#blabla-_datacsv_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>run_validate
+doc
+debug
+example</p>
+</li>
+<li>
+<p>links</p>
+</li>
+<li>model</li>
+<li>solver</li>
+</ol>
 
 
 

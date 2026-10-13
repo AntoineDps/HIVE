@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#solvers" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -595,6 +600,24 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solver
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -611,6 +634,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#solvers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solvers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -857,6 +908,42 @@
 </tr>
 </tbody>
 </table>
+<h3 id="solvers"><code>solvers</code><a class="headerlink" href="#solvers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Options / values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td><code>"RK4"</code></td>
+<td><code>"RK4"</code></td>
+<td>Integration method</td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td><code>float</code></td>
+<td><code>0.05</code></td>
+<td>any positive float (s)</td>
+<td>Time step</td>
+</tr>
+<tr>
+<td><code>interpolation</code></td>
+<td><code>dict</code></td>
+<td><code>{}</code></td>
+<td><code>{"fe": true, "eta_hs": true}</code></td>
+<td>Sub-step interpolation flags passed to the model. <code>"fe"</code> interpolates the excitation force; <code>"eta_hs"</code> interpolates the wave elevation for hydrostatic correction</td>
+</tr>
+</tbody>
+</table>
+<p><strong>dt mismatch</strong> — if a solver <code>dt</code> differs from the CFD reference <code>dt</code> by more than 1 %, the script warns and asks to continue. Metrics are still computed via resampling, but accuracy may be reduced.</p>
 
 
 
