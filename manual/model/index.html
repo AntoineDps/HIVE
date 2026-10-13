@@ -653,39 +653,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
+  <a href="#json-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Structure
+        JSON config
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#top-level-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Top-level fields
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#body" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        body
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="JSON config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#force_terms" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -694,66 +673,10 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="force_terms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#restoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        restoring
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#radiation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        radiation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#excitation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        excitation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#drag" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        drag
-      
-    </span>
-  </a>
-  
 </li>
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#identified" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        identified
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1003,10 +926,10 @@
 
 
 <h1 id="model">model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h1>
-<p>Defines the physics of one model variant. Consumed by <code>run_identify</code> and <code>run_validate</code>.</p>
-<p>Config files <code>&lt;name&gt;.json</code> live in <code>inputs/model/</code>.</p>
+<p>Defines the parameter, structure of force variant of the model. Consumed by <code>run_identify</code> and <code>run_validate</code>.</p>
+<p>Config files <code>model.json</code> lives in <code>source/model/&lt;name&gt;/</code>.</p>
 <hr />
-<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
+<h2 id="json-config">JSON config<a class="headerlink" href="#json-config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1024,8 +947,6 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<hr />
-<h2 id="top-level-fields">Top-level fields<a class="headerlink" href="#top-level-fields" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1040,13 +961,13 @@
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>Human-readable label used in plots and output filenames</td>
+<td>folder name containing ´model.json´</td>
 </tr>
 <tr>
 <td><code>body</code></td>
 <td><code>dict</code></td>
 <td>No</td>
-<td>Physical constants — see <a href="#body"><code>body</code></a></td>
+<td>Physical constants. Mass, radius, and hydrostatic stiffness come from <code>HydroSphere</code> which load BEM data and is saved as .pkl. This is not described in this documentation.</td>
 </tr>
 <tr>
 <td><code>force_terms</code></td>
@@ -1062,156 +983,71 @@
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="body"><code>body</code><a class="headerlink" href="#body" title="Permanent link">&para;</a></h2>
+<h3 id="force_terms"><code>force_terms</code><a class="headerlink" href="#force_terms" title="Permanent link">&para;</a></h3>
+<p>Each entry selects a physics flavour. Missing or <code>null</code> means that term is absent.</p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
+<th>Type</th>
 <th>Default</th>
+<th>Options / Values</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>rho</code></td>
-<td><code>1025</code></td>
-<td>Water density [kg/m³]</td>
-</tr>
-<tr>
-<td><code>g</code></td>
-<td><code>9.81</code></td>
-<td>Gravitational acceleration [m/s²]</td>
-</tr>
-</tbody>
-</table>
-<p>Mass, radius, and hydrostatic stiffness come from <code>HydroSphere</code>, not from <code>body</code>.</p>
-<hr />
-<h2 id="force_terms"><code>force_terms</code><a class="headerlink" href="#force_terms" title="Permanent link">&para;</a></h2>
-<p>Each entry selects a physics flavour. Missing or <code>null</code> means that term is absent.</p>
-<h3 id="restoring"><code>restoring</code><a class="headerlink" href="#restoring" title="Permanent link">&para;</a></h3>
-<p>Hydrostatic restoring force.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Force law</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"linear"</code></td>
-<td><code>F = −S·x</code></td>
-<td>Linear stiffness from HydroSphere (<code>fb_lin</code>)</td>
-</tr>
-<tr>
-<td><code>"nonlinear"</code></td>
-<td><code>F = Vs(x)·ρg − mg</code></td>
-<td>Nonlinear buoyancy at flat still water (<code>fb_nl</code>)</td>
-</tr>
-<tr>
-<td><code>"nonlinear_eta"</code></td>
-<td>same with <code>η(t)</code></td>
-<td>Free-surface elevation included in submergence depth (<code>fb_nl_eta</code>)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="radiation"><code>radiation</code><a class="headerlink" href="#radiation" title="Permanent link">&para;</a></h3>
-<p>Radiation damping and added mass.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"state_space"</code></td>
-<td>Remainder-form state-space: <code>F = −(Cr·z + Dr·ẋ)</code>. Matrices from HydroSphere. Added mass at infinity (<code>ma_inf</code>) folded into the left-hand side</td>
-</tr>
-<tr>
+<td><code>restoring</code></td>
+<td><code>string\|null</code></td>
 <td><code>null</code></td>
-<td>No radiation term</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>Time margin</strong>: radiation states are initialised at zero — the first ~30 s of simulation are discarded automatically (<code>t_warmup</code>).</p>
-</blockquote>
-<h3 id="excitation"><code>excitation</code><a class="headerlink" href="#excitation" title="Permanent link">&para;</a></h3>
-<p>Incident wave excitation force.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"linear_conv"</code></td>
-<td>Linear convolution: <code>fe = IRF * η</code>. IRF from HydroSphere (<code>fe_lin</code>)</td>
+<td><code>"linear"</code> — <code>F = −S·x</code>, linear stiffness from HydroSphere (<code>fb_lin</code>)</td>
+<td>Hydrostatic restoring force</td>
 </tr>
 <tr>
-<td><code>"fk_nonlinear"</code></td>
-<td>Nonlinear Froude-Krylov: integrates undisturbed wave pressure over the instantaneous wetted surface (<code>f_fk</code>). Requires a mesh — call <code>make_mesh()</code> on HydroSphere</td>
-</tr>
-<tr>
-<td><code>null</code></td>
-<td>No excitation term</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>Time margin</strong>: both convolution-based terms introduce causal and non-causal IRF margins clipped automatically (<code>t_warmup</code>, <code>t_causal</code>).</p>
-<p><strong>FK wave decomposition</strong>: the wave signal is decomposed by FFT into <code>(A, ω, k, φ)</code> components (top 50 by amplitude, deep-water dispersion <code>k = ω²/g</code>). The number of components kept is a model-level concern if the default is too slow.</p>
-</blockquote>
-<h3 id="drag"><code>drag</code><a class="headerlink" href="#drag" title="Permanent link">&para;</a></h3>
-<p>Optional viscous drag term.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Force law</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"viscous"</code></td>
-<td><code>F = −c_v · |ẋ| · ẋ</code></td>
-<td>Morison-type drag (<code>f_visc</code>). Requires <code>identified.c_v</code></td>
-</tr>
-<tr>
-<td><code>null</code></td>
-<td>No drag</td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>"nonlinear"</code> — <code>F = Vs(x)·ρg − mg</code>, nonlinear buoyancy at flat still water (<code>fb_nl</code>)</td>
 <td></td>
 </tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>"nonlinear_eta"</code> — same with <code>η(t)</code>, free-surface elevation included in submergence depth (<code>fb_nl_eta</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>radiation</code></td>
+<td><code>string\|null</code></td>
+<td><code>null</code></td>
+<td><code>"state_space"</code> — remainder-form: <code>F = −(Cr·z + Dr·ẋ)</code>, matrices from HydroSphere, <code>ma_inf</code> folded into LHS</td>
+<td>Radiation damping and added mass. States init at zero — first ~30 s discarded (<code>t_warmup</code>)</td>
+</tr>
+<tr>
+<td><code>excitation</code></td>
+<td><code>string\|null</code></td>
+<td><code>null</code></td>
+<td><code>"linear_conv"</code> — linear convolution <code>fe = IRF * η</code>, IRF from HydroSphere (<code>fe_lin</code>)</td>
+<td>Incident wave excitation. IRF margins clipped automatically (<code>t_warmup</code>, <code>t_causal</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>"fk_nonlinear"</code> — nonlinear Froude-Krylov, integrates wave pressure over instantaneous wetted surface (<code>f_fk</code>). Requires <code>make_mesh()</code> on HydroSphere. Wave decomposed by FFT into top-50 <code>(A, ω, k, φ)</code> components</td>
+<td></td>
+</tr>
+<tr>
+<td><code>drag</code></td>
+<td><code>string\|null</code></td>
+<td><code>null</code></td>
+<td><code>"viscous"</code> — <code>F = −c_v · \|ẋ\| · ẋ</code>, Morison-type drag (<code>f_visc</code>). Requires <code>identified.c_v</code></td>
+<td>Optional viscous drag</td>
+</tr>
 </tbody>
 </table>
-<hr />
-<h2 id="identified"><code>identified</code><a class="headerlink" href="#identified" title="Permanent link">&para;</a></h2>
-<p>Written back by <code>run_identify</code> after optimisation. Do not edit manually unless you know the value.</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>c_v</code></td>
-<td>Viscous drag coefficient [N·s²/m²]. Required when <code>drag: "viscous"</code></td>
-</tr>
-</tbody>
-</table>
-<hr />
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<p><strong>Force order in the EOM</strong>: all active terms are summed: <code>(m + ma_inf)·ẍ = Σ F</code>. PTO forces (<code>fs_pto</code>, <code>fd_pto</code>) come from the wave source config (CFD case or synthetic), not from the model definition — the same model runs against different PTO settings without modification.</p>
-<p><strong>Output columns</strong>: each active force term writes its own column to the SimRun dataset using the name shown in parentheses above (<code>fb_lin</code>, <code>fr</code>, <code>fe_lin</code>, <code>f_fk</code>, <code>f_visc</code>).</p>
 <p><strong>Time margins</strong> — <code>t_warmup</code> and <code>t_causal</code> are derived automatically from the BEM IRF data of each loaded model and are <strong>not</strong> JSON inputs. The most conservative values across all models are applied uniformly to clip every simulation before metric computation.</p>
 
 
