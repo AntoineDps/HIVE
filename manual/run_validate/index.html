@@ -1033,7 +1033,6 @@
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>&lt;name&gt;.json
 </code></pre></div>
 <p>Config files <code>&lt;name&gt;.json</code> live in <code>inputs/validate_case/</code>. The filename stem becomes the output folder name under <code>outputs/validated_case/</code>.</p>
-<hr />
 <h3 id="rerun-options">rerun options<a class="headerlink" href="#rerun-options" title="Permanent link">&para;</a></h3>
 <p>When the output folder already exists, the script prompts:</p>
 <div class="highlight"><pre><span></span><code>[1] erase and redo all
@@ -1042,7 +1041,6 @@
 [4] remake plots only      — reuse existing CSVs, regenerate plots and metrics
 </code></pre></div>
 <p>Option <code>[4]</code> is useful after changing <code>plot_options</code> without rerunning all simulations.</p>
-<hr />
 <h3 id="what-it-does">what it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
 <p>Runs all <code>(model, wave source, solver)</code> combinations and compares simulated outputs against CFD reference data. More explicitly:</p>
 <ol>
@@ -1324,13 +1322,7 @@
 <h3 id="plots-plotspkl-png">plots (plots/<em>.pkl </em>.png)<a class="headerlink" href="#plots-plotspkl-png" title="Permanent link">&para;</a></h3>
 <p>Contains the figures associated with the validation in .png and .pkl python loadable format.</p>
 <ol>
-<li>
-<p>run_validate
-example</p>
-</li>
-<li>
-<p>links</p>
-</li>
+<li>links</li>
 <li>model</li>
 <li>solver</li>
 </ol>
