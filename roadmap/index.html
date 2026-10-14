@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../theory/models_solvers/">
+        <link rel="prev" href="../manual/documentation/">
       
       
       
@@ -238,26 +238,6 @@
   
   
   User Manual
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../theory/models_solvers/" class="md-tabs__link">
-          
-  
-  
-  Theory
 
         </a>
       </li>
@@ -702,93 +682,6 @@
       
   
   
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Theory
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Theory
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../theory/models_solvers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models & Solvers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -864,6 +757,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#1-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. debug, verify raw data and check associate handle csv names and doc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. nonlinear FK, diffracted wave, n_wave_components input from wave source to model, etc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#3-implement-robust-test-case" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -875,10 +790,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc" class="md-nav__link">
+  <a href="#4-adapt-code-for-multi-wave-gauge-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. debug, verify raw data and check associate handle csv names and doc
+        4. adapt code for multi wave gauge data
       
     </span>
   </a>
@@ -886,10 +801,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc" class="md-nav__link">
+  <a href="#5-compute-pi-gains" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. nonlinear FK, diffracted wave, n_wave_components input from wave source to model, etc
+        5. compute PI gains
       
     </span>
   </a>
@@ -897,10 +812,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-adapt-code-for-multi-wave-gauge-data" class="md-nav__link">
+  <a href="#6-for-interpolation-option-merge-fe-and-fk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. adapt code for multi wave gauge data
+        6. for interpolation option, merge fe and fk
       
     </span>
   </a>
@@ -951,6 +866,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#11-add-wave-length-to-the-wave-processed-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. add wave length to the wave processed file
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -991,32 +917,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-wave-prediction-forecast" class="md-nav__link">
+  <a href="#3-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Wave prediction / forecast
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-add-wave-length-to-the-wave-processed-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. add wave length to the wave processed file
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. explanation on t_start and t_end, time vector decomposition and cleaning
+        3. explanation on t_start and t_end, time vector decomposition and cleaning
       
     </span>
   </a>
@@ -1041,10 +945,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-no-passivity-enforcement" class="md-nav__link">
+  <a href="#1-wave-prediction-forecast" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. No passivity enforcement
+        1. Wave prediction / forecast
       
     </span>
   </a>
@@ -1052,10 +956,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cwr-larger-than-1" class="md-nav__link">
+  <a href="#2-no-passivity-enforcement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. CWR larger than 1
+        2. No passivity enforcement
       
     </span>
   </a>
@@ -1063,10 +967,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-for-interpolation-option-merge-fe-and-fk" class="md-nav__link">
+  <a href="#3-cwr-larger-than-1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. for interpolation option, merge fe and fk
+        3. CWR larger than 1
       
     </span>
   </a>
@@ -1121,25 +1025,26 @@
 <p>This page tracks planned features, missing integrations, and known issues in HIVE.</p>
 <hr />
 <h2 id="priority">Priority<a class="headerlink" href="#priority" title="Permanent link">&para;</a></h2>
+<h3 id="1-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc">1. debug, verify raw data and check associate handle csv names and doc<a class="headerlink" href="#1-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc" title="Permanent link">&para;</a></h3>
+<h3 id="2-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc">2. nonlinear FK, diffracted wave, <code>n_wave_components</code> input from wave source to model, etc<a class="headerlink" href="#2-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc" title="Permanent link">&para;</a></h3>
 <h3 id="3-implement-robust-test-case">3. implement robust test case<a class="headerlink" href="#3-implement-robust-test-case" title="Permanent link">&para;</a></h3>
-<h3 id="4-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc">4. debug, verify raw data and check associate handle csv names and doc<a class="headerlink" href="#4-debug-verify-raw-data-and-check-associate-handle-csv-names-and-doc" title="Permanent link">&para;</a></h3>
-<h3 id="5-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc">5. nonlinear FK, diffracted wave, <code>n_wave_components</code> input from wave source to model, etc<a class="headerlink" href="#5-nonlinear-fk-diffracted-wave-n_wave_components-input-from-wave-source-to-model-etc" title="Permanent link">&para;</a></h3>
-<h3 id="6-adapt-code-for-multi-wave-gauge-data">6. adapt code for multi wave gauge data<a class="headerlink" href="#6-adapt-code-for-multi-wave-gauge-data" title="Permanent link">&para;</a></h3>
+<h3 id="4-adapt-code-for-multi-wave-gauge-data">4. adapt code for multi wave gauge data<a class="headerlink" href="#4-adapt-code-for-multi-wave-gauge-data" title="Permanent link">&para;</a></h3>
+<h3 id="5-compute-pi-gains">5. compute PI gains<a class="headerlink" href="#5-compute-pi-gains" title="Permanent link">&para;</a></h3>
+<h3 id="6-for-interpolation-option-merge-fe-and-fk">6. for interpolation option, merge fe and fk<a class="headerlink" href="#6-for-interpolation-option-merge-fe-and-fk" title="Permanent link">&para;</a></h3>
 <h3 id="7-read-plot-option">7. read plot option<a class="headerlink" href="#7-read-plot-option" title="Permanent link">&para;</a></h3>
 <h3 id="8-synthetic-wave-output-csv-name-same-format-as-cfd_case">8. synthetic wave output csv name same format as cfd_case<a class="headerlink" href="#8-synthetic-wave-output-csv-name-same-format-as-cfd_case" title="Permanent link">&para;</a></h3>
 <h3 id="9-metricmd">9. Metric.md<a class="headerlink" href="#9-metricmd" title="Permanent link">&para;</a></h3>
 <h3 id="10-rename-output-scalar-metric-csv-file">10. rename output scalar metric .csv file<a class="headerlink" href="#10-rename-output-scalar-metric-csv-file" title="Permanent link">&para;</a></h3>
+<h3 id="11-add-wave-length-to-the-wave-processed-file">11. add wave length to the wave processed file<a class="headerlink" href="#11-add-wave-length-to-the-wave-processed-file" title="Permanent link">&para;</a></h3>
 <h2 id="pipeline-gaps">Pipeline gaps<a class="headerlink" href="#pipeline-gaps" title="Permanent link">&para;</a></h2>
 <h3 id="1-merge-system-identification-to-run_identify-pipeline-plan-on-reference-dataset-type-specific-signal">1. merge system identification to run_identify pipeline. Plan on reference dataset type (specific signal)<a class="headerlink" href="#1-merge-system-identification-to-run_identify-pipeline-plan-on-reference-dataset-type-specific-signal" title="Permanent link">&para;</a></h3>
 <h3 id="2-merge-sindy-to-run_identify-pipeline">2. merge SINDY to run_identify pipeline<a class="headerlink" href="#2-merge-sindy-to-run_identify-pipeline" title="Permanent link">&para;</a></h3>
-<h3 id="3-wave-prediction-forecast">3. Wave prediction / forecast<a class="headerlink" href="#3-wave-prediction-forecast" title="Permanent link">&para;</a></h3>
-<h3 id="4-add-wave-length-to-the-wave-processed-file">4. add wave length to the wave processed file<a class="headerlink" href="#4-add-wave-length-to-the-wave-processed-file" title="Permanent link">&para;</a></h3>
-<h3 id="5-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning">5. explanation on t_start and t_end, time vector decomposition and cleaning<a class="headerlink" href="#5-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning" title="Permanent link">&para;</a></h3>
+<h3 id="3-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning">3. explanation on t_start and t_end, time vector decomposition and cleaning<a class="headerlink" href="#3-explanation-on-t_start-and-t_end-time-vector-decomposition-and-cleaning" title="Permanent link">&para;</a></h3>
 <hr />
 <h2 id="technical-matters">Technical matters<a class="headerlink" href="#technical-matters" title="Permanent link">&para;</a></h2>
-<h3 id="1-no-passivity-enforcement">1. No passivity enforcement<a class="headerlink" href="#1-no-passivity-enforcement" title="Permanent link">&para;</a></h3>
-<h3 id="2-cwr-larger-than-1">2. CWR larger than 1<a class="headerlink" href="#2-cwr-larger-than-1" title="Permanent link">&para;</a></h3>
-<h3 id="3-for-interpolation-option-merge-fe-and-fk">3. for interpolation option, merge fe and fk<a class="headerlink" href="#3-for-interpolation-option-merge-fe-and-fk" title="Permanent link">&para;</a></h3>
+<h3 id="1-wave-prediction-forecast">1. Wave prediction / forecast<a class="headerlink" href="#1-wave-prediction-forecast" title="Permanent link">&para;</a></h3>
+<h3 id="2-no-passivity-enforcement">2. No passivity enforcement<a class="headerlink" href="#2-no-passivity-enforcement" title="Permanent link">&para;</a></h3>
+<h3 id="3-cwr-larger-than-1">3. CWR larger than 1<a class="headerlink" href="#3-cwr-larger-than-1" title="Permanent link">&para;</a></h3>
 <h3 id="4-uncertainty-quantification">4. Uncertainty quantification<a class="headerlink" href="#4-uncertainty-quantification" title="Permanent link">&para;</a></h3>
 
 

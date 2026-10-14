@@ -254,26 +254,6 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../theory/models_solvers/" class="md-tabs__link">
-          
-  
-  
-  Theory
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
     <li class="md-tabs__item">
       <a href="../../roadmap/" class="md-tabs__link">
         
@@ -813,93 +793,6 @@
   
   
   
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Theory
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Theory
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../theory/models_solvers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models & Solvers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     <li class="md-nav__item">
       <a href="../../roadmap/" class="md-nav__link">
         
@@ -942,9 +835,6 @@
 
 
 <h1 id="metric">Metric<a class="headerlink" href="#metric" title="Permanent link">&para;</a></h1>
-<p>All scalar metrics computed per model per sea state by <code>Metric.compute</code>.</p>
-<p>Signals compared: <code>x</code> (displacement), <code>xdot</code> (velocity), <code>f_pto</code> (PTO force), <code>P_abs</code> (absorbed power).</p>
-<hr />
 <h2 id="scalar-metrics">Scalar metrics<a class="headerlink" href="#scalar-metrics" title="Permanent link">&para;</a></h2>
 <p><code>{tag}</code> is one of <code>x</code>, <code>xdot</code>, <code>f_pto</code>, <code>P_abs</code> unless noted.</p>
 <table>
@@ -1121,6 +1011,10 @@ time_ratio
 <p><strong><code>peak_error</code></strong>: uses <code>scipy.find_peaks</code> on the raw (un-smoothed) signal. Unreliable for irregular wave cases with many small peaks — treat as indicative only.</p>
 <p><strong><code>phase_lag_s</code> / <code>corr_peak</code></strong>: computed from normalised cross-correlation over the full clipped window. Phase lag is positive when the model leads the reference.</p>
 <p><strong><code>phase_mean_deg</code> / <code>phase_std_deg</code></strong>: Hilbert-transform-based instantaneous phase difference. Meaningful only for near-monochromatic signals (regular waves); interpret with caution for irregular seas.</p>
+<p>!! structure
+!! nrmse_true
+!! peak error find peaks
+!! plot not default metric?</p>
 
 
 
