@@ -254,6 +254,26 @@
   
   
   
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../test_/test_handle_data/" class="md-tabs__link">
+          
+  
+  
+  Test run
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
     <li class="md-tabs__item">
       <a href="../../roadmap/" class="md-tabs__link">
         
@@ -545,6 +565,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../run_metric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_metric
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../run_plot/" class="md-nav__link">
         
   
@@ -672,6 +720,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#interpolation-options-solverinterpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolation options (solver.interpolation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -726,6 +785,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../run_makeHydroSphere.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    run_makeHydroSphere
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../documentation/" class="md-nav__link">
         
   
@@ -734,6 +821,177 @@
     
   
     Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test run
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Test run
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_/test_handle_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handle data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_/test_identify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    identify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_/test_validate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    validate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_/test_metric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    metric
   
 
     
@@ -849,8 +1107,43 @@
 </tr>
 </tbody>
 </table>
+<h2 id="interpolation-options-solverinterpolation">Interpolation options (<code>solver.interpolation</code>)<a class="headerlink" href="#interpolation-options-solverinterpolation" title="Permanent link">&para;</a></h2>
+<p>Set in the validate/identify solver config. For force terms driven by a measured time series: <code>true</code> interpolates the input at each RK sub-stage time, <code>false</code> freezes it at the start of the step. Post-processing always interpolates.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Terms</th>
+<th>Input</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eta_hs</code></td>
+<td><code>nonlinear_eta</code>, <code>nonlinear_eta_z0</code></td>
+<td>measured η(t)</td>
+</tr>
+<tr>
+<td><code>fk</code></td>
+<td><code>linear_conv</code></td>
+<td>precomputed <code>fe(t)</code> series</td>
+</tr>
+<tr>
+<td><code>fk</code></td>
+<td><code>fk_nonlinear</code>, <code>airy</code></td>
+<td>measured η(t) for the mask and Wheeler (the wave phase always uses the exact time)</td>
+</tr>
+</tbody>
+</table>
+<p>All other terms depend only on the state, or evaluate the wave components analytically (<code>_x</code> terms), and need no key. The former key <code>fe</code> is rejected: rename it to <code>fk</code>.</p>
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <p><strong>dt mismatch</strong> — if a solver <code>dt</code> differs from the CFD reference <code>dt</code> by more than 1 %, the script warns and asks to continue. Metrics are still computed via resampling, but accuracy may be reduced.</p>
+<p>IRF and dt: fe_conv interpolates the IRF onto the η time step and convolves once, before the simulation. The result is a series on the wave grid. The old version could return one sample too many, which caused the test 4 error and a hidden one-step shift; that’s fixed.
+During the simulation: at every RK sub-step, the solver reads the series and the measured η at the exact time, using linear or cubic interpolation, or the start-of-step value with null. _x terms evaluate the wave components exactly, so they need no interpolation. The radiation state space is integrated by the solver itself.
+Synthetic waves: there’s no wave dt any more. The wave is generated once and sampled on each solver’s grid, so every solver sees the same wave.
+Interpolation order: linear limits RK4 to second order, because the middle stages read the inputs between samples. Cubic gets fourth order back.
+Output: every CSV column is on the solver grid. Plots show each run on its own grid. The metrics compare on the coarser of the model and reference grids, so there’s no interpolation error on nested grids. The cross-correlation and phase curves stay on the reference grid.
+Flat-surface nonlinear FK: the pressure is always recomputed at every sub-step. The interpolation setting only affects the measured η used for the wet panels and Wheeler stretching.</p>
 
 
 
