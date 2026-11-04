@@ -1101,7 +1101,7 @@
 </code></pre></div>
 <p>Outputs land in <code>data/handled/test_0_handle_case/</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
 <p>As an example, the accumulated absorbed energy time serie is shown below: 
-<img alt="Accumulated energy" src="../figures/energy_accum.png" /></p>
+<img alt="Accumulated energy" src="../figures/cfd_force.png" /></p>
 <h3 id="validate-models-test_2">Validate models (test_2)<a class="headerlink" href="#validate-models-test_2" title="Permanent link">&para;</a></h3>
 <p>This test_2_physics.json validate and compare physics-based WEC models, ranging from full linear to nonlinear FK, against the reference cfd data from test_0. Run it with: </p>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_validate<span class="w"> </span>--case<span class="w"> </span>test_2_physics.json
@@ -1117,9 +1117,8 @@
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>script.run_identify<span class="w"> </span>--case<span class="w"> </span>test_9_viscous_drag.json
 </code></pre></div>
 <p>Outputs land in <code>source/models/test_9_viscous_drag/</code> for identification results. When repeating the test run again, a user command is required, choose <code>[1] erase and redo all</code>. More information is available in the <a href="../manual/pipeline_overview/">user manual</a>.</p>
-<p>One response time serie is shown below: 
-<img alt="Response timeseries" src="../figures/viscous_id_timeseries.png" /></p>
-<p>!! change figures</p>
+<p>The grid search of vsicous drag coeffificent is shown here: 
+<img alt="Response timeseries" src="figures/identify_cost_curves_force_grid.png" /></p>
 
 
 
