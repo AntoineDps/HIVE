@@ -720,21 +720,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#interpolation-options-solverinterpolation" class="md-nav__link">
+  <a href="#interpolation-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Interpolation options (solver.interpolation)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
+        Interpolation options
       
     </span>
   </a>
@@ -1060,25 +1049,25 @@
 
 
 <h1 id="solver">Solver<a class="headerlink" href="#solver" title="Permanent link">&para;</a></h1>
-<p>Documents the solver entry used in <code>run_identify</code> and <code>run_validate</code> configs.</p>
+<p>Documents the solver entry used in <code>run_validate</code> (<code>solvers</code> list) and <code>run_identify</code> (<code>solver</code>) configs.</p>
 <hr />
 <h2 id="input-json-config">input JSON config<a class="headerlink" href="#input-json-config" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;eta_hs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;fe&quot;</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span>
+<span class="w">    </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>All fields are required.</p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
-<th>Default</th>
 <th>Options / values</th>
 <th>Description</th>
 </tr>
@@ -1087,28 +1076,27 @@
 <tr>
 <td><code>method</code></td>
 <td><code>string</code></td>
-<td><code>"rk4"</code></td>
-<td><code>"euler"</code>, <code>"rk2"</code>, <code>"rk4"</code></td>
-<td>Integration method</td>
+<td><code>"euler"</code>, <code>"rk2"</code>, <code>"rk4"</code> (any case)</td>
+<td>Fixed-step integration method</td>
 </tr>
 <tr>
 <td><code>dt</code></td>
 <td><code>float</code></td>
-<td><code>0.05</code></td>
 <td>any positive float (s)</td>
 <td>Fixed timestep</td>
 </tr>
 <tr>
 <td><code>interpolation</code></td>
 <td><code>dict</code></td>
-<td><code>{"fe": true, "eta_hs": true}</code></td>
-<td>keys: <code>"fe"</code>, <code>"fk"</code>, <code>"eta_hs"</code> — values: <code>true</code> / <code>false</code></td>
-<td>Sub-step interpolation flags passed to the model. <code>"fe"</code> interpolates the excitation force; <code>"eta_hs"</code> interpolates the wave elevation for hydrostatic correction</td>
+<td>keys <code>"restoring"</code>, <code>"excitation"</code>, <code>"cfd"</code>, all required — values <code>"linear"</code>, <code>"cubic"</code>, <code>null</code></td>
+<td>How measured inputs are read inside a time step. See <a href="#interpolation-options">interpolation</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="interpolation-options-solverinterpolation">Interpolation options (<code>solver.interpolation</code>)<a class="headerlink" href="#interpolation-options-solverinterpolation" title="Permanent link">&para;</a></h2>
-<p>Set in the validate/identify solver config. For force terms driven by a measured time series: <code>true</code> interpolates the input at each RK sub-stage time, <code>false</code> freezes it at the start of the step. Post-processing always interpolates.</p>
+<p>In <code>run_validate</code>, the solver appears in the run label and the CSV name as <code>&lt;method&gt; &lt;dt&gt; &lt;interp&gt;</code>, with the three interpolation options as <code>lin</code> / <code>cub</code> / <code>nul</code> in the order restoring, excitation, cfd (e.g. <code>RK4 0.05 linlinlin</code>). Two solvers with the same method, <code>dt</code> and interpolation are an error.</p>
+<hr />
+<h2 id="interpolation-options">Interpolation options<a class="headerlink" href="#interpolation-options" title="Permanent link">&para;</a></h2>
+<p>For force terms driven by a measured time series, <code>"linear"</code> or <code>"cubic"</code> interpolates the input at each RK sub-stage time, and <code>null</code> freezes it at the start of the step. Post-processing always interpolates.</p>
 <table>
 <thead>
 <tr>
@@ -1119,31 +1107,128 @@
 </thead>
 <tbody>
 <tr>
-<td><code>eta_hs</code></td>
-<td><code>nonlinear_eta</code>, <code>nonlinear_eta_z0</code></td>
+<td><code>restoring</code></td>
+<td><code>restoring</code>: <code>nonlinear_eta</code>, <code>nonlinear_eta_z0</code></td>
 <td>measured η(t)</td>
 </tr>
 <tr>
-<td><code>fk</code></td>
-<td><code>linear_conv</code></td>
-<td>precomputed <code>fe(t)</code> series</td>
+<td><code>excitation</code></td>
+<td><code>fk</code> / <code>diffraction</code>: <code>linear_conv</code></td>
+<td>precomputed <code>f_fk_lin</code> / <code>fd_lin</code> series</td>
 </tr>
 <tr>
-<td><code>fk</code></td>
-<td><code>fk_nonlinear</code>, <code>airy</code></td>
-<td>measured η(t) for the mask and Wheeler (the wave phase always uses the exact time)</td>
+<td><code>excitation</code></td>
+<td><code>fk</code>: <code>nonlinear</code>; <code>pressure_field</code>: <code>airy</code></td>
+<td>measured η(t) for the wetted panels and Wheeler stretching (the wave phase always uses the exact time)</td>
+</tr>
+<tr>
+<td><code>cfd</code></td>
+<td>any <code>{"type": "cfd", ...}</code> term</td>
+<td>prescribed CFD columns</td>
 </tr>
 </tbody>
 </table>
-<p>All other terms depend only on the state, or evaluate the wave components analytically (<code>_x</code> terms), and need no key. The former key <code>fe</code> is rejected: rename it to <code>fk</code>.</p>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<p><strong>dt mismatch</strong> — if a solver <code>dt</code> differs from the CFD reference <code>dt</code> by more than 1 %, the script warns and asks to continue. Metrics are still computed via resampling, but accuracy may be reduced.</p>
-<p>IRF and dt: fe_conv interpolates the IRF onto the η time step and convolves once, before the simulation. The result is a series on the wave grid. The old version could return one sample too many, which caused the test 4 error and a hidden one-step shift; that’s fixed.
-During the simulation: at every RK sub-step, the solver reads the series and the measured η at the exact time, using linear or cubic interpolation, or the start-of-step value with null. _x terms evaluate the wave components exactly, so they need no interpolation. The radiation state space is integrated by the solver itself.
-Synthetic waves: there’s no wave dt any more. The wave is generated once and sampled on each solver’s grid, so every solver sees the same wave.
-Interpolation order: linear limits RK4 to second order, because the middle stages read the inputs between samples. Cubic gets fourth order back.
-Output: every CSV column is on the solver grid. Plots show each run on its own grid. The metrics compare on the coarser of the model and reference grids, so there’s no interpolation error on nested grids. The cross-correlation and phase curves stay on the reference grid.
-Flat-surface nonlinear FK: the pressure is always recomputed at every sub-step. The interpolation setting only affects the measured η used for the wet panels and Wheeler stretching.</p>
+<p>Each key covers one family of sampled inputs. The input is interpolated, then the term computes its force from it as usual.</p>
+<p><strong><code>restoring</code> — measured η(t) in the nonlinear static force</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What is interpolated</th>
+<th>How it is used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>restoring</code>: <code>nonlinear_eta</code></td>
+<td>measured η at the reference gauge</td>
+<td>submerged volume of the sphere below the flat surface at height η: <span class="arithmatex">\(F = \rho g V_{sub}(x, \eta) - m g\)</span></td>
+</tr>
+<tr>
+<td><code>restoring</code>: <code>nonlinear_eta_z0</code></td>
+<td>same</td>
+<td>Giorgi form: <span class="arithmatex">\(F = \rho g (V_{sub} - \eta A_{WP}) - m g\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>excitation</code> — the wave excitation inputs</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What is interpolated</th>
+<th>How it is used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fk</code>: <code>linear_conv</code></td>
+<td>the series <code>f_fk_lin</code>, computed once before the simulation by convolving η with the FK IRF (<code>fe_conv</code>)</td>
+<td>the force is read directly from the series</td>
+</tr>
+<tr>
+<td><code>diffraction</code>: <code>linear_conv</code></td>
+<td>the series <code>fd_lin</code> (η convolved with the diffraction IRF)</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>fk</code>: <code>nonlinear</code></td>
+<td>measured η, <strong>only</strong> for the free-surface height</td>
+<td>η sets which panels are wetted (below the flat surface) and the Wheeler stretching of the pressure profile. The dynamic pressure itself, <span class="arithmatex">\(\rho g \sum A f_k(z) \cos(\omega t + \varphi)\)</span>, is computed from the wave components at the exact time: it needs no interpolation</td>
+</tr>
+<tr>
+<td><code>pressure_field</code>: <code>airy</code></td>
+<td>measured η, same role</td>
+<td>same as <code>fk</code> <code>nonlinear</code>, for the static + dynamic pressure integrated together</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>cfd</code> — prescribed CFD forces</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What is interpolated</th>
+<th>How it is used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>any <code>{"type": "cfd", "force": &lt;column&gt;}</code> (and <code>pressure_field</code> <code>static_force</code> / <code>dynamic_force</code>)</td>
+<td>the CFD column (e.g. <code>ftot</code>, <code>fpto</code>, <code>fhd_lin_r</code>)</td>
+<td>the force is read directly from the column</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Terms with no key</strong> — they read no sampled input:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>restoring</code>: <code>linear</code>, <code>nonlinear</code></td>
+<td>depend only on the body position <span class="arithmatex">\(x\)</span></td>
+</tr>
+<tr>
+<td><code>radiation</code>: <code>state_space</code></td>
+<td>depends on the body velocity and the radiation states, integrated by the solver</td>
+</tr>
+<tr>
+<td><code>drag</code>: <code>viscous</code>, <code>pto</code> gains</td>
+<td>depend only on the body state</td>
+</tr>
+<tr>
+<td><code>_x</code> terms (<code>nonlinear_eta_z0_x</code>, <code>nonlinear_eta_x</code>, <code>fk</code> <code>nonlinear_x</code>, <code>pressure_field</code> <code>airy_x</code>)</td>
+<td>the wave η(x, t) and the pressure are rebuilt from the wave components at the exact time, so there are no samples to interpolate between</td>
+</tr>
+</tbody>
+</table>
+<p>All other terms depend only on the state, or evaluate the wave components analytically (<code>_x</code> terms), and need no key.</p>
+<p><strong>Order of accuracy.</strong> Linear interpolation limits RK4 to second order, because the middle stages read the inputs between samples. Cubic interpolation gives fourth order back. <code>null</code> is first order.</p>
 
 
 

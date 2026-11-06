@@ -947,10 +947,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-3-cfd-force-comparison" class="md-nav__link">
+  <a href="#test-3-cfd-force-based-model-comparison" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 3: cfd force comparison
+        test 3: CFD force-based model comparison
       
     </span>
   </a>
@@ -958,10 +958,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-4-solver-type-and-time-step-analysis" class="md-nav__link">
+  <a href="#test-4-dt-and-solver-type-sensitivity-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 4: solver type and time step analysis
+        test 4: dt and solver type sensitivity analysis
       
     </span>
   </a>
@@ -991,10 +991,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-7-number-of-considered-wave-component-for-nonlinear-fk" class="md-nav__link">
+  <a href="#test-7-number-of-wave-components-for-nonlinear-fk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 7: number of considered wave component for nonlinear FK.
+        test 7: number of wave components for nonlinear FK
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-11-identified-viscous-drag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test 11: identified viscous drag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-12-physics-based-models-on-two-waves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test 12: physics-based models on two waves
       
     </span>
   </a>
@@ -1093,7 +1115,7 @@
 
 
 <h1 id="validate-model-test">Validate model test<a class="headerlink" href="#validate-model-test" title="Permanent link">&para;</a></h1>
-<p>The availabel validate model type test are listed and summarized in the table below: </p>
+<p>The available validate model tests are listed and summarized in the table below:</p>
 <table>
 <thead>
 <tr>
@@ -1114,7 +1136,7 @@
 </tr>
 <tr>
 <td>test 3</td>
-<td>cfd force-based model comparison</td>
+<td>CFD force-based model comparison</td>
 <td>test_0_handle_case</td>
 <td>"cfd_replay", "cfd_total", "cfd_residual"</td>
 <td>r5_m40.pkl</td>
@@ -1123,56 +1145,501 @@
 <td>test 4</td>
 <td>dt and solver type sensitivity analysis</td>
 <td>synthetic wave</td>
-<td>"lin syn"</td>
+<td>"lin_syn"</td>
 <td>r5_m40.pkl</td>
 </tr>
 <tr>
 <td>test 5</td>
-<td><code>nonlinear_eta_z0_x</code></td>
+<td>mesh convergence for nonlinear FK</td>
 <td>synthetic wave</td>
 <td>"nlfk_x_mesh_10", "nlfk_x_mesh_20", "nlfk_x_mesh_40", "nlfk_x_mesh_60", "nlfk_x_mesh_80"</td>
 <td>r5_m10, r5_m20, r5_m40, r5_m60, r5_m80.pkl</td>
 </tr>
 <tr>
 <td>test 6</td>
-<td><code>nonlinear_eta</code></td>
+<td>interpolation impact</td>
 <td>test_0_handle_case</td>
 <td>"lin", "nlr_eta_z0", "nlfk"</td>
 <td>r5_m40.pkl</td>
 </tr>
 <tr>
 <td>test 7</td>
-<td><code>nonlinear_eta</code></td>
+<td>number of wave components for nonlinear FK</td>
 <td>synthetic wave</td>
 <td>"nlfk_syn_ncomp_5", "nlfk_syn_ncomp_10", "nlfk_syn_ncomp_30", "nlfk_syn_ncomp_all"</td>
 <td>r5_m40.pkl</td>
 </tr>
+<tr>
+<td>test 11</td>
+<td>identified viscous drag</td>
+<td>test_0_handle_case</td>
+<td>"lin", "nlr_eta_z0", "nlfk_x", "test_9_viscous_lin", "test_10a_viscous_nlr", "test_10b_viscous_nlfk_x"</td>
+<td>r5_m40.pkl</td>
+</tr>
+<tr>
+<td>test 12</td>
+<td>physics-based models on two waves</td>
+<td>test_1_handle_mcase</td>
+<td>"lin", "nlr_eta_z0", "nlfk_x"</td>
+<td>r5_m40.pkl</td>
+</tr>
 </tbody>
 </table>
+<p>Run with <code>python -m script.run_validate --case &lt;test&gt;.json</code>, then the metric of <a href="../test_metric/">test metric</a>.</p>
 <h2 id="test-2-physics-based-model-comparison">test 2: physics-based model comparison<a class="headerlink" href="#test-2-physics-based-model-comparison" title="Permanent link">&para;</a></h2>
-<p>This test compare and validate the main physics-based WEC model using cfd case from test 0 as reference.<br />
-!! input json
-!! model.json</p>
-<h2 id="test-3-cfd-force-comparison">test 3: cfd force comparison<a class="headerlink" href="#test-3-cfd-force-comparison" title="Permanent link">&para;</a></h2>
-<p>This test compare and validate non-physical models by using cfd reference data force directly into the solver. This is a way to compare the cfd solver to the environment solver.<br />
-!! input json
-!! model.json</p>
-<h2 id="test-4-solver-type-and-time-step-analysis">test 4: solver type and time step analysis<a class="headerlink" href="#test-4-solver-type-and-time-step-analysis" title="Permanent link">&para;</a></h2>
-<p>In this test, the impact of solver type and dt can be observed looking at convergence to a reference simulation with lowest dt and highest order solver in synthetic irregular wave.
-!! input json
-!! model.json</p>
+<p>This test compares and validates the main physics-based WEC models, from full linear to nonlinear FK, using the CFD case from test 0 as reference. The <code>forces</code> plots show the role columns, with <code>fhyd_cfd</code> overlaid on <code>F_hyd</code>.</p>
+<p><code>test_2_physics.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nl&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0_x&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-3-cfd-force-based-model-comparison">test 3: CFD force-based model comparison<a class="headerlink" href="#test-3-cfd-force-based-model-comparison" title="Permanent link">&para;</a></h2>
+<p>This test compares and validates non-physical models by using CFD reference forces directly in the solver. This is a way to compare the CFD solver to the environment solver: <code>cfd_replay</code> (all forces from CFD) should reproduce the CFD motion, <code>cfd_total</code> and <code>cfd_residual</code> check the consistency of solver and data in closed loop. <code>cfd_total</code> may diverge with a negative PTO stiffness (no hydrostatic feedback).</p>
+<p><code>test_3_cfd_force.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_full_replay&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_lin_residual&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_nl_residual&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-4-dt-and-solver-type-sensitivity-analysis">test 4: dt and solver type sensitivity analysis<a class="headerlink" href="#test-4-dt-and-solver-type-sensitivity-analysis" title="Permanent link">&para;</a></h2>
+<p>In this test, the impact of solver type and dt is observed through the convergence to a reference simulation with the lowest dt and highest order solver (RK4, dt 0.01) in a synthetic irregular wave.</p>
+<p><code>test_4_dt.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin_syn&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dw&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;w_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="test-5-mesh-convergence-for-nonlinear-fk">test 5: mesh convergence for nonlinear FK<a class="headerlink" href="#test-5-mesh-convergence-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
-<p>The buoy mesh convergence is studied here in term of resultant WEC dynamic using a nonlinear FK model. Note that the mesh convergence in perspective of the nonlinear FK force is tested, not to the hydrodynamic coef. Note also that this test require different .pkl bem model, holding the different mesh resolution (see run_makeHydroSphere.py). 
-!! input json
-!! model.json</p>
+<p>The buoy mesh convergence is studied here in terms of the resulting WEC dynamics using a nonlinear FK model, with the finest mesh as reference. Note that the mesh convergence of the nonlinear FK force is tested, not that of the hydrodynamic coefficients. This test requires different <code>.pkl</code> BEM models holding the different mesh resolutions.</p>
+<p><code>test_5_mesh.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_10&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_20&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_40&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_60&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_80&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dw&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;w_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="test-6-interpolation-impact">test 6: interpolation impact<a class="headerlink" href="#test-6-interpolation-impact" title="Permanent link">&para;</a></h2>
-<p>The impact of interpolating the exogenous input to the model (wave elevation, linear excitation force, cfd based force) withint the solver substep is studied.<br />
-!! input json
-!! model.json</p>
-<h2 id="test-7-number-of-considered-wave-component-for-nonlinear-fk">test 7: number of considered wave component for nonlinear FK.<a class="headerlink" href="#test-7-number-of-considered-wave-component-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
-<p>This test  studies the impact of the number of wave component considered for the computation of nonlinear FK force. It is usefull to find a computation time / accuracy trade off.
-!! input json
-!! model.json</p>
+<p>The impact of interpolating the exogenous inputs of the model (wave elevation, linear excitation force series, CFD-based force) within the solver sub-steps is studied, with all keys <code>"linear"</code>, <code>"cubic"</code> and <code>null</code>. <code>lin</code> uses the <code>excitation</code> key, <code>nlr_eta_z0</code> the <code>restoring</code> key, <code>nlfk</code> the <code>excitation</code> key (wetted panels). The effect grows with dt: a coarser dt (e.g. 0.1) makes it more visible.</p>
+<p><code>test_6_interp.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cubic&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-7-number-of-wave-components-for-nonlinear-fk">test 7: number of wave components for nonlinear FK<a class="headerlink" href="#test-7-number-of-wave-components-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
+<p>This test studies the impact of the number of wave components considered in the dynamic pressure of the nonlinear FK force, with all components as reference. It is useful to find a computation time / accuracy trade-off (<code>time_ratio</code>).</p>
+<p><code>test_7_ncomp.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_5&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_10&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_30&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_60&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_100&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_all&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dw&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;w_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-11-identified-viscous-drag">test 11: identified viscous drag<a class="headerlink" href="#test-11-identified-viscous-drag" title="Permanent link">&para;</a></h2>
+<p>This test compares the three base models with the same models augmented with their identified viscous drag (tests 9, 10a, 10b), against the CFD case of test 0. Effect of the identified drag per model: <code>F_drag</code>, and <code>F_hyd</code> against <code>fhyd_cfd</code> in the <code>forces</code> plots. Before running: run tests 9, 10a and 10b, and copy each <code>out/identified_case/&lt;test&gt;/model.json</code> to <code>source/models/&lt;test&gt;/model.json</code>.</p>
+<p><code>test_11_viscous.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_9_viscous_lin&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_10a_viscous_nlr&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_10b_viscous_nlfk&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-12-physics-based-models-on-two-waves">test 12: physics-based models on two waves<a class="headerlink" href="#test-12-physics-based-models-on-two-waves" title="Permanent link">&para;</a></h2>
+<p>This test validates the three physics-based model types (linear, nonlinear restoring, nonlinear FK) against two CFD waves at once: a <code>cfd_case</code> source runs every case of the handled folder.</p>
+<p><code>test_12_physics_mwave.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;models&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;wave_sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd_case&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;case_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_1_handle_mcase&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;solvers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;eta_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed_loop&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

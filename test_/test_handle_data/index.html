@@ -1049,7 +1049,7 @@
 
 
 <h1 id="handle-data-test">Handle data test<a class="headerlink" href="#handle-data-test" title="Permanent link">&para;</a></h1>
-<p>The availabel handle data type test are listed and summarized in the table below: </p>
+<p>The available handle data tests are listed and summarized in the table below:</p>
 <table>
 <thead>
 <tr>
@@ -1063,26 +1063,105 @@
 <tbody>
 <tr>
 <td>test 0</td>
-<td>handle single cfd case</td>
+<td>handle single CFD case</td>
 <td>case out_Case_65_20_120000_-430000</td>
 <td>--</td>
 <td>r5_m40.pkl</td>
 </tr>
 <tr>
 <td>test 1</td>
-<td>handle multi cfd case</td>
-<td>cases out_Case_65_20_120000_-430000 and out_Case_80_20_140000_-480000</td>
+<td>handle multi CFD case</td>
+<td>cases out_Case_65_20_120000_-430000 and out_Case_80_20_140000_-480000_example</td>
 <td>--</td>
 <td>r5_m40.pkl</td>
 </tr>
 </tbody>
 </table>
+<p>Run with <code>python -m script.run_handle_data --case &lt;test&gt;.json</code>.</p>
 <h2 id="test-0-single-case-handling">test 0: single case handling<a class="headerlink" href="#test-0-single-case-handling" title="Permanent link">&para;</a></h2>
-<p>This test handle and process the single cfd case out_Case_65_20_120000_-430000.<br />
-!! input json</p>
+<p>This test handles and processes the single CFD case out_Case_65_20_120000_-430000. Its output <code>test_0_handle_case</code> is the CFD reference of most validate and identify tests.</p>
+<p><code>test_0_handle_case.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5_m40&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;water_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;n_wave_components&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-430000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;sea_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;power&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dynamics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hydro&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;3d&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;x&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="test-1-multi-case-handling">test 1: multi-case handling<a class="headerlink" href="#test-1-multi-case-handling" title="Permanent link">&para;</a></h2>
-<p>This test handle and process two cfd case, out_Case_65_20_120000_-430000 and out_Case_80_20_140000_-480000.<br />
-!! input json</p>
+<p>This test handles and processes two CFD cases, out_Case_65_20_120000_-430000 and out_Case_80_20_140000_-480000. Its output <code>test_1_handle_mcase</code> is the reference of test 12. The two cases must differ in <code>T</code>, <code>H</code>, <code>damping</code> or <code>stiffness</code>, since the output names are built from them.</p>
+<p><code>test_1_handle_mcase.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;irr&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cut_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5_m40&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;water_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;n_wave_components&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-430000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">140000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-480000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;sea_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;power&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dynamics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hydro&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;3d&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;fe_lin&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;x&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

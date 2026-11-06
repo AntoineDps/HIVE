@@ -737,10 +737,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#excitation" class="md-nav__link">
+  <a href="#fk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        excitation
+        fk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diffraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diffraction
       
     </span>
   </a>
@@ -763,6 +774,39 @@
     <span class="md-ellipsis">
       
         drag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cfd-prescribed-forces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CFD-prescribed forces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role columns
       
     </span>
   </a>
@@ -1132,25 +1176,28 @@
 
 
 <h1 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h1>
-<p>Defines the parameter, structure of force variant of the model. Consumed by <code>run_identify</code> and <code>run_validate</code>.</p>
-<p>Config files <code>model.json</code> lives in <code>source/model/&lt;name&gt;/</code>.</p>
+<p>Defines the body, the type and the force terms of a 1-DOF (heave) model. Consumed by <code>run_validate</code> and <code>run_identify</code>.</p>
+<p>Model files <code>model.json</code> live in <code>source/models/&lt;name&gt;/</code>.</p>
 <hr />
 <h2 id="json-config">JSON config<a class="headerlink" href="#json-config" title="Permanent link">&para;</a></h2>
-<p>This is an example of model.json for a linear WEC augmented with viscous drag.</p>
+<p>This is an example of <code>model.json</code> for a linear WEC (linear restoring, radiation state space, Froude-Krylov and diffraction convolution) with the PTO gains of the CFD case.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_sphere_r5&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;physics&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Linear&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;hydro_sphere_pkl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r5_m40&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;rho&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1025</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;g&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.81</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;force_terms&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;radiation&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;state_space&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_conv&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;drag&quot;</span><span class="p">:</span><span class="w">       </span><span class="kc">null</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;identified&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;c_v&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span>
+<span class="w">    </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;radiation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;state_space&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fk&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_conv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;diffraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear_conv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pressure_field&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;drag&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pto&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;stiffness&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;damping&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1168,13 +1215,25 @@
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>folder name containing ´model.json´</td>
+<td>Model name, normally the folder name containing <code>model.json</code> (not checked)</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Model type. Only <code>"physics"</code> for now (data-based types will be added)</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Free text</td>
 </tr>
 <tr>
 <td><code>body</code></td>
 <td><code>dict</code></td>
 <td>Yes</td>
-<td><code>hydro_sphere_pkl</code>: name of the <code>HydroSphere</code> pickle in <code>models/bem/</code> (BEM data, mass, radius, stiffness, panel mesh). <code>rho</code>, <code>g</code>: physical constants (defaults 1025, 9.81)</td>
+<td><code>hydro_sphere_pkl</code>: name of the <code>HydroSphere</code> pickle in <code>source/models/bem/&lt;name&gt;/</code> (BEM data, mass, radius, stiffness, water depth, panel mesh). <code>rho</code>, <code>g</code>: physical constants</td>
 </tr>
 <tr>
 <td><code>force_terms</code></td>
@@ -1185,13 +1244,15 @@
 <tr>
 <td><code>identified</code></td>
 <td><code>dict</code></td>
-<td>No</td>
-<td>Parameters written back by <code>run_identify</code>. Required if <code>drag: "viscous"</code></td>
+<td>With <code>drag: "viscous"</code></td>
+<td>Parameters written by <code>run_identify</code> (<code>c_v</code>, method, metric, …)</td>
 </tr>
 </tbody>
 </table>
+<p>The equation of motion is <span class="arithmatex">\((m + m_\infty)\,\ddot{x} = \sum F\)</span>, with <span class="arithmatex">\(m\)</span> the body mass and <span class="arithmatex">\(m_\infty\)</span> the infinite-frequency added mass (only with a radiation <code>state_space</code> term).</p>
+<hr />
 <h2 id="force_terms"><code>force_terms</code><a class="headerlink" href="#force_terms" title="Permanent link">&para;</a></h2>
-<p>Five categories, each holding at most one term. <strong>A missing key means no term</strong> (there are no defaults). Any combination is accepted. When two terms produce the same column name, the second is saved with a <code>_2</code> suffix.</p>
+<p>Seven categories, <strong>all keys required</strong>, each holding at most one term: <code>null</code> means no term. A missing or unknown key is an error.</p>
 <table>
 <thead>
 <tr>
@@ -1209,8 +1270,12 @@
 <td>Radiation damping and added mass</td>
 </tr>
 <tr>
-<td><a href="#excitation"><code>excitation</code></a></td>
-<td>Wave excitation: dynamic pressure only</td>
+<td><a href="#fk"><code>fk</code></a></td>
+<td>Froude-Krylov: dynamic pressure of the incident wave</td>
+</tr>
+<tr>
+<td><a href="#diffraction"><code>diffraction</code></a></td>
+<td>Scattered wave (linear)</td>
 </tr>
 <tr>
 <td><a href="#pressure_field"><code>pressure_field</code></a></td>
@@ -1220,18 +1285,23 @@
 <td><a href="#drag"><code>drag</code></a></td>
 <td>Viscous drag</td>
 </tr>
+<tr>
+<td><a href="#pto"><code>pto</code></a></td>
+<td>Power take-off</td>
+</tr>
 </tbody>
 </table>
-<p>A term is written as a string, or as a dict when it takes parameters.</p>
+<p>A term is written as a string, or as a dict <code>{"type": ..., &lt;parameters&gt;}</code> when it takes parameters. Any category can also be <a href="#cfd-prescribed-forces">prescribed from the CFD</a>. The full linear excitation is <code>fk</code> <code>linear_conv</code> + <code>diffraction</code> <code>linear_conv</code>.</p>
 <h3 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Wave components</strong> (A, ω, k, φ), deep water k = ω²/g, waves along +x, x = 0 at the buoy centre (wave gauge position):</li>
+<li><strong>Wave components</strong> <span class="arithmatex">\((A, \omega, k, \varphi)\)</span>, waves along +x, x = 0 at the buoy centre (reference wave gauge position):
+  <span class="arithmatex">\(\eta(x, t) = \sum A \cos(\omega t - k x + \varphi)\)</span>.
+  They come from the reconstructed wave elevation of the handled CFD case (<code>_wave_recon.csv</code>) or directly from the generated synthetic wave.</li>
+<li><strong>Water depth</strong> <span class="arithmatex">\(h\)</span> is the BEM depth of the HydroSphere. <span class="arithmatex">\(k\)</span> follows the dispersion relation <span class="arithmatex">\(\omega^2 = g k \tanh(k h)\)</span> (<span class="arithmatex">\(k = \omega^2 / g\)</span> in deep water).</li>
+<li><strong>Wetted surface</strong> is always determined using the true wave: the measured η(t) for flat terms, the recomposed wave with all components for <code>_x</code> terms.</li>
+<li><strong>Dynamic pressure</strong> is determined using the <code>n_wave_components</code> largest components of the wave (<code>"all"</code> for every component).</li>
+<li><strong>Wheeler stretching</strong> in every dynamic pressure: the depth profile is evaluated at the stretched coordinate <span class="arithmatex">\(z_s = h (z - \eta) / (h + \eta)\)</span>, <span class="arithmatex">\(\cosh(k (z_s + h)) / \cosh(k h)\)</span> (<span class="arithmatex">\(e^{k (z - \eta)}\)</span> in deep water). The dynamic pressure equals <span class="arithmatex">\(\rho g \eta\)</span> at the surface and never grows above it.</li>
 </ul>
-<p>η(x, t) = Σ A·cos(ωt − kx + φ)</p>
-<p>They come from the reconstructed wave elevation from handled CFD case (<code>_wave_recon.csv</code>) or directly from the genertaed synthetic wave.
-- <strong>Wetted surface</strong> is always determined using the true wave: the measured η(t) for flat terms, the recomposed wave with full component for <code>_x</code> terms. 
-- <strong>Dynamic pressure</strong> is determined using the <code>n_wave_components</code> largest components of the reconstructed wave.
-- <strong>Wheeler stretching</strong> in every dynamic pressure: the decay is e^{k(z−η)}, measured from the actual surface. The dynamic pressure equals ρgη at the surface and never grows above it, and static A + dynamic is exactly 0 at the waterline.</p>
 <h3 id="restoring"><code>restoring</code><a class="headerlink" href="#restoring" title="Permanent link">&para;</a></h3>
 <p>Static pressure, gravity included.</p>
 <table>
@@ -1241,7 +1311,6 @@
 <th>Free surface over the body</th>
 <th>Pressure</th>
 <th>Method</th>
-<th>Wave components</th>
 <th>Interpolation key</th>
 <th>Column</th>
 </tr>
@@ -1252,7 +1321,6 @@
 <td>— (mean surface)</td>
 <td>linearised: F = −K·x</td>
 <td>analytic</td>
-<td>no</td>
 <td>—</td>
 <td><code>fhs_lin</code></td>
 </tr>
@@ -1261,43 +1329,38 @@
 <td>η = 0 (still water)</td>
 <td>F = ρg·V_sub(x) − mg</td>
 <td>analytic (spherical cap)</td>
-<td>no</td>
 <td>—</td>
 <td><code>fhs_nl</code></td>
 </tr>
 <tr>
 <td><code>"nonlinear_eta"</code></td>
 <td>flat η(t), measured</td>
-<td>F = ρg·V_sub(x, η) − mg</td>
+<td>F = ρg·V_sub(x, η) − mg, corresponds to p(z=η)=0</td>
 <td>analytic</td>
-<td>no</td>
-<td><code>eta_hs</code></td>
+<td><code>restoring</code></td>
 <td><code>fhs_nl_eta</code></td>
 </tr>
 <tr>
 <td><code>"nonlinear_eta_z0"</code></td>
 <td>flat η(t), measured</td>
-<td>F = ρg·(V_sub − η·A_WP) − mg, from divergence theorem with p(z=0)=0</td>
+<td>F = ρg·(V_sub − η·A_WP) − mg, from divergence theorem with p(z=0)=0 (Giorgi)</td>
 <td>analytic</td>
-<td>no</td>
-<td><code>eta_hs</code></td>
+<td><code>restoring</code></td>
 <td><code>fhs_nl_eta_z0</code></td>
 </tr>
 <tr>
 <td><code>"nonlinear_eta_x"</code></td>
 <td>η(x, t), recomposed</td>
-<td>p = ρg·(η(x_c, t) − z) corresponds to p(z=η)=0</td>
+<td>p = ρg·(η(x_c, t) − z), corresponds to p(z=η)=0</td>
 <td>panels</td>
-<td>full set (surface)</td>
 <td>—</td>
 <td><code>fhs_nl_eta_x</code></td>
 </tr>
 <tr>
 <td><code>"nonlinear_eta_z0_x"</code></td>
 <td>η(x, t), recomposed</td>
-<td>p = −ρg·z corresponds to p(z=0)=0</td>
+<td>p = −ρg·z, corresponds to p(z=0)=0</td>
 <td>panels</td>
-<td>full set (surface)</td>
 <td>—</td>
 <td><code>fhs_nl_eta_z0_x</code></td>
 </tr>
@@ -1323,8 +1386,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="excitation"><code>excitation</code><a class="headerlink" href="#excitation" title="Permanent link">&para;</a></h3>
-<p>Dynamic pressure only. The static part is the <code>restoring</code> term.</p>
+<h3 id="fk"><code>fk</code><a class="headerlink" href="#fk" title="Permanent link">&para;</a></h3>
+<p>Froude-Krylov: dynamic incident-wave pressure only. The static part is the <code>restoring</code> term.</p>
 <table>
 <thead>
 <tr>
@@ -1341,25 +1404,25 @@
 <tr>
 <td><code>"linear_conv"</code></td>
 <td>— (mean surface, linear BEM)</td>
-<td>linear excitation (FK + diffraction): fe = IRF ∗ η</td>
-<td>convolution, IRF from <code>HydroSphere</code></td>
+<td>linear FK force: IRF ∗ η</td>
+<td>convolution, FK IRF from <code>HydroSphere</code></td>
 <td>—</td>
-<td><code>fk</code></td>
-<td><code>fe_lin</code></td>
+<td><code>excitation</code></td>
+<td><code>f_fk_lin</code></td>
 </tr>
 <tr>
-<td><code>"fk_nonlinear"</code></td>
+<td><code>"nonlinear"</code></td>
 <td>flat η(t), measured</td>
-<td>ρg·Σ A·e^{k(z−η)}·cos(ωt + φ)</td>
+<td>ρg·Σ A·f_k(z)·cos(ωt + φ)</td>
 <td>panels</td>
 <td><code>n_wave_components</code></td>
-<td><code>fk</code></td>
+<td><code>excitation</code></td>
 <td><code>f_fk_nl</code></td>
 </tr>
 <tr>
-<td><code>"fk_nonlinear_x"</code></td>
+<td><code>"nonlinear_x"</code></td>
 <td>η(x, t), recomposed</td>
-<td>ρg·Σ A·e^{k(z−η)}·cos(ωt − kx + φ)</td>
+<td>ρg·Σ A·f_k(z)·cos(ωt − kx + φ)</td>
 <td>panels</td>
 <td><code>n_wave_components</code></td>
 <td>—</td>
@@ -1367,7 +1430,29 @@
 </tr>
 </tbody>
 </table>
-<p><code>n_wave_components</code>: Number of largest-amplitude wave components used for the dynamic pressure. Lever on computation time</p>
+<p>f_k(z): depth profile with Wheeler stretching (see <a href="#conventions">Conventions</a>). Example: <code>"fk": {"type": "nonlinear_x", "n_wave_components": 30}</code>.</p>
+<h3 id="diffraction"><code>diffraction</code><a class="headerlink" href="#diffraction" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Formula</th>
+<th>Method</th>
+<th>Interpolation key</th>
+<th>Column</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"linear_conv"</code></td>
+<td>linear diffraction force: IRF ∗ η</td>
+<td>convolution, diffraction IRF from <code>HydroSphere</code></td>
+<td><code>excitation</code></td>
+<td><code>fd_lin</code></td>
+</tr>
+</tbody>
+</table>
+<p>The nonlinear FK terms (<code>fk</code> <code>nonlinear*</code>, <code>pressure_field</code>) contain no diffraction: add <code>"diffraction": "linear_conv"</code> for the scattered wave.</p>
 <h3 id="pressure_field"><code>pressure_field</code><a class="headerlink" href="#pressure_field" title="Permanent link">&para;</a></h3>
 <p>Full incident pressure (static (p(z=0)=0) + dynamic) integrated in <strong>one panel pass</strong>, as in Giorgi's NLFK. The static and dynamic parts are still saved as two separate columns. The static column includes gravity, so no <code>restoring</code> term is needed with it.</p>
 <table>
@@ -1386,16 +1471,16 @@
 <tr>
 <td><code>"airy"</code></td>
 <td>flat η(t), measured</td>
-<td>−ρg·z + ρg·Σ A·e^{k(z−η)}·cos(ωt + φ)</td>
+<td>−ρg·z + ρg·Σ A·f_k(z)·cos(ωt + φ)</td>
 <td>panels</td>
 <td><code>n_wave_components</code></td>
-<td><code>fk</code></td>
+<td><code>excitation</code></td>
 <td><code>fhs_nl_eta_z0</code> + <code>f_fk_nl</code></td>
 </tr>
 <tr>
 <td><code>"airy_x"</code></td>
 <td>η(x, t), recomposed</td>
-<td>−ρg·z + ρg·Σ A·e^{k(z−η)}·cos(ωt − kx + φ)</td>
+<td>−ρg·z + ρg·Σ A·f_k(z)·cos(ωt − kx + φ)</td>
 <td>panels</td>
 <td><code>n_wave_components</code></td>
 <td>—</td>
@@ -1403,8 +1488,8 @@
 </tr>
 </tbody>
 </table>
-<p><code>airy_x</code> gives exactly <code>nonlinear_eta_z0_x</code> + <code>fk_nonlinear_x</code>, in one loop instead of two. <code>airy</code> differs from <code>nonlinear_eta_z0</code> + <code>fk_nonlinear</code> only by the panel error of the static part (analytic in <code>nonlinear_eta_z0</code>).</p>
-<p><code>n_wave_components</code>: Number of largest-amplitude wave components used for the dynamic pressure. Lever on computation time</p>
+<p><code>airy_x</code> gives exactly <code>nonlinear_eta_z0_x</code> + <code>fk</code> <code>nonlinear_x</code>, in one loop instead of two. <code>airy</code> differs from <code>nonlinear_eta_z0</code> + <code>fk</code> <code>nonlinear</code> only by the panel error of the static part (analytic in <code>nonlinear_eta_z0</code>).</p>
+<p><code>n_wave_components</code>: number of largest-amplitude wave components used for the dynamic pressure (positive integer or <code>"all"</code>). Lever on computation time.</p>
 <h3 id="drag"><code>drag</code><a class="headerlink" href="#drag" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1424,13 +1509,80 @@
 </tr>
 </tbody>
 </table>
+<h3 id="pto"><code>pto</code><a class="headerlink" href="#pto" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Formula</th>
+<th>Columns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{"stiffness": k, "damping": b}</code></td>
+<td>F = −k·x − b·ẋ, with numbers [N/m], [N·s/m]</td>
+<td><code>fs_pto</code>, <code>fd_pto</code>, <code>fpto</code></td>
+</tr>
+<tr>
+<td><code>{"stiffness": "cfd", "damping": "cfd"}</code></td>
+<td>same, with the gains of the CFD case (one or both keys)</td>
+<td><code>fs_pto</code>, <code>fd_pto</code>, <code>fpto</code></td>
+</tr>
+<tr>
+<td><code>{"type": "cfd", "force": &lt;column&gt;}</code></td>
+<td>PTO force prescribed from the CFD</td>
+<td><code>cfd_&lt;column&gt;</code>, <code>fpto</code></td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td>no PTO</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><code>"cfd"</code> gains need a CFD case with a body: an error for synthetic waves and wave-only cases (empty basin). Synthetic models use numeric gains; their values appear in the synthetic CSV names (<code>_d&lt;damping&gt;_k&lt;stiffness&gt;</code>). In <code>run_identify</code> <code>pi_gain</code>, the optimised gains replace the model's PTO.</p>
+<h3 id="cfd-prescribed-forces">CFD-prescribed forces<a class="headerlink" href="#cfd-prescribed-forces" title="Permanent link">&para;</a></h3>
+<p>Any category can be replaced by a force column of the CFD case, read as a time series: <code>{"type": "cfd", "force": &lt;column&gt;}</code>, e.g. <code>"restoring": {"type": "cfd", "force": "ftot"}</code>. The column is saved as <code>cfd_&lt;column&gt;</code> and feeds the role of its category. <code>pressure_field</code> takes <code>{"type": "cfd", "static_force": ..., "dynamic_force": ...}</code> (one or both). A prescribed radiation has no states (left-hand side mass m). Needs a CFD case with that column (error for synthetic waves). Interpolation key <code>cfd</code>.</p>
+<h3 id="role-columns">Role columns<a class="headerlink" href="#role-columns" title="Permanent link">&para;</a></h3>
+<p>Every model also writes generic role columns, with the same name in every model (zeros if the category is absent), so models and CFD can be compared by name:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F_static</code></td>
+<td>static force (incl. −m·g): restoring, static part of <code>pressure_field</code></td>
+</tr>
+<tr>
+<td><code>F_exc</code></td>
+<td>excitation: fk + diffraction, dynamic part of <code>pressure_field</code></td>
+</tr>
+<tr>
+<td><code>F_rad</code></td>
+<td>total radiation (= <code>fr_lin</code>)</td>
+</tr>
+<tr>
+<td><code>F_drag</code></td>
+<td>viscous drag</td>
+</tr>
+<tr>
+<td><code>F_hyd</code></td>
+<td>total fluid force = <code>F_static</code> + m·g (if static present) + <code>F_exc</code> + <code>F_rad</code> + <code>F_drag</code>, comparable to the CFD <code>fhyd_cfd</code></td>
+</tr>
+<tr>
+<td><code>fpto</code></td>
+<td>total PTO force</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<p><strong>Time margins</strong> — <code>t_warmup</code> and <code>t_causal</code> are derived automatically from the BEM IRF data of each loaded model and are <strong>not</strong> JSON inputs. The most conservative values across all models are applied uniformly to clip every simulation before metric computation, so all models are compared on the same window. The computation-time metric (<code>time_ratio</code>) uses the full simulated duration, margins included.
-- radiation <code>state_space</code>: <code>t_warmup</code> ≥ 30 s;
-- <code>linear_conv</code>, <code>fk_nonlinear*</code>, <code>pressure_field</code>: IRF margins (<code>t_warmup</code> = t_irf end, <code>t_causal</code> = |t_irf start|).</p>
-<p><strong>Panel mesh accuracy.</strong> The panel static force differs slightly from the exact sphere, so a panel model floats at a slightly shifted equilibrium. <code>HydroSphere.make_mesh()</code> stores this <strong>equilibrium offset</strong> [m] in <code>panels["equilibrium_offset"]</code>, in the pickle. Static A alone on panels (<code>nonlinear_eta_z0_x</code>) is the most mesh-sensitive term, because its pressure at the waterline (−ρgη) is not zero; <code>pressure_field</code> terms are less sensitive. A mesh finer than 20×20 is recommended for panel hydrostatics.</p>
-<p>The nonlinear FK terms contain no diffraction (a diffraction category will be added).</p>
+<p><strong>Time margins</strong> — <code>t_warmup</code> and <code>t_causal</code> are derived automatically from the model and BEM data and are <strong>not</strong> JSON inputs. Radiation <code>state_space</code>: <code>t_warmup</code> = 30 s. <code>fk</code> or <code>diffraction</code> <code>linear_conv</code>: <code>t_warmup</code> = t_irf end, <code>t_causal</code> = |t_irf start|. Panel terms need no margin. The largest values across the models of a run are applied to every simulation.</p>
 
 
 

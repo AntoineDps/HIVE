@@ -919,10 +919,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-9-single-model-viscous-drag-identification" class="md-nav__link">
+  <a href="#test-9-single-model-viscous-drag-identification-all-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 9: single model viscous drag identification
+        test 9: single model viscous drag identification, all methods
       
     </span>
   </a>
@@ -930,10 +930,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-10" class="md-nav__link">
+  <a href="#test-10a-viscous-drag-on-the-nonlinear-restoring-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 10: !!
+        test 10a: viscous drag on the nonlinear restoring model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-10b-viscous-drag-on-the-nonlinear-fk-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test 10b: viscous drag on the nonlinear FK model
       
     </span>
   </a>
@@ -1060,7 +1071,7 @@
 
 
 <h1 id="identify-model-test">Identify model test<a class="headerlink" href="#identify-model-test" title="Permanent link">&para;</a></h1>
-<p>The available identify model type test are listed and summarized in the table below: </p>
+<p>The available identify model tests are listed and summarized in the table below:</p>
 <table>
 <thead>
 <tr>
@@ -1074,39 +1085,194 @@
 <tbody>
 <tr>
 <td>test 8</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>PI gain identification</td>
+<td>synthetic regular wave</td>
+<td><code>lin_syn</code></td>
+<td>r5_m40.pkl</td>
 </tr>
 <tr>
 <td>test 9</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>single model viscous drag identification, all methods</td>
+<td>test_0_handle_case</td>
+<td><code>lin</code></td>
+<td>r5_m40.pkl</td>
 </tr>
 <tr>
-<td>test 10</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>test 10a</td>
+<td>viscous drag on the nonlinear restoring model</td>
+<td>test_0_handle_case</td>
+<td><code>nlr_eta_z0</code></td>
+<td>r5_m40.pkl</td>
+</tr>
+<tr>
+<td>test 10b</td>
+<td>viscous drag on the nonlinear FK model</td>
+<td>test_0_handle_case</td>
+<td><code>nlfk_x</code></td>
+<td>r5_m40.pkl</td>
 </tr>
 </tbody>
 </table>
+<p>Run with <code>python -m script.run_identify --case &lt;test&gt;.json</code>. Outputs land in <code>out/identified_case/&lt;test&gt;/</code>. The identified models of tests 9, 10a and 10b are validated in <a href="../test_validate/#test-11-identified-viscous-drag">test 11</a>, after copying each <code>model.json</code> to <code>source/models/&lt;test&gt;/model.json</code>.</p>
 <h2 id="test-8-pi-gain-identification">test 8: PI gain identification<a class="headerlink" href="#test-8-pi-gain-identification" title="Permanent link">&para;</a></h2>
-<p>!! 
-!! input json
-!! model.json</p>
-<h2 id="test-9-single-model-viscous-drag-identification">test 9: single model viscous drag identification<a class="headerlink" href="#test-9-single-model-viscous-drag-identification" title="Permanent link">&para;</a></h2>
-<p>!!
-!! input json
-!! model.json</p>
-<h2 id="test-10">test 10: !!<a class="headerlink" href="#test-10" title="Permanent link">&para;</a></h2>
-<p>!!
-!! input json
-!! model.json</p>
+<p>This test identifies the PI gains <span class="arithmatex">\((B_{pto}, K_{pto})\)</span> maximising the mean absorbed power of the linear model in a synthetic regular wave, with all methods: analytical (complex-conjugate control from the BEM), optimiser and 5 × 5 grid. Output: <code>out/identified_case/test_8_pi_gain/</code> (no <code>model.json</code>: gains per sea state).</p>
+<p><code>test_8_pi_gain.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pi_gain&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;reg&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;T&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;H&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;gamma&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dw&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;w_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wave_energy_fraction&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin_syn&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;analytical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;opt&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;grid&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;B_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;B_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-600000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_B&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_K&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;B_init&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;K_init&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-200000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean_P_abs&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;stability&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;r&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;n_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-9-single-model-viscous-drag-identification-all-methods">test 9: single model viscous drag identification, all methods<a class="headerlink" href="#test-9-single-model-viscous-drag-identification-all-methods" title="Permanent link">&para;</a></h2>
+<p>This test identifies the viscous drag coefficient <span class="arithmatex">\(c_v\)</span> of the linear model on the CFD case of test 0, with every type (force, response) and search (opt, grid). The force type fits the residual <code>fhyd_cfd</code> − <code>fhyd_lin</code> directly; the response type runs one simulation per candidate. Output: <code>out/identified_case/test_9_viscous_lin/</code>, with <code>model.json</code> from the best method.</p>
+<p><code>test_9_viscous_lin.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;force&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;response&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;opt&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;grid&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-10a-viscous-drag-on-the-nonlinear-restoring-model">test 10a: viscous drag on the nonlinear restoring model<a class="headerlink" href="#test-10a-viscous-drag-on-the-nonlinear-restoring-model" title="Permanent link">&para;</a></h2>
+<p>Viscous drag identification on the nonlinear restoring model, response type only: the force type needs the model's fluid force on the CFD motion as a data column, which exists only for the linear model (<code>fhyd_lin</code>).</p>
+<p><code>test_10a_viscous_nlr.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlr_eta_z0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;response&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;opt&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-10b-viscous-drag-on-the-nonlinear-fk-model">test 10b: viscous drag on the nonlinear FK model<a class="headerlink" href="#test-10b-viscous-drag-on-the-nonlinear-fk-model" title="Permanent link">&para;</a></h2>
+<p>Viscous drag identification on the nonlinear FK model, response type only. Each simulation of the panel model takes about a minute: expect tens of minutes (one line printed per simulation).</p>
+<p><code>test_10b_viscous_nlfk_x.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viscous_drag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;waves_train&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;test_0_handle_case&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;base_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_5&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scheme_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;response&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;opt&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;base_force&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fhyd_lin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;c_v_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;n_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;objective&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rmse_x&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpolation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;restoring&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;excitation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cfd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;linear&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

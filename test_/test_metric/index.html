@@ -975,10 +975,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-3-cfd-force-comparison" class="md-nav__link">
+  <a href="#test-3-cfd-force-based-model-comparison" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 3: cfd force comparison
+        test 3: CFD force-based model comparison
       
     </span>
   </a>
@@ -986,10 +986,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-4-solver-type-and-time-step-analysis" class="md-nav__link">
+  <a href="#test-4-dt-and-solver-type-sensitivity-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 4: solver type and time step analysis
+        test 4: dt and solver type sensitivity analysis
       
     </span>
   </a>
@@ -1019,10 +1019,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-7-number-of-considered-wave-component-for-nonlinear-fk" class="md-nav__link">
+  <a href="#test-7-number-of-wave-components-for-nonlinear-fk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        test 7: number of considered wave component for nonlinear FK.
+        test 7: number of wave components for nonlinear FK
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-11-identified-viscous-drag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test 11: identified viscous drag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-12-physics-based-models-on-two-waves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test 12: physics-based models on two waves
       
     </span>
   </a>
@@ -1093,19 +1115,172 @@
 
 
 <h1 id="metric-model-test">Metric model test<a class="headerlink" href="#metric-model-test" title="Permanent link">&para;</a></h1>
-<p>The metric tests are directly associated to the validation tests, with one metric test per validation test. The test description can be found in the validate test section. Here are presented the metric input .json.</p>
+<p>The metric tests are directly associated with the validation tests, with one metric test per validation test. The test description can be found in the <a href="../test_validate/">validate test</a> section. Here are presented the metric input <code>.json</code>. Synthetic-wave tests use a model reference (there is no CFD data).</p>
+<p>Run with <code>python -m script.run_metric --case test_&lt;n&gt;_metric.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>test</th>
+<th>validated case</th>
+<th>reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test 2</td>
+<td><code>test_2_physics</code></td>
+<td>CFD</td>
+</tr>
+<tr>
+<td>test 3</td>
+<td><code>test_3_cfd_force</code></td>
+<td>CFD</td>
+</tr>
+<tr>
+<td>test 4</td>
+<td><code>test_4_dt</code></td>
+<td><code>lin_syn</code>, <code>RK4 0.01 linlinlin</code></td>
+</tr>
+<tr>
+<td>test 5</td>
+<td><code>test_5_mesh</code></td>
+<td><code>nlfk_x_mesh_80</code>, <code>RK4 0.05 linlinlin</code></td>
+</tr>
+<tr>
+<td>test 6</td>
+<td><code>test_6_interp</code></td>
+<td>CFD</td>
+</tr>
+<tr>
+<td>test 7</td>
+<td><code>test_7_ncomp</code></td>
+<td><code>nlfk_syn_ncomp_all</code>, <code>RK4 0.05 linlinlin</code></td>
+</tr>
+<tr>
+<td>test 11</td>
+<td><code>test_11_viscous</code></td>
+<td>CFD</td>
+</tr>
+<tr>
+<td>test 12</td>
+<td><code>test_12_physics_mwave</code></td>
+<td>CFD</td>
+</tr>
+</tbody>
+</table>
 <h2 id="test-2-physics-based-model-comparison">test 2: physics-based model comparison<a class="headerlink" href="#test-2-physics-based-model-comparison" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
-<h2 id="test-3-cfd-force-comparison">test 3: cfd force comparison<a class="headerlink" href="#test-3-cfd-force-comparison" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
-<h2 id="test-4-solver-type-and-time-step-analysis">test 4: solver type and time step analysis<a class="headerlink" href="#test-4-solver-type-and-time-step-analysis" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
+<p><code>test_2_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_2_physics&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-3-cfd-force-based-model-comparison">test 3: CFD force-based model comparison<a class="headerlink" href="#test-3-cfd-force-based-model-comparison" title="Permanent link">&para;</a></h2>
+<p><code>test_3_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_3_cfd_force&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-4-dt-and-solver-type-sensitivity-analysis">test 4: dt and solver type sensitivity analysis<a class="headerlink" href="#test-4-dt-and-solver-type-sensitivity-analysis" title="Permanent link">&para;</a></h2>
+<p><code>test_4_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_4_dt&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lin_syn&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4 0.01 linlinlin&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="test-5-mesh-convergence-for-nonlinear-fk">test 5: mesh convergence for nonlinear FK<a class="headerlink" href="#test-5-mesh-convergence-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
+<p><code>test_5_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_5_mesh&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_x_mesh_80&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4 0.05 linlinlin&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="test-6-interpolation-impact">test 6: interpolation impact<a class="headerlink" href="#test-6-interpolation-impact" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
-<h2 id="test-7-number-of-considered-wave-component-for-nonlinear-fk">test 7: number of considered wave component for nonlinear FK.<a class="headerlink" href="#test-7-number-of-considered-wave-component-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
-<p>!! input json</p>
+<p><code>test_6_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_6_interp&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-7-number-of-wave-components-for-nonlinear-fk">test 7: number of wave components for nonlinear FK<a class="headerlink" href="#test-7-number-of-wave-components-for-nonlinear-fk" title="Permanent link">&para;</a></h2>
+<p><code>test_7_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_7_ncomp&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nlfk_syn_ncomp_all&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;solver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RK4 0.05 linlinlin&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-11-identified-viscous-drag">test 11: identified viscous drag<a class="headerlink" href="#test-11-identified-viscous-drag" title="Permanent link">&para;</a></h2>
+<p><code>test_11_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_11_viscous&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="test-12-physics-based-models-on-two-waves">test 12: physics-based models on two waves<a class="headerlink" href="#test-12-physics-based-models-on-two-waves" title="Permanent link">&para;</a></h2>
+<p><code>test_12_metric.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;validated_case&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_12_physics_mwave&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;plot_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;states&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;forces&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cfd&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

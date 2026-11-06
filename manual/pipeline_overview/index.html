@@ -1060,8 +1060,7 @@
 
 
 <h1 id="pipeline-overview">Pipeline Overview<a class="headerlink" href="#pipeline-overview" title="Permanent link">&para;</a></h1>
-<p>HIVE is built around three pipelines ran via scripts, <code>run_handle_data</code>, <code>run_validate</code> and <code>run_identify</code>, each driven by a JSON input file and
-writing outputs to a structured folder. </p>
+<p>HIVE is built around pipelines ran via scripts, each driven by a JSON input file and writing outputs to a structured folder. The core chain is <code>run_handle_data</code> → <code>run_validate</code> → <code>run_metric</code>, with <code>run_identify</code> to build new models. </p>
 <h2 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1075,72 +1074,86 @@ writing outputs to a structured folder. </p>
 <tbody>
 <tr>
 <td><code>run_handle_data</code></td>
-<td>Reads raw CFD time series, applies cut times and optional resampling, computes wave parameters and hydrodynamic quantities, saves one processed dataset per case</td>
+<td>Reads raw CFD time series, applies cut times and optional resampling, computes wave parameters, decomposes the wave and computes hydrodynamic quantities, saves one processed dataset per case</td>
 <td><code>inputs/handle_case/&lt;name&gt;.json</code></td>
 <td><code>data/handled/&lt;name&gt;/</code></td>
 </tr>
 <tr>
 <td><code>run_validate</code></td>
-<td>Loads processed datasets and a <code>model.json</code>, runs forward simulations via <code>SimRun</code>, computes metrics against the CFD reference, produces scatter plots over the <span class="arithmatex">\((H_s, T_e)\)</span> parameter space</td>
+<td>Loads processed datasets (or generates synthetic waves) and <code>model.json</code> files, runs the forward simulations via <code>SimRun</code> and saves the simulated time series. No metric, no plot</td>
 <td><code>inputs/validate_case/&lt;name&gt;.json</code></td>
 <td><code>out/validated_case/&lt;name&gt;/</code></td>
 </tr>
 <tr>
+<td><code>run_metric</code></td>
+<td>Reloads a <code>run_validate</code> output folder, computes all metrics against the CFD or a model reference, and makes the time series and metric plots</td>
+<td><code>inputs/metric_case/&lt;name&gt;.json</code></td>
+<td><code>out/validated_case/&lt;validated_case&gt;/</code> (metric/, plots/)</td>
+</tr>
+<tr>
 <td><code>run_identify</code></td>
-<td>Uses a scheme module (<code>viscous_drag</code>, <code>pi_gain</code>, or <code>linear_si</code>) to identify model parameters from CFD data, updates <code>model.json</code> with the result</td>
+<td>Uses a scheme module (<code>viscous_drag</code> or <code>pi_gain</code>) to identify model parameters from CFD data or synthetic waves, writes the identified <code>model.json</code> (viscous drag) and the results</td>
 <td><code>inputs/identify_case/&lt;name&gt;.json</code></td>
-<td><code>models/&lt;name&gt;/</code> + <code>models/&lt;name&gt;/identification/</code></td>
+<td><code>out/identified_case/&lt;name&gt;/</code></td>
 </tr>
 </tbody>
 </table>
-<p>Each script read the input .json file <code>--case &lt;name&gt;.json</code> argument. The stem of that filename becomes the output folder name — choose stems that are short, lowercase, and use underscores (e.g. <code>r5_reg</code>).</p>
+<p>Each script reads the input <code>.json</code> file given by the <code>--case &lt;name&gt;.json</code> argument. The stem of that filename becomes the output folder name — choose stems that are short, lowercase, and use underscores.</p>
+<p>All input files are strict: every key must be present (<code>null</code> means "none"), and a missing or unknown key stops the script with an error. There are no silent defaults.</p>
 <hr />
 <h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>code/                      ← repo root
 ├── source/                ← classes, functions, config
-│   ├── classes/           ← Model, SimRun, DataHandle, Plotter, …
-│   ├── function/          ← sea state utils, error utils, …
-│   └── models/            ← .pkl based BEM model and other physics based models and identified models
+│   ├── classes/           ← Model, SimRun, DataHandle, HydroSphere, Wave, Metric, Plotter, …
+│   ├── function/          ← sea state utils, error utils, fe_conv, …
+│   └── models/            ← .pkl based BEM model and physics based models
 │       ├── bem/
-│       │   └── r5.pkl     ← base BEM HydroSphere file
-|       ├── 🔵 linear_sphere_r5
-|       |   └── model.json ← JSON model definition
-│       └── 🔴 example_identify/     ← run_identify output
-│           ├── model.json
-│           └── identification/
+│       │   └── 🔵 r5_m40/
+│       │       ├── r5_m40.pkl   ← HydroSphere (run_makeHydroSphere output)
+│       │       └── *.png
+│       ├── 🔵 lin/
+│       │   └── model.json       ← JSON model definition
+│       └── 🔵 test_9_viscous_lin/
+│           └── model.json       ← identified model, copied from out/identified_case/
 ├── script/                ← run_*.py entry points
 ├── inputs/                ← JSON config files
 │   ├── handle_case/
-│   │   └── 🔵 example_cases.json
+│   │   └── 🔵 test_0_handle_case.json
 │   ├── validate_case/
-│   │   └── 🔵 example_validate.json
+│   │   └── 🔵 test_2_physics.json
+│   ├── metric_case/
+│   │   └── 🔵 test_2_metric.json
 │   └── identify_case/
-│       └── 🔵 example_identify.json
+│       └── 🔵 test_9_viscous_lin.json
 ├── data/
-│   ├── bem/               ← raw BEM files to be converted to .pkl
+│   ├── bem/               ← raw WAMIT files, converted to .pkl by run_makeHydroSphere
+│   │   └── r5/
 │   ├── cfd/               ← raw CFD case folders
-│   │   └── out_Case_8p0_2p0_120000_-280000/
+│   │   ├── out_Case_65_20_120000_-430000_example/
+│   │   └── 🔴 out_Case_66_20_emptybasin/
 │   └── handled/           ← processed time series and figures
-│       └── 🔴 example_cases/
+│       └── 🔴 test_0_handle_case/
 │           ├── data/
 │           └── plots/
-├── out/                   ← validation outputs
-│   └── validated_case/
-│       └── 🔴 example_validate/
+├── out/
+│   ├── validated_case/
+│   │   └── 🔴 test_2_physics/   ← run_validate (data/) + run_metric (metric/, plots/)
+│   └── identified_case/
+│       └── 🔴 test_9_viscous_lin/
 └── doc/                   ← this documentation
 </code></pre></div>
 <blockquote>
-<p>🔵 input config files &nbsp;&nbsp; 🔴 outputs written by the <code>run_*</code> scripts</p>
+<p>🔵 input files    🔴 outputs written by the <code>run_*</code> scripts</p>
 </blockquote>
 <hr />
 <h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
-<p>The outputs are data (.csv), metrics (.json) and plots (.png and .pkl). Every plot is saved as both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib
-figure). Reload a <code>.pkl</code> interactively with option <code>[3]</code> at the rerun prompt, or directly:</p>
+<p>The outputs are data (<code>.csv</code>), metrics (<code>.csv</code>), results (<code>.json</code>) and plots (<code>.png</code> and <code>.pkl</code>). Every plot is saved as both <code>.png</code> (for quick viewing) and <code>.pkl</code> (interactive Matplotlib figure). Reload a <code>.pkl</code> interactively with the "load saved figures" option at the rerun prompt, or directly:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="o">,</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/sea_state.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plots/spectrum.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
+<p>Every script also writes a copy of its input config and a <code>run.log</code> (<code>metric.log</code> for <code>run_metric</code>) next to its outputs.</p>
 
 
 
